@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		17-10-2018
+//		Last update on:		18-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -32,39 +32,33 @@ generate_offline_review_form($reviewID, $nameOfReviewer, $submissionID, $nameOfS
 //
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name,
 	$submission_filename, $review_html_footer) {
-    
-    ///path variables
-                            
+                                
     //path to working directory
     $root = $_SERVER['DOCUMENT_ROOT'].'/';
     //path to mpdf in working directory
     $path = $root.'TSD/';
+    //path for source files
+    $pathSource = $path.'src/';
     //path to mpdf library
     $pathMPDF = $path.'mpdf/';
     //path to configuration file
     $configurationPath = $path.'config/configuration.xml';
     //path to logo
     $pathToLogo = $path.'img/tsd-logo.png';
+    //text for watermark
+    $waterMarkText = 'REVIEW';
 
-    include ($path.'src/Enumerates.php');
-    include ($path.'src/OwnXmlReader.php');
-    include ($path.'src/TextConversion.php');
-    include ($path.'src/HTMLElements.php');
-    require ($pathMPDF.'vendor/autoload.php'); 
-     
-    ///------------------------------
-    ///class variables
 
+    //including our classes
+    include ($pathSource.'Enumerates.php');
+    include ($pathSource.'OwnXmlReader.php');
+    include ($pathSource.'TextConversion.php');
+    include ($pathSource.'HTMLElements.php');
+    require ($pathMPDF.'vendor/autoload.php');
+    
+    
     //mpdf class, creating pdf from html code
-    $mpdf = new \Mpdf\Mpdf([
-	   'mode' => 'c',
-	   'margin_top' => 30,
-	   'margin_header' => 10,
-	   'margin_footer' => 10,
-        'default_font' => ''
-    ]);
-    $mpdf->SetWatermarkImage($pathToLogo);
-    $mpdf->showWatermarkImage = true;
+    $mpdf = setMPDF();
      
     //our class with text conversion and calculating font size
     $textConversioner = new TextConversioner;
@@ -74,14 +68,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $xmlReader = new OwnXmlReader;
     $xmlReader->readXMLFile($configurationPath);
 
-    ///------------------------------
-    ///variables we get from configuration (XML file)
-
     //year of actual conference
     $yearOfConference = $xmlReader->getYearOfConference();
-
-    ///------------------------------
-    ///variables we want to set manually
 
     //value which indicates start value for evaluation ranking
     $countOfEvaluationsFrom = 0;
@@ -91,62 +79,30 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $submissionUploadInfo = 'After filling the form in, please, upload it to the TSD'.$yearOfConference.' web review application: Go to URL
         https://www.kiv.zcu.cz/tsd'.$yearOfConference.' and after logging in, please, proceed to section '."'My Reviews'".', select the corresponding
         submission and press the '."'Review'".' button. There, you'."'".'ll be able to upload this PDF file.';
-    $filename = 'TSD'.$yearOfConference.'_Review_Form_'.$rid;
+    $fileName = 'TSD'.$yearOfConference.'_Review_Form_'.$rid;
 
-
-    $html = '<form>';
-    $html .= '<head>';
-
-    $html .= '</head>';
-    $html .= '<body>';
-
-    //editable form elements
-    $mpdf->useActiveForms = true;
-
-    //set header for all pages (text + image)
+    //set header for all pages (text)
     $mpdf->SetHTMLHeader($elements->evaluationHeader($textConversioner, $rid, $submission_name));
-    $html .= createHeaderImage($pathToLogo);
-
-    //---------------PAGE 1---------------
-
-    //document title
-    $html .= $elements->evaluationReviewTitle($textConversioner, $sid, $submission_name, $reviewer_name);
-    //info
-    $html .= $elements->evaluationInstructions($textConversioner, $xmlReader);
-
-    $html .= $elements->evaluationRadioButtons("Originality", "Rate how original the work is", $countOfEvaluationsTo);        
-    $html .= $elements->evaluationRadioButtons("Significance", "Rate how significant the work is", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Relevance", "Rate how relevant the work is", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Presentation", "Rate the presentation of the work", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Technical quality", "Rate the technical quality of the work", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Overall rating", "Rate the work as a whole", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Amount of rewriting", "Express how much of the work should be rewritten", $countOfEvaluationsTo);
-    $html .= $elements->evaluationRadioButtons("Reviewer's expertise", "Rate how confident you are about the above rating", $countOfEvaluationsTo);
-                  
-    $html .= '<hr style="margin: 10;"/>';                          
-    $html .= $elements->evaluationTextArea("Main Contribution", "Summarise main contribution", "main_contribution", '', 16, 87);
+    
+    //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
+    $html = setHiddenRIDandSID($rid, $sid);
+    $html .= createHeaderImage($pathToLogo); 
+    $html .= createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo);
 
     //write first page of evaluation
     $mpdf->WriteHTML($html);
-    //reset html code
-    $html = ''; 
-    $html .= createHeaderImage($pathToLogo);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
     $mpdf->AddPage();
-
-    //---------------PAGE 2---------------
-
-    $html .= $elements->evaluationTextArea("Positive aspects", "Recapitulate the positive aspects", "positive_aspects", "", 24, 87);
-    $html .= $elements->evaluationTextArea("Negative aspects", "Recapitulate the negative aspects", "positive_aspects", '', 24, 87);
-    $html .= '<p>'.$submissionUploadInfo.'</p>';
-
-    $html .= '</body>';
-    $html .= '</form>';
-    //---------------//////---------------
-
-    //utf-8 encoding
-    $mpdf->WriteHTML($html);
     
+    //reset html code
+    $html = ''; 
+    $html .= createHeaderImage($pathToLogo);    
+    $html .= createSecondTemplatePage($elements, $submissionUploadInfo);
+
+    $mpdf->WriteHTML($html);
+    $mpdf->AddPage();
+    //set watermark for submission
+    $mpdf = setWaterMark($mpdf, $waterMarkText);
     //load submission and import it after review form
     $mpdf = loadSubmission($mpdf, $submission_filename, $pathToLogo);
     //create pdf
@@ -158,6 +114,48 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 }
 
 //
+//inicialize mpdf class variable
+//
+//return $mpdf - mpdf class, creating pdf from html code  
+function setMPDF() {
+    $mpdf = new \Mpdf\Mpdf([
+	   'mode' => 'c',
+	   'margin_top' => 30,
+	   'margin_header' => 10,
+	   'margin_footer' => 10,
+        'default_font' => ''
+    ]);
+    //editable form elements
+    $mpdf->useActiveForms = true;
+    
+    return $mpdf;
+}
+
+
+//
+//write RID and SID into document (hidden in document)
+//$rid - review id
+//$sid - submission id
+//
+//return $hidden - input type hidden contains rid and sid
+function setHiddenRIDandSID($rid, $sid) {
+    $hidden = '<input type="hidden" name="rid" value="'.$rid.'" />';
+    $hidden .= '<input type="hidden" name="sid" value="'.$sid.'" />';
+    
+    return $hidden; 
+}
+
+//
+//set watermark text into pdf
+//
+//return $mpdf - mpdf with watermark text set 
+function setWaterMark($mpdf, $waterMarkText) {
+    $mpdf->SetWatermarkText($waterMarkText, 0.1);
+    $mpdf->showWatermarkText = true; 
+    return $mpdf;
+}
+
+//
 //load submission file (pdf file) and import pages after review formula
 //$mpdf - mpdf class, creating pdf from html code  
 //$pathToFile - path to submission file
@@ -166,11 +164,11 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 function loadSubmission($mpdf, $pathToFile, $pathToLogo) { 
     $mpdf->SetImportUse();
     $pageCount = $mpdf->SetSourceFile($pathToFile);
-    for($i = 1; $i <= $pageCount; $i++) {
-        $mpdf->AddPage();            
+    for($i = 1; $i <= $pageCount; $i++) {            
         $template = $mpdf->ImportPage($i);
         $mpdf->UseTemplate($template);
         $mpdf->WriteHTML(createHeaderImage($pathToLogo));
+        if($i < $pageCount) $mpdf->AddPage();
     }
     return $mpdf;
 }
@@ -183,8 +181,56 @@ function createHeaderImage($pathToLogo) {
 
     $image = '<div style="position: absolute; top: 5; right: 0; width: 120;">';
     $image .= '<img src="'.$pathToLogo.'"/>';
-    $image .= '</div>';    
+    $image .= '</div>';
+        
     return $image;
+}
+
+//
+//extract values from review pdf form
+//$elements - our class creating html elements
+//$textConversioner - our text conversioner
+//$xmlReader - our xml reader 
+//$sid - submission id
+//$submission_name - name of reviewed submission                      
+//$reviewer_name - name of current reviewer 
+//$countOfEvaluationsTo - how many radiobuttons we want in evaluation 
+//
+//return $firstPage - html code of first template page
+function createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo) {
+    //document title
+    $firstPage = $elements->evaluationReviewTitle($textConversioner, $sid, $submission_name, $reviewer_name);
+    //info
+    $firstPage .= $elements->evaluationInstructions($textConversioner, $xmlReader);
+    $firstPage .= '<form id="groups">';
+    $firstPage .= $elements->evaluationRadioButtons("Originality", "Rate how original the work is", $countOfEvaluationsTo);        
+    $firstPage .= $elements->evaluationRadioButtons("Significance", "Rate how significant the work is", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Relevance", "Rate how relevant the work is", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Presentation", "Rate the presentation of the work", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Technical quality", "Rate the technical quality of the work", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Overall rating", "Rate the work as a whole", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Amount of rewriting", "Express how much of the work should be rewritten", $countOfEvaluationsTo);
+    $firstPage .= $elements->evaluationRadioButtons("Reviewer's expertise", "Rate how confident you are about the above rating", $countOfEvaluationsTo);
+    $firstPage .= '</form>';
+                  
+    $firstPage .= '<hr style="margin: 10;"/>';                          
+    $firstPage .= $elements->evaluationTextArea("Main Contribution", "Summarise main contribution", "main_contribution", '', 16, 87);
+    
+    return $firstPage;
+}
+
+//
+//extract values from review pdf form
+//$elements - our class creating html elements
+//$submissionUploadInfo - info about what to do after filling the form
+//
+//return $secondPage - html code of second template page
+function createSecondTemplatePage($elements, $submissionUploadInfo) {
+    $secondPage = $elements->evaluationTextArea("Positive aspects", "Recapitulate the positive aspects", "positive_aspects", "", 24, 87);
+    $secondPage .= $elements->evaluationTextArea("Negative aspects", "Recapitulate the negative aspects", "negative_aspects", '', 24, 87);
+    $secondPage .= '<p>'.$submissionUploadInfo.'</p>';
+    
+    return $secondPage;
 }
 
 //

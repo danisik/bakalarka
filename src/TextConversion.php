@@ -115,10 +115,7 @@ class TextConversioner {
                                                                                                                       
             $values["font"] = $minFontSize;
             $values["text"] = $roundedText;
-        }
-        else if ($newFontSize > $minFontSize) {
-            $values["font"] = $oldFontSize;
-        }                              
+        }                            
         
         return $values;  
     }

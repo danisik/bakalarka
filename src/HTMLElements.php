@@ -33,9 +33,11 @@ class HTMLElements {
         $radio = '';
         $radio .= '<p style="margin: 0.2; font-size: 17;"><strong>'.$nameOfEvaluation.'</strong> - '.$evaluationInfo.':</p>';
         $radio .= '<p style="margin: 0.2;">';
+        $radio .= '<fieldset id="group'.$this->groupID.'">';
         for($i = 0; $i <= $countOfRankings; $i++) {
             $radio .= '<input type="radio" name="group'.$this->groupID.'" value="'.$i.'">  '.$i.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        }  
+        } 
+        $radio .= '</fieldset>'; 
         $radio .= '</p>';
         $this->groupID += 1;
         return $radio;                                                                                                 
