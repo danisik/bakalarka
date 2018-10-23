@@ -29,10 +29,11 @@ class OwnXmlReader {
     private $instructionText = '';
     //warning instruction text above evaluation
     private $instructionWarning = '';
+    //text for watermark
+    private $watermarkText = '';
     
     //
     //read given xml file (configuration.xml) and extract saved values into variables
-    //$textConversioner - variable of our class for text conversion
     //$configurationPath - path of configuration file
     //
     function readXMLFile($configurationPath) {
@@ -41,7 +42,8 @@ class OwnXmlReader {
         $this->yearOfConference = $reader->yearOfConference;
         $this->instructionHeader = $reader->instructionHeader;
         $this->instructionText = $reader->instructionText;
-        $this->instructionWarning = $reader->instructionWarning;                                      
+        $this->instructionWarning = $reader->instructionWarning;
+        $this->watermarkText = strtoupper($reader->watermarkText);                                      
     }
     
     function getInstructionHeader() {
@@ -58,6 +60,10 @@ class OwnXmlReader {
     
     function getYearOfConference() {
         return $this->yearOfConference;
+    }
+    
+    function getWatermarkText() {
+        return $this->watermarkText;
     }
 }
 ?>

@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		17-10-2018
+//		Last update on:		23-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -20,18 +20,18 @@ class TextConversioner {
 
     //max strlen of instructions above evaluation
     private $lengthOfInstructions = 450;
-    //max strlen of title before changing the font (default 32)
+    //max strlen of title before changing the font
     private $maxBaseLengthOfTitle = 40;
     //minimum font-size of title for better displaying title of document
     private $minFontSizeOfTitle = 24;
-    //max strlen of title in header before changing the font (default 20)
-    private $maxBaseLengthOfHeaderTitle = 43;
+    //max strlen of title in header before changing the font
+    private $maxBaseLengthOfHeaderTitle = 40;
     //minimum font-size of title for better displaying title of document
-    private $minFontSizeOfHeaderTitle = 17;
-    //max strlen of info before changing the font (default 15)
+    private $minFontSizeOfHeaderTitle = 16;
+    //max strlen of info before changing the font
     private $maxBaseLengthOfInfo = 450;
     //minimum font-size of info
-    private $minFontSizeOfInfo = 12;
+    private $minFontSizeOfInfo = 10;
     
     //
     //calculate font of text, if is needed to lower default given font

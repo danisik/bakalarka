@@ -9,16 +9,17 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		18-10-2018
+//		Last update on:		23-10-2018
 //      Encoding: utf-8 no BOM
 //
-
+    
 $submissionID = 9;
 $reviewID = 1;      
 $nameOfSubmission = 'Survey of Business Perception Based on Sentiment Analysis through Deep Neuronal Networks for Natural Language Processing';
 $nameOfReviewer = 'Kamil Ekštein';
     
-generate_offline_review_form($reviewID, $nameOfReviewer, $submissionID, $nameOfSubmission, $_SERVER['DOCUMENT_ROOT'].'/TSD/pdf.pdf', '');
+//generate_offline_review_form($reviewID, $nameOfReviewer, $submissionID, $nameOfSubmission, $_SERVER['DOCUMENT_ROOT'].'/TSD/pdf.pdf', '');
+process_offline_review_form('', '', '');
 
 
 //
@@ -31,8 +32,8 @@ generate_offline_review_form($reviewID, $nameOfReviewer, $submissionID, $nameOfS
 //$review_html_footer - 
 //
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name,
-	$submission_filename, $review_html_footer) {
-                                
+	$submission_filename) {
+
     //path to working directory
     $root = $_SERVER['DOCUMENT_ROOT'].'/';
     //path to mpdf in working directory
@@ -45,9 +46,6 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $configurationPath = $path.'config/configuration.xml';
     //path to logo
     $pathToLogo = $path.'img/tsd-logo.png';
-    //text for watermark
-    $waterMarkText = 'REVIEW';
-
 
     //including our classes
     include ($pathSource.'Enumerates.php');
@@ -70,6 +68,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 
     //year of actual conference
     $yearOfConference = $xmlReader->getYearOfConference();
+    //text for watermark
+    $watermarkText = $xmlReader->getWatermarkText();
 
     //value which indicates start value for evaluation ranking
     $countOfEvaluationsFrom = 0;
@@ -79,38 +79,47 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $submissionUploadInfo = 'After filling the form in, please, upload it to the TSD'.$yearOfConference.' web review application: Go to URL
         https://www.kiv.zcu.cz/tsd'.$yearOfConference.' and after logging in, please, proceed to section '."'My Reviews'".', select the corresponding
         submission and press the '."'Review'".' button. There, you'."'".'ll be able to upload this PDF file.';
-    $fileName = 'TSD'.$yearOfConference.'_Review_Form_'.$rid;
+    $filename = 'TSD'.$yearOfConference.'_Review_Form_'.$rid.'.pdf';
 
     //set header for all pages (text)
     $mpdf->SetHTMLHeader($elements->evaluationHeader($textConversioner, $rid, $submission_name));
     
+    $textareaInfo = TextAreaInfo::getConstants();
+    
+    //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $html = setHiddenRIDandSID($rid, $sid);
-    $html .= createHeaderImage($pathToLogo); 
-    $html .= createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo);
+    $html .= createHeaderImage($pathToLogo);
+    $html .= createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo, $textareaInfo);
 
     //write first page of evaluation
     $mpdf->WriteHTML($html);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
     $mpdf->AddPage();
     
+    //second template page
     //reset html code
     $html = ''; 
     $html .= createHeaderImage($pathToLogo);    
-    $html .= createSecondTemplatePage($elements, $submissionUploadInfo);
-
+    $html .= createSecondTemplatePage($elements, $textareaInfo);
     $mpdf->WriteHTML($html);
     $mpdf->AddPage();
+    
+    //third template page
+    $html = '';
+    $html .= createHeaderImage($pathToLogo);
+    $html .= createThirdTemplatePage($elements, $submissionUploadInfo, $textareaInfo);
+    $mpdf->WriteHTML($html);
+    $mpdf->AddPage();
+    
     //set watermark for submission
-    $mpdf = setWaterMark($mpdf, $waterMarkText);
+    $mpdf = setWatermark($mpdf, $watermarkText);
     //load submission and import it after review form
     $mpdf = loadSubmission($mpdf, $submission_filename, $pathToLogo);
     //create pdf
     $mpdf->Output(); 
-    
-    
-    //$mpdf->Output($filename,'F');      // only save to File
-    //$mpdf->Output($filename,'D');      // make it to DOWNLOAD   
+     
+    //$mpdf->Output($filename,'D');  
 }
 
 //
@@ -147,10 +156,12 @@ function setHiddenRIDandSID($rid, $sid) {
 
 //
 //set watermark text into pdf
+//$mpdf - mpdf class
+//$watermarkText - text for watermark
 //
 //return $mpdf - mpdf with watermark text set 
-function setWaterMark($mpdf, $waterMarkText) {
-    $mpdf->SetWatermarkText($waterMarkText, 0.1);
+function setWatermark($mpdf, $watermarkText) {
+    $mpdf->SetWatermarkText($watermarkText, 0.1);
     $mpdf->showWatermarkText = true; 
     return $mpdf;
 }
@@ -187,50 +198,80 @@ function createHeaderImage($pathToLogo) {
 }
 
 //
-//extract values from review pdf form
+//create first template page
 //$elements - our class creating html elements
 //$textConversioner - our text conversioner
 //$xmlReader - our xml reader 
 //$sid - submission id
 //$submission_name - name of reviewed submission                      
 //$reviewer_name - name of current reviewer 
-//$countOfEvaluationsTo - how many radiobuttons we want in evaluation 
+//$countOfEvaluationsTo - how many radiobuttons we want in evaluation
+//$textareaInfo - enumerate contains info about textareas
 //
 //return $firstPage - html code of first template page
-function createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo) {
+function createFirstTemplatePage($elements, $textConversioner, $xmlReader, $sid, $submission_name, $reviewer_name, $countOfEvaluationsTo, $textareaInfo) {
     //document title
     $firstPage = $elements->evaluationReviewTitle($textConversioner, $sid, $submission_name, $reviewer_name);
     //info
     $firstPage .= $elements->evaluationInstructions($textConversioner, $xmlReader);
     $firstPage .= '<form id="groups">';
-    $firstPage .= $elements->evaluationRadioButtons("Originality", "Rate how original the work is", $countOfEvaluationsTo);        
-    $firstPage .= $elements->evaluationRadioButtons("Significance", "Rate how significant the work is", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Relevance", "Rate how relevant the work is", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Presentation", "Rate the presentation of the work", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Technical quality", "Rate the technical quality of the work", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Overall rating", "Rate the work as a whole", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Amount of rewriting", "Express how much of the work should be rewritten", $countOfEvaluationsTo);
-    $firstPage .= $elements->evaluationRadioButtons("Reviewer's expertise", "Rate how confident you are about the above rating", $countOfEvaluationsTo);
+    
+    $radioButtonInfo = RadioButtonInfo::getConstants();
+    
+    for ($i = 0; $i < count($radioButtonInfo); $i++) {
+        $name = $radioButtonInfo[$i]['name'];
+        $info = $radioButtonInfo[$i]['info'];
+        $firstPage .= $elements->evaluationRadioButtons($name, $info, $countOfEvaluationsTo, $i);
+    }
+    
     $firstPage .= '</form>';
                   
-    $firstPage .= '<hr style="margin: 10;"/>';                          
-    $firstPage .= $elements->evaluationTextArea("Main Contribution", "Summarise main contribution", "main_contribution", '', 16, 87);
+    $firstPage .= '<hr style="margin: 10;"/>';
+                              
+    $nameMain = $textareaInfo[0]['name'];
+    $infoMain = $textareaInfo[0]['info'];
+    $firstPage .= $elements->evaluationTextArea($nameMain, $infoMain, TextAreaInfo::Main_contributions_ID, 10, 87);
     
     return $firstPage;
 }
 
 //
-//extract values from review pdf form
+//create second template page
 //$elements - our class creating html elements
-//$submissionUploadInfo - info about what to do after filling the form
+//$textareaInfo - enumerate contains info about textareas
 //
 //return $secondPage - html code of second template page
-function createSecondTemplatePage($elements, $submissionUploadInfo) {
-    $secondPage = $elements->evaluationTextArea("Positive aspects", "Recapitulate the positive aspects", "positive_aspects", "", 24, 87);
-    $secondPage .= $elements->evaluationTextArea("Negative aspects", "Recapitulate the negative aspects", "negative_aspects", '', 24, 87);
-    $secondPage .= '<p>'.$submissionUploadInfo.'</p>';
+function createSecondTemplatePage($elements, $textareaInfo) {
+    $namePositive = $textareaInfo[1]['name'];
+    $infoPositive = $textareaInfo[1]['info'];
+    
+    $nameNegative = $textareaInfo[2]['name'];
+    $infoNegative = $textareaInfo[2]['info'];
+    
+    $secondPage = $elements->evaluationTextArea($namePositive, $infoPositive, TextAreaInfo::Positive_aspects_ID, 24, 87);
+    $secondPage .= $elements->evaluationTextArea($nameNegative, $infoNegative, TextAreaInfo::Negative_aspects_ID, 24, 87);
     
     return $secondPage;
+}
+
+//create third template page
+//$elements - our class creating html elements
+//$submissionUploadInfo - info about what to do after filling the form
+//$textareaInfo - enumerate contains info about textareas
+//
+//return $secondPage - html code of second template page
+function createThirdTemplatePage($elements, $submissionUploadInfo, $textareaInfo) {
+    $nameComment = $textareaInfo[3]['name'];
+    $infoComment = $textareaInfo[3]['info'];
+    
+    $nameInternal = $textareaInfo[4]['name'];
+    $infoInternal = $textareaInfo[4]['info'];
+    
+    $thirdPage = $elements->evaluationTextArea($nameComment, $infoComment, TextAreaInfo::Comment_ID, 24, 87);
+    $thirdPage .= $elements->evaluationTextArea($nameInternal, $infoInternal, TextAreaInfo::Internal_comment_ID, 24, 87);
+    $thirdPage .= '<p>'.$submissionUploadInfo.'</p>';
+    
+    return $thirdPage;
 }
 
 //
@@ -240,6 +281,35 @@ function createSecondTemplatePage($elements, $submissionUploadInfo) {
 //$revform_filename - filename of review form (pdf file)
 //
 function process_offline_review_form($rid, $sid, $revform_filename) {
+
+    //path to working directory
+    $root = $_SERVER['DOCUMENT_ROOT'].'/';
+    //path to mpdf in working directory
+    $path = $root.'TSD/';
+    //path to pdfparser library
+    $pathPDFParser = $path.'pdfparser/';
+    
+    require ($pathPDFParser.'vendor/autoload.php');
+    
+    $parser = new \Smalot\PdfParser\Parser();                                        
+    $pdf = $parser->parseFile($path.'mpdf.pdf');
+    
+    $data = $pdf->getFormElementsData();
+    
+    $groups = $data['groups'];
+    $textareas = $data['textareas'];
+    
+    foreach ($groups as $key => $value) {
+        echo($key.' => '.$value);
+        echo('<br>');
+    }
+    
+    echo ('<br><br>');
+    
+    foreach ($textareas as $key => $value) {
+        echo($key.' => '.$value);
+        echo('<br>');
+    }                              
 
 }
 
