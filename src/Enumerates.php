@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		23-10-2018 
+//		Last update on:		27-10-2018 
 //      Encoding: utf-8 no BOM
 //
 
@@ -17,7 +17,8 @@
 //      Enumerate classes
 //
 
-class Types { 
+//enum for instruction in pdf
+class Instruction { 
     const TITLE = "title"; 
     const HEADER_TITLE = "header_title";
     const INFO = "info"; 
@@ -29,10 +30,28 @@ class Types {
         array_push($values, Types::INFO);
         
         return $values;    
+    }         
+}
+
+//enum contains all used form elements
+class FormElements {
+    const RADIOBUTTON = 'radiobutton';
+    const TEXTAREA = 'textarea';
+    
+    function getConstants() {
+        $values = array();
+        array_push($values, FormElements::RADIOBUTTON);
+        array_push($values, FormElements::TEXTAREA);
+        
+        return $values;
     }
 }
 
-class TextAreaInfo {
+//enum contains info about textareas
+class TextareaInfo {
+    //string for identifing textareas in array of values when parsing
+    const Textareas_text = 'textareas';
+
     const Main_contributions_ID = 0;
     const Main_contributions = 'Main contributions';
     const Main_contributions_info = 'Summarise main contributions';
@@ -53,29 +72,46 @@ class TextAreaInfo {
     const Internal_comment = 'Internal comment (optional)';
     const Internal_comment_info = 'An internal message for the <strong>organizers</strong>';
     
+    //add constant into array of constants
+    //$values - array of constants
+    //$id - id of constant
+    //$name - name of constant
+    //$info - specific info of constant
+    //$needed_to_fill - if this textarea must be filled or not
+    //
+    //return $values - array of constants with new, added, constant
+    function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
+        $values[$id]['id'] = $id;
+        $values[$id]['name'] = $name;
+        $values[$id]['info'] = $info;
+        $values[$id]['needed'] = $needed_to_fill;
+        $values[$id]['type'] = FormElements::TEXTAREA;
+        
+        return $values;
+    }
+     
     function getConstants() {
         $values = array();
         
-        $values[TextAreaInfo::Main_contributions_ID]['name'] = TextAreaInfo::Main_contributions;
-        $values[TextAreaInfo::Main_contributions_ID]['info'] = TextAreaInfo::Main_contributions_info;
-        
-        $values[TextAreaInfo::Positive_aspects_ID]['name'] = TextAreaInfo::Positive_aspects;
-        $values[TextAreaInfo::Positive_aspects_ID]['info'] = TextAreaInfo::Positive_aspects_info;
-        
-        $values[TextAreaInfo::Negative_aspects_ID]['name'] = TextAreaInfo::Negative_aspects;
-        $values[TextAreaInfo::Negative_aspects_ID]['info'] = TextAreaInfo::Negative_aspects_info;
-        
-        $values[TextAreaInfo::Comment_ID]['name'] = TextAreaInfo::Comment;
-        $values[TextAreaInfo::Comment_ID]['info'] = TextAreaInfo::Comment_info;
-        
-        $values[TextAreaInfo::Internal_comment_ID]['name'] = TextAreaInfo::Internal_comment;
-        $values[TextAreaInfo::Internal_comment_ID]['info'] = TextAreaInfo::Internal_comment_info;
+        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Main_contributions_ID, TextareaInfo::Main_contributions, TextareaInfo::Main_contributions_info, true);
+        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Positive_aspects_ID, TextareaInfo::Positive_aspects, TextareaInfo::Positive_aspects_info, true);
+        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Negative_aspects_ID, TextareaInfo::Negative_aspects, TextareaInfo::Negative_aspects_info, true);
+        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Comment_ID, TextareaInfo::Comment, TextareaInfo::Comment_info, false);
+        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Internal_comment_ID, TextareaInfo::Internal_comment, TextareaInfo::Internal_comment_info, false);
         
         return $values;
     }
 }
 
-class RadioButtonInfo {
+//enum contains info about group of radiobuttons
+class RadiobuttonInfo {
+    //string for identifing radiobutton groups in array of values when parsing
+    const Groups_text = 'groups';
+    //first evaluation value
+    const Count_of_evaluations_from = 0;
+    //last evaluation value
+    const Count_of_evaluations_to = 10;
+    
     const Originality_ID = 0;
     const Originality = 'Originality';
     const Originality_Info = 'Rate how original the work is'; 
@@ -108,32 +144,33 @@ class RadioButtonInfo {
     const Reviewers_expertise = 'Reviewer'."'".'s expertise';
     const Reviewers_expertise_Info = 'Rate how confident you are about the above rating'; 
     
+    //add constant into array of constants
+    //$values - array of constants
+    //$id - id of constant
+    //$name - name of constant
+    //$info - specific info of constant
+    //
+    //return $values - array of constants with new, added, constant
+    function add_value_to_array($values, $id, $name, $info) {    
+        $values[$id]['id'] = $id;
+        $values[$id]['name'] = $name;
+        $values[$id]['info'] = $info;
+        $values[$id]['type'] = FormElements::RADIOBUTTON;
+        
+        return $values;
+    }  
+    
     function getConstants() {
         $values = array();
         
-        $values[RadioButtonInfo::Originality_ID]['name'] = RadioButtonInfo::Originality;
-        $values[RadioButtonInfo::Originality_ID]['info'] = RadioButtonInfo::Originality_Info;
-        
-        $values[RadioButtonInfo::Significance_ID]['name'] = RadioButtonInfo::Significance;
-        $values[RadioButtonInfo::Significance_ID]['info'] = RadioButtonInfo::Significance_Info;
-        
-        $values[RadioButtonInfo::Relevance_ID]['name'] = RadioButtonInfo::Relevance;
-        $values[RadioButtonInfo::Relevance_ID]['info'] = RadioButtonInfo::Relevance_Info;
-        
-        $values[RadioButtonInfo::Presentation_ID]['name'] = RadioButtonInfo::Presentation;
-        $values[RadioButtonInfo::Presentation_ID]['info'] = RadioButtonInfo::Presentation_Info;
-        
-        $values[RadioButtonInfo::Technical_quality_ID]['name'] = RadioButtonInfo::Technical_quality;
-        $values[RadioButtonInfo::Technical_quality_ID]['info'] = RadioButtonInfo::Technical_quality_Info;
-        
-        $values[RadioButtonInfo::Overall_rating_ID]['name'] = RadioButtonInfo::Overall_rating;
-        $values[RadioButtonInfo::Overall_rating_ID]['info'] = RadioButtonInfo::Overall_rating_Info;
-        
-        $values[RadioButtonInfo::Amount_of_rewriting_ID]['name'] = RadioButtonInfo::Amount_of_rewriting;
-        $values[RadioButtonInfo::Amount_of_rewriting_ID]['info'] = RadioButtonInfo::Amount_of_rewriting_Info;
-        
-        $values[RadioButtonInfo::Reviewers_expertise_ID]['name'] = RadioButtonInfo::Reviewers_expertise;
-        $values[RadioButtonInfo::Reviewers_expertise_ID]['info'] = RadioButtonInfo::Reviewers_expertise_Info;
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Originality_ID, RadioButtonInfo::Originality, RadioButtonInfo::Originality_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Significance_ID, RadioButtonInfo::Significance, RadioButtonInfo::Significance_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Relevance_ID, RadioButtonInfo::Relevance, RadioButtonInfo::Relevance_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Presentation_ID, RadioButtonInfo::Presentation, RadioButtonInfo::Presentation_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Technical_quality_ID, RadioButtonInfo::Technical_quality, RadioButtonInfo::Technical_quality_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Overall_rating_ID, RadioButtonInfo::Overall_rating, RadioButtonInfo::Overall_rating_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Amount_of_rewriting_ID, RadioButtonInfo::Amount_of_rewriting, RadioButtonInfo::Amount_of_rewriting_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Reviewers_expertise_ID, RadioButtonInfo::Reviewers_expertise, RadioButtonInfo::Reviewers_expertise_Info);
     
         return $values;
     }

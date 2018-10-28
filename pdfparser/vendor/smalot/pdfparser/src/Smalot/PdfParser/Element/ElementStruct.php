@@ -41,8 +41,6 @@ use Smalot\PdfParser\Header;
  */
 class ElementStruct extends Element
 {
-
-    
         public function __construct($value, Document $document = null)
     {
     
@@ -52,7 +50,7 @@ class ElementStruct extends Element
      * @param string   $content
      * @param Document $document
      * @param int      $offset
-     *
+     *                                                 
      * @return bool|ElementStruct
      */
     public static function parse($content, Document $document = null, &$offset = 0)
@@ -79,9 +77,6 @@ class ElementStruct extends Element
 
             $position = 0;
             $elements = Element::parse($sub, $document, $position);
-            
-            //array_push($formElementsData['groups'], $elements['groups']);
-            //array_push($formElementsData['textareas'], $elements['textareas']);
             
             $header   = new Header($elements, $document);
 

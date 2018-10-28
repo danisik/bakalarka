@@ -39,14 +39,14 @@ use Smalot\PdfParser\Element\ElementNull;
 use Smalot\PdfParser\Element\ElementNumeric;
 use Smalot\PdfParser\Element\ElementString;
 use Smalot\PdfParser\Element\ElementXRef;
-
+    
 /**
  * Class Parser
  *
  * @package Smalot\PdfParser
  */
 class Parser
-{
+{   
     /**
      * @var PDFObject[]
      */
@@ -108,7 +108,7 @@ class Parser
         if (empty($data)) {
             throw new \Exception('Object list not found. Possible secured file.');
         }
-
+        
         // Create destination object.
         $document      = new Document();
         $this->objects = array();

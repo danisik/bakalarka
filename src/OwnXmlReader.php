@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		17-10-2018
+//		Last update on:		28-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -19,51 +19,51 @@
 class OwnXmlReader {
     
     //XML attribute which contains text
-    private $XMLTextAttribute = 'Text';
+    private $XML_text_attribute = 'Text';
 
     //year of actual conference
-    private $yearOfConference = 0;
+    private $year_of_conference = 0;
     //instruction header above evaluation
-    private $instructionHeader = '';
+    private $instruction_header = '';
     //instruction text above evaluation
-    private $instructionText = '';
+    private $instruction_text = '';
     //warning instruction text above evaluation
-    private $instructionWarning = '';
+    private $instruction_warning = '';
     //text for watermark
-    private $watermarkText = '';
+    private $watermark_text = '';
     
     //
     //read given xml file (configuration.xml) and extract saved values into variables
-    //$configurationPath - path of configuration file
+    //$configuration_path - path of configuration file
     //
-    function readXMLFile($configurationPath) {
-        $reader = simplexml_load_file($configurationPath);
+    function read_XML_file($configuration_path) {
+        $reader = simplexml_load_file($configuration_path);
         
-        $this->yearOfConference = $reader->yearOfConference;
-        $this->instructionHeader = $reader->instructionHeader;
-        $this->instructionText = $reader->instructionText;
-        $this->instructionWarning = $reader->instructionWarning;
-        $this->watermarkText = strtoupper($reader->watermarkText);                                      
+        $this->year_of_conference = $reader->year_of_conference;
+        $this->instruction_header = $reader->instruction_header;
+        $this->instruction_text = $reader->instruction_text;
+        $this->instruction_warning = $reader->instruction_warning;
+        $this->watermark_text = strtoupper($reader->watermark_text);                                      
     }
     
-    function getInstructionHeader() {
-        return $this->instructionHeader;
+    function getInstruction_header() {
+        return $this->instruction_header;
     }
         
-    function getInstructionText() {
-        return $this->instructionText;
+    function getInstruction_text() {
+        return $this->instruction_text;
     } 
     
-    function getInstructionWarning() {
-        return $this->instructionWarning;
+    function getInstruction_warning() {
+        return $this->instruction_warning;
     }
     
-    function getYearOfConference() {
-        return $this->yearOfConference;
+    function getYear_of_conference() {
+        return $this->year_of_conference;
     }
     
-    function getWatermarkText() {
-        return $this->watermarkText;
+    function getWatermark_text() {
+        return $this->watermark_text;
     }
 }
 ?>

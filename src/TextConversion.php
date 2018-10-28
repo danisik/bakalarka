@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		23-10-2018
+//		Last update on:		28-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -19,82 +19,82 @@
 class TextConversioner {
 
     //max strlen of instructions above evaluation
-    private $lengthOfInstructions = 450;
+    private $length_of_instructions = 450;
     //max strlen of title before changing the font
-    private $maxBaseLengthOfTitle = 40;
+    private $max_base_length_of_title = 39;
     //minimum font-size of title for better displaying title of document
-    private $minFontSizeOfTitle = 24;
+    private $min_font_size_of_title = 24;
     //max strlen of title in header before changing the font
-    private $maxBaseLengthOfHeaderTitle = 40;
+    private $max_base_length_of_header_title = 33;
     //minimum font-size of title for better displaying title of document
-    private $minFontSizeOfHeaderTitle = 16;
+    private $min_font_size_of_header_title = 15;
     //max strlen of info before changing the font
-    private $maxBaseLengthOfInfo = 450;
+    private $max_base_length_of_info = 450;
     //minimum font-size of info
-    private $minFontSizeOfInfo = 10;
+    private $min_font_size_of_info = 10;
     
     //
     //calculate font of text, if is needed to lower default given font
     //$type - type of text (title, header_title, info, .....)
-    //$fontSize - default font size of text
+    //$font_size - default font size of text
     //$text - text to be judged
     //
     //return method which recognize if text needs to be rounded or not
-    function checkText($type, $fontSize, $text) {
+    function check_text($type, $font_size, $text) {
     
         $values = array(
-            "font" => $fontSize,
+            "font" => $font_size,
             "text" => $text
         );
         
-        $strLengthOfText = mb_strlen($text);
-        $maxLength = 0;
+        $str_length_of_text = mb_strlen($text);
+        $max_length = 0;
         
         switch($type) {
-            case Types::TITLE:
-                $maxLength = $this->maxBaseLengthOfTitle;
+            case Instruction::TITLE:
+                $max_length = $this->max_base_length_of_title;
                 break;
-            case Types::HEADER_TITLE:
-                $maxLength = $this->maxBaseLengthOfHeaderTitle;
+            case Instruction::HEADER_TITLE:
+                $max_length = $this->max_base_length_of_header_title;
                 break;
-            case Types::INFO:
-                $maxLength = $this->maxBaseLengthOfInfo;
+            case Instruction::INFO:
+                $max_length = $this->max_base_length_of_info;
                 break;
             default:
                 throw new Exception("Bad type of text selected.");
                 break;
         }    
         
-        if($strLengthOfText <= $maxLength) {
+        if($str_length_of_text <= $max_length) {
             return $values;
         }
         else {
             //calculate font and round it down
-            $newFontSize = round(($fontSize * $maxLength) / $strLengthOfText, 0, PHP_ROUND_HALF_DOWN);             
-            return $this->reduceTextIfTooLong($type, $fontSize, $maxLength, $newFontSize, $text);
+            $new_font_size = round(($font_size * $max_length) / $str_length_of_text, 0, PHP_ROUND_HALF_DOWN);             
+            return $this->reduce_text_if_too_long($type, $font_size, $max_length, $new_font_size, $text);
         }
     }
     
     //
     //calculate font of text, if is needed to lower default given font
     //$type - type of text (title, header_title, info, .....)
-    //$oldfFontSize - default font size of text
-    //$oldMaxBaseLengthOfText - default max length of text, depends on type
-    //$newFontSize - calculated font size
+    //$old_font_size - default font size of text
+    //$old_max_base_length_of_text - default max length of text, depends on type
+    //$new_font_size - calculated font size
     //$text - text to be judged
     //
     //return $values - array contains font size of given text and given text (if font is lower than minimum(which is set), then calculate new length and reduce text to calculated length)
-    function reduceTextIfTooLong($type, $oldFontSize, $oldMaxBaseLengthOfText, $newFontSize, $text) {
-        $minFontSize = 0;
+    function reduce_text_if_too_long($type, $old_font_size, $old_max_base_length_of_text, $new_font_size, $text) {
+        $min_font_size = 0;
         switch($type) {
-            case Types::TITLE:
-                $minFontSize = $this->minFontSizeOfTitle;
+            case Instruction::TITLE:
+                $min_font_size = $this->min_font_size_of_title;
                 break;
-            case Types::HEADER_TITLE:
-                $minFontSize = $this->minFontSizeOfHeaderTitle;
+            case Instruction::HEADER_TITLE:
+                $min_font_size = $this->min_font_size_of_header_title;
                 break;
-            case Types::INFO:
-                $minFontSize = $this->minFontSizeOfInfo;
+            case Instruction::INFO:
+                $min_font_size = $this->min_font_size_of_info;
                 break;
             default:
                 throw new Exception("Bad type of text selected.");
@@ -103,27 +103,21 @@ class TextConversioner {
         
         
         $values = array(
-            "font" => $newFontSize,
+            "font" => $new_font_size,
             "text" => $text
         );
 
-        if ($newFontSize < $minFontSize) {
-            $newLengthOfText = round(($oldFontSize / $minFontSize) * $oldMaxBaseLengthOfText, 0, PHP_ROUND_HALF_DOWN);    
+        if ($new_font_size < $min_font_size) {
+            $new_length_of_text = round(($old_font_size / $min_font_size) * $old_max_base_length_of_text, 0, PHP_ROUND_HALF_DOWN);    
             //-3 because we want last 3 characters as 3 dots
-            $roundedText = substr($text, 0, $newLengthOfText - 3);
-            $roundedText .= "...";  
+            $rounded_text = substr($text, 0, $new_length_of_text - 3);
+            $rounded_text .= "...";  
                                                                                                                       
-            $values["font"] = $minFontSize;
-            $values["text"] = $roundedText;
+            $values["font"] = $min_font_size;
+            $values["text"] = $rounded_text;
         }                            
         
         return $values;  
     }
-    
-    /*
-    function displaySpecialCharacters($text) {
-        return iconv("UTF-8", "Windows-1250", $text);
-    }
-    */
 }
 ?>

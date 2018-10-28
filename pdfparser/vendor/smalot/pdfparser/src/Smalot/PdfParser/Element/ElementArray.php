@@ -42,7 +42,6 @@ use Smalot\PdfParser\PDFObject;
  */
 class ElementArray extends Element
 {
-    
     /**
      * @param string   $value
      * @param Document $document
