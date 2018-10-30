@@ -37,7 +37,6 @@ else if (@$_GET['func'] == 'parse') {
 //$sid - submission id
 //$submission_name - name of submission to be reviewed
 //$submission_filename - path to submission
-//$review_html_footer - 
 //
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
 
@@ -272,6 +271,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
 
     echo ('<br>');
     foreach($invalid_constants as $key => $value) {
+        if (strlen($value['value']) == 0) $value['value'] = 'N/A';
         echo ('Error -  invalid element: '.$value['element'].', value: '.$value['value'].'<br>');
     }
     
