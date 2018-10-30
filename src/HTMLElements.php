@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		28-10-2018
+//		Last update on:		30-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -71,7 +71,7 @@ class HTMLElements {
     function evaluation_header($text_conversioner, $review_ID, $name_of_submission) {
     
         $font_size_of_review_ID = 23;
-        $font_size_of_header_title = 15;
+        $font_size_of_header_title = 20;
         
         $values = $text_conversioner->check_text(Instruction::HEADER_TITLE, $font_size_of_header_title, $name_of_submission);
         
@@ -93,9 +93,9 @@ class HTMLElements {
     //
     //return $title - html text contains title for document
     function evaluation_review_title($text_conversioner, $submission_ID, $name_of_submission, $name_of_reviewer) {
-        $font_size_of_title_info = 15;
-        $font_size_of_title = 22;
-        $font_size_of_name = 15;
+        $font_size_of_title_info = 17;
+        $font_size_of_title = 30;
+        $font_size_of_name = 17;
         
         $values = $text_conversioner->check_text(Instruction::TITLE, $font_size_of_title, $name_of_submission);
         
@@ -112,7 +112,7 @@ class HTMLElements {
         $title = '';
         $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Offline Review Form for Submission S-ID #'.$submission_ID.'</p>';
         $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title.'pt;">'.$name_of_submission.'</p>';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Review by '.$name_of_reviewer.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_name.'pt;">Review by '.$name_of_reviewer.'</p>';
         return $title;    
     }
     

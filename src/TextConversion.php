@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		28-10-2018
+//		Last update on:		30-10-2018
 //      Encoding: utf-8 no BOM
 //
 
@@ -21,13 +21,13 @@ class TextConversioner {
     //max strlen of instructions above evaluation
     private $length_of_instructions = 450;
     //max strlen of title before changing the font
-    private $max_base_length_of_title = 39;
+    private $max_base_length_of_title = 40;
     //minimum font-size of title for better displaying title of document
     private $min_font_size_of_title = 24;
     //max strlen of title in header before changing the font
-    private $max_base_length_of_header_title = 33;
+    private $max_base_length_of_header_title = 30;
     //minimum font-size of title for better displaying title of document
-    private $min_font_size_of_header_title = 15;
+    private $min_font_size_of_header_title = 17;
     //max strlen of info before changing the font
     private $max_base_length_of_info = 450;
     //minimum font-size of info
@@ -35,7 +35,7 @@ class TextConversioner {
     //max strlen of reviewer name before changing the font
     private $max_base_length_of_name = 40;
     //minimum font-size of reviewer name
-    private $min_font_size_of_name = 15;
+    private $min_font_size_of_name = 17;
     
     
     
