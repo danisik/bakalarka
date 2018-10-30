@@ -21,13 +21,15 @@
 class Instruction { 
     const TITLE = "title"; 
     const HEADER_TITLE = "header_title";
-    const INFO = "info"; 
+    const INFO = "info";
+    const REVIEWER_NAME = 'reviewer_name'; 
     
     function getConstants() {
         $values = array();
-        array_push($values, Types::TITLE);
-        array_push($values, Types::HEADER_TITLE);
-        array_push($values, Types::INFO);
+        array_push($values, Instruction::TITLE);
+        array_push($values, Instruction::HEADER_TITLE);
+        array_push($values, Instruction::INFO);
+        array_push($values, Instruction::REVIEWER_NAME);
         
         return $values;    
     }         

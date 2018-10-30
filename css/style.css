@@ -32,3 +32,8 @@ hr {
     margin-bottom: 10;
 }
 
+#bold_info {
+    font-weight: bold;
+    font-family: Times New Roman;
+}
+

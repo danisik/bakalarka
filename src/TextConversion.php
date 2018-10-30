@@ -32,6 +32,12 @@ class TextConversioner {
     private $max_base_length_of_info = 450;
     //minimum font-size of info
     private $min_font_size_of_info = 10;
+    //max strlen of reviewer name before changing the font
+    private $max_base_length_of_name = 40;
+    //minimum font-size of reviewer name
+    private $min_font_size_of_name = 15;
+    
+    
     
     //
     //calculate font of text, if is needed to lower default given font
@@ -59,6 +65,9 @@ class TextConversioner {
                 break;
             case Instruction::INFO:
                 $max_length = $this->max_base_length_of_info;
+                break;
+            case Instruction::REVIEWER_NAME:
+                $max_length = $this->max_base_length_of_name;
                 break;
             default:
                 throw new Exception("Bad type of text selected.");
@@ -95,6 +104,9 @@ class TextConversioner {
                 break;
             case Instruction::INFO:
                 $min_font_size = $this->min_font_size_of_info;
+                break;
+            case Instruction::REVIEWER_NAME:
+                $min_font_size = $this->min_font_size_of_name;
                 break;
             default:
                 throw new Exception("Bad type of text selected.");

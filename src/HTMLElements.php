@@ -29,7 +29,7 @@ class HTMLElements {
     //return $radio - html text contains radio buttons
     function evaluation_radio_buttons($name_of_evaluation, $evaluation_info, $count_of_rankings, $group_ID){   
         $radio = '';
-        $radio .= '<p id="radiobutton"><strong>'.$name_of_evaluation.'</strong> – '.$evaluation_info.':</p>';
+        $radio .= '<p id="radiobutton"><span id="bold_info">'.$name_of_evaluation.'</span> – '.$evaluation_info.':</p>';
         $radio .= '<p id="margin_02">';
         $radio .= '<fieldset id="group'.$group_ID.'">';
         for($i = 0; $i <= $count_of_rankings; $i++) {
@@ -56,7 +56,7 @@ class HTMLElements {
         if($textarea_text == '') $textarea_text = 'a';
         
         $area = '';
-        $area .= '<p id="textarea"><strong>'.$textarea_header.'</strong> – '.$textarea_info.': </p>';                        
+        $area .= '<p id="textarea"><span id="bold_info">'.$textarea_header.'</span> – '.$textarea_info.': </p>';                        
         $area .= '<textarea name="textarea'.$textarea_ID.'" rows="'.$rows.'" cols="'.$cols.'">'.$textarea_text.'</textarea>';
         return $area;
     } 
@@ -95,16 +95,24 @@ class HTMLElements {
     function evaluation_review_title($text_conversioner, $submission_ID, $name_of_submission, $name_of_reviewer) {
         $font_size_of_title_info = 15;
         $font_size_of_title = 22;
+        $font_size_of_name = 15;
         
         $values = $text_conversioner->check_text(Instruction::TITLE, $font_size_of_title, $name_of_submission);
         
         $font_size_of_title = $values["font"];
         $name_of_submission = $values["text"];
         
+        
+        $values = $text_conversioner->check_text(Instruction::REVIEWER_NAME, $font_size_of_name, $name_of_reviewer);
+        
+        $font_size_of_name = $values['font'];
+        $name_of_reviewer = $values['text'];
+        
+        
         $title = '';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Offline Review Form for Submission S-ID #'.$submission_ID;
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title.'pt;">'.$name_of_submission.'';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Review by '.$name_of_reviewer.'';
+        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Offline Review Form for Submission S-ID #'.$submission_ID.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title.'pt;">'.$name_of_submission.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Review by '.$name_of_reviewer.'</p>';
         return $title;    
     }
     
@@ -148,7 +156,7 @@ class HTMLElements {
           
         $instructions = '';
         $instructions .= '<p id="evaluation_instructions" style="font-size: '.$font_size_of_info.'pt">';
-        $instructions .= '<strong>'.$instruction_header.': </strong>'.$instruction_text.' <span style="color: red">'.$instruction_warning.'</span>';
+        $instructions .= '<span id="bold_info">'.$instruction_header.': </span>'.$instruction_text.' <span style="color: red">'.$instruction_warning.'</span>';
         $instructions .= '</p>';
         return $instructions;
     }   

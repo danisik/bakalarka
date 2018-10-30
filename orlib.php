@@ -9,9 +9,17 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtěch Danišík
-//		Last update on:		23-10-2018
+//		Last update on:		30-10-2018
 //      Encoding: utf-8 no BOM
 //
+
+define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'].'/TSD/');
+define('DOC_SOURCE', DOC_ROOT.'src/');
+define('DOC_MPDF', DOC_ROOT.'mpdf/');
+define('DOC_CONFIGURATION', DOC_ROOT.'config/configuration.xml');
+define('DOC_IMG_LOGO', DOC_ROOT.'img/tsd-logo.png');
+define('DOC_CSS', DOC_ROOT.'css/style.css');
+define('DOC_PARSER', DOC_ROOT.'pdfparser/');
 
 if (@$_GET['func'] == 'generate') {
     $submissionID = 9;
@@ -41,27 +49,13 @@ else if (@$_GET['func'] == 'parse') {
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
 
     mb_internal_encoding('UTF-8');
-    //path to working directory
-    $root = $_SERVER['DOCUMENT_ROOT'].'/';
-    //path to mpdf in working directory
-    $path = $root.'TSD/';
-    //path for source files
-    $path_source = $path.'src/';
-    //path to mpdf library
-    $path_MPDF = $path.'mpdf/';
-    //path to configuration file
-    $configuration_path = $path.'config/configuration.xml';
-    //path to logo
-    $path_to_logo = $path.'img/tsd-logo.png';
-    //path to css
-    $path_to_css = $path.'css/style.css';
 
     //including our classes
-    include ($path_source.'Enumerates.php');
-    include ($path_source.'OwnXmlReader.php');
-    include ($path_source.'TextConversion.php');
-    include ($path_source.'HTMLElements.php');
-    require ($path_MPDF.'vendor/autoload.php');
+    include (DOC_SOURCE.'Enumerates.php');
+    include (DOC_SOURCE.'OwnXmlReader.php');
+    include (DOC_SOURCE.'TextConversion.php');
+    include (DOC_SOURCE.'HTMLElements.php');
+    require (DOC_MPDF.'vendor/autoload.php');
     
     
     //mpdf class, creating pdf from html code
@@ -73,7 +67,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $elements = new HTMLElements;
     //our class with read xml file and get values
     $xml_reader = new OwnXmlReader;
-    $xml_reader->read_XML_file($configuration_path);
+    $xml_reader->read_XML_file(DOC_CONFIGURATION);
 
     //year of actual conference
     $year_of_conference = $xml_reader->getYear_of_conference();
@@ -89,7 +83,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 
 
     //set css file for pdf
-    $stylesheet = file_get_contents($path_to_css);
+    $stylesheet = file_get_contents(DOC_CSS);
     $mpdf->WriteHTML($stylesheet,1);
     
     //set header for all pages (text)
@@ -100,10 +94,9 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $html = set_hidden_RID_and_SID($rid, $sid);
-    $html .= create_header_image($path_to_logo);
+    $html .= create_header_image(DOC_IMG_LOGO);
     $html .= create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
-    //write first page of evaluation
-    //echo $html;    
+    //write first page of evaluation   
     $mpdf->WriteHTML($html);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
     $mpdf->AddPage();
@@ -111,7 +104,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //second template page
     //reset html code
     $html = ''; 
-    $html .= create_header_image($path_to_logo);    
+    $html .= create_header_image(DOC_IMG_LOGO);    
     $html .= create_second_template_page($elements, $submission_upload_info, $textarea_info);
     $mpdf->WriteHTML($html);
 
@@ -119,7 +112,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //set watermark for submission
     $mpdf = setWatermark($mpdf, $watermark_text);
     //load submission and import it after review form
-    $mpdf = load_submission($mpdf, $submission_filename, $path_to_logo);
+    $mpdf = load_submission($mpdf, $submission_filename, DOC_IMG_LOGO);
     //create pdf
     
     if ($_GET['type'] == 'preview') $mpdf->Output();  
@@ -133,17 +126,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 //$revform_filename - filename of review form (pdf file)
 //
 function process_offline_review_form($rid, $sid, $revform_filename) {
-
-    //path to working directory
-    $root = $_SERVER['DOCUMENT_ROOT'].'/';
-    //path to mpdf in working directory
-    $path = $root.'TSD/';
-    //path for source files
-    $path_source = $path.'src/';
-    //path to pdfparser library
-    $path_PDF_parser = $path.'pdfparser/';
-    require ($path_PDF_parser.'vendor/autoload.php');
-    include($path_source.'Enumerates.php');
+    require (DOC_PARSER.'vendor/autoload.php');
+    include(DOC_SOURCE.'Enumerates.php');
     
     $parser = new \Smalot\PdfParser\Parser();                            
     $pdf = $parser->parseFile($revform_filename);
@@ -276,12 +260,10 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
     }
     
     if (sizeof($invalid_constants) == 0) {
-        upload_to_DB_offline_review_form($rid, $values);
+        //upload_to_DB_offline_review_form($rid, $values);
     }
     else {
-        set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " .
-			"for Review ID# $rid, all required fields must be filled...",
-			DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+        //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 		return TRUE;
     }
     
@@ -306,25 +288,15 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
 //$rev_comment - reviewer comment, displaying for submissioner
 //$int_comment - internal comment, displaying only for admins
 // 
-function upload_to_DB_offline_review_form($rid, $values) {									
-    //path to working directory
-    $root = $_SERVER['DOCUMENT_ROOT'].'/';
-    //path to mpdf in working directory
-    $path = $root.'TSD/';
-    //path for source files
-    $path_source = $path.'src/';                                    
-                                                                                      
+function upload_to_DB_offline_review_form($rid, $values) {									                                                                                                                         
    $qry = db_get('state', 'reviews', "`id`='" . safe($rid) . "'");
    $qry = null;
    if (!$qry) {
-	  error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')),
-		 DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  //error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 	  return TRUE;
    }
    else if ($qry === "F") {
-	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " .
-		 "for Review ID# $rid, this review has been marked as finished...",
-		 DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, this review has been marked as finished...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 	  return TRUE;
    }
 	
@@ -338,22 +310,17 @@ function upload_to_DB_offline_review_form($rid, $values) {
 	  "' WHERE `id`='" . safe($rid) . "'");
 		
    if (!$qstr) {
-	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " .
-		 "for Review ID# $rid. The review contains incompatible/unprocessable characters...",
-		 DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid. The review contains incompatible/unprocessable characters...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
    	   return TRUE;
    }
 	
    $qry = db_query($qstr);
    if (!$qry){
-	  error("Database error", "Error while storing the data from the offline review form into the database. " .
-		 "The database server returned this error: " . db_error(get_session_var('dblink')),
-	      DOC_ROOT . "/index.php?form=review-details&rid=" . $rid) ;
+	  //error("Database error", "Error while storing the data from the offline review form into the database. " . "The database server returned this error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid) ;
 	  return TRUE;
 	}
 	
-	set_message("review_details_info", "<b>The uploaded offline review form for Review ID# $rid was successfully processed</b>..." ,
-		DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	//set_message("review_details_info", "<b>The uploaded offline review form for Review ID# $rid was successfully processed</b>..." , DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 
 	return TRUE;	
 }
