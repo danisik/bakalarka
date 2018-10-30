@@ -367,7 +367,7 @@ function setMPDF() {
 	   'margin_top' => 30,
 	   'margin_header' => 10,
 	   'margin_footer' => 10,
-        'default_font' => 'freesans'
+        'default_font' => 'helvetica'
     ]);
     //editable form elements
     $mpdf->useActiveForms = true;
