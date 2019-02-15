@@ -4,39 +4,24 @@
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
 //
-//		Copyright (c) 2010-2018 Dept. of Computer Science & Engineering,
+//		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
 //		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
 //		All rights reserved.
 //
-//		Code written by:	Vojtěch Danišík
-//		Last update on:		30-10-2018
+//		Code written by:	Vojtech Danisik
+//		Last update on:		13-02-2019
 //      Encoding: utf-8 no BOM
 //
 
-define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'].'/TSD/');
-define('DOC_SOURCE', DOC_ROOT.'src/');
-define('DOC_MPDF', DOC_ROOT.'mpdf/');
-define('DOC_CONFIGURATION', DOC_ROOT.'config/configuration.xml');
-define('DOC_IMG_LOGO', DOC_ROOT.'img/tsd-logo.png');
-define('DOC_CSS', DOC_ROOT.'css/style.css');
-define('DOC_PARSER', DOC_ROOT.'pdfparser/');
-
-if (@$_GET['func'] == 'generate') {
-    $submissionID = 9;
-    $reviewID = 1;      
-    $nameOfSubmission = 'Survey of Business Perception Based on Sentiment Analysis through Deep Neuronal Networks for Natural Language Processing';
-    $nameOfReviewer = 'Kamil Ekštein';
-    generate_offline_review_form($reviewID, $nameOfReviewer, $submissionID, $nameOfSubmission, $_SERVER['DOCUMENT_ROOT'].'/TSD/pdf.pdf');
-}
-else if (@$_GET['func'] == 'parse') {
-    //path to working directory
-    $root = $_SERVER['DOCUMENT_ROOT'].'/';
-    //path to mpdf in working directory
-    $path = $root.'TSD/';
-    
-    if ($_GET['type'] == 'old') process_offline_review_form('', '', $path.'TSD2017_Review_Form_383.pdf');  
-    else if ($_GET['type'] == 'mpdf') process_offline_review_form('', '', $path.'TSD2019_Review_Form_1.pdf'); 
-} 
+define('DOC_MY_ROOT', $_SERVER['DOCUMENT_ROOT'].'/tsd2019/');
+define('DOC_GP_ROOT',DOC_MY_ROOT.'generator_parser/');
+define('DOC_GP_LIB', DOC_GP_ROOT.'lib/');
+define('DOC_GP_SOURCE', DOC_GP_ROOT.'src/');
+define('DOC_GP_MPDF', DOC_GP_LIB.'mpdf/');
+define('DOC_GP_CONFIGURATION', DOC_GP_ROOT.'config/configuration.xml');
+define('DOC_GP_IMG_LOGO', DOC_GP_ROOT.'img/tsd-logo.png');
+define('DOC_GP_CSS', DOC_GP_ROOT.'css/style.css');
+define('DOC_GP_PARSER', DOC_GP_LIB.'pdfparser/');
 
 //
 //generate review pdf form with form elements
@@ -49,31 +34,25 @@ else if (@$_GET['func'] == 'parse') {
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
 
     mb_internal_encoding('UTF-8');
-
     //including our classes
-    include (DOC_SOURCE.'Enumerates.php');
-    include (DOC_SOURCE.'OwnXmlReader.php');
-    include (DOC_SOURCE.'TextConversion.php');
-    include (DOC_SOURCE.'HTMLElements.php');
-    require (DOC_MPDF.'vendor/autoload.php');
-    
-    
+    include (DOC_GP_SOURCE.'Enumerates.php');
+    include (DOC_GP_SOURCE.'OwnXmlReader.php');
+    include (DOC_GP_SOURCE.'TextConversion.php');
+    include (DOC_GP_SOURCE.'HTMLElements.php');
+    require (DOC_GP_MPDF.'vendor/autoload.php');
     //mpdf class, creating pdf from html code
     $mpdf = setMPDF();
-     
     //our class with text conversion and calculating font size
     $text_conversioner = new TextConversioner;
     //our class with printing form elements (html code)
     $elements = new HTMLElements;
     //our class with read xml file and get values
     $xml_reader = new OwnXmlReader;
-    $xml_reader->read_XML_file(DOC_CONFIGURATION);
-
+    $xml_reader->read_XML_file(DOC_GP_CONFIGURATION);
     //year of actual conference
     $year_of_conference = $xml_reader->getYear_of_conference();
     //text for watermark
     $watermark_text = $xml_reader->getWatermark_text();
-
     //info text where to upload review
     $submission_upload_info = 'After filling the form in, please, upload it to the TSD'.$year_of_conference.' web review application: Go to URL
         <span style="display: inline; text-decoration: underline; color: blue;">https://www.kiv.zcu.cz/tsd'.$year_of_conference.' </span>and after logging in, please, proceed to section '."'My Reviews'".', select the corresponding
@@ -81,9 +60,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
         
     $filename = 'TSD'.$year_of_conference.'_Review_Form_'.$rid.'.pdf';
 
-
     //set css file for pdf
-    $stylesheet = file_get_contents(DOC_CSS);
+    $stylesheet = file_get_contents(DOC_GP_CSS);
     $mpdf->WriteHTML($stylesheet,1);
     
     //set header for all pages (text)
@@ -94,17 +72,16 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $html = set_hidden_RID_and_SID($rid, $sid);
-    $html .= create_header_image(DOC_IMG_LOGO);
+    $html .= create_header_image(DOC_GP_IMG_LOGO);
     $html .= create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
     //write first page of evaluation   
     $mpdf->WriteHTML($html);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
     $mpdf->AddPage();
-     //echo $html;
     //second template page
     //reset html code
     $html = ''; 
-    $html .= create_header_image(DOC_IMG_LOGO);    
+    $html .= create_header_image(DOC_GP_IMG_LOGO);    
     $html .= create_second_template_page($elements, $submission_upload_info, $textarea_info);
     $mpdf->WriteHTML($html);
 
@@ -112,11 +89,11 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //set watermark for submission
     $mpdf = setWatermark($mpdf, $watermark_text);
     //load submission and import it after review form
-    $mpdf = load_submission($mpdf, $submission_filename, DOC_IMG_LOGO);
+    echo $submission_filename;
+    $mpdf = load_submission($mpdf, DOC_MY_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
-    
-    if ($_GET['type'] == 'preview') $mpdf->Output();  
-    else if ($_GET['type'] == 'download') $mpdf->Output($filename,'D');  
+    $mpdf->Output($filename, 'D');
+    header("Location: " . DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 }
 
 //
@@ -126,74 +103,65 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 //$revform_filename - filename of review form (pdf file)
 //
 function process_offline_review_form($rid, $sid, $revform_filename) {
-    require (DOC_PARSER.'vendor/autoload.php');
-    include(DOC_SOURCE.'Enumerates.php');
+    require (DOC_GP_PARSER.'vendor/autoload.php');
+    include (DOC_GP_SOURCE.'Enumerates.php');
     
-    $parser = new \Smalot\PdfParser\Parser();                            
+    $parser = new \Smalot\PdfParser\Parser();                       
     $pdf = $parser->parseFile($revform_filename);
-    
     $data = $pdf->getFormElementsData();
-    //print_r ($pdf);
+
     $groups = $data['groups'];
     $textareas = $data['textareas'];
-    
     $values = array(
         RadiobuttonInfo::Groups_text => array(),
         TextareaInfo::Textareas_text => array()    
     );
-    
     $invalid_values = array(
                         'element' => '',
                         'value' => '');
     $invalid_indicator = 0;
         
     $radiobuttons_constant = RadiobuttonInfo::getConstants();
-    
-    $i = 0;                                                                   
+                                                               
     foreach ($groups as $key => $value) {
+    
+        $key = str_replace("group", "", $key);
+    
         $valid = check_if_element_is_valid($value, FormElements::RADIOBUTTON);
         $element = '';
         
-        switch($i) {   
+        switch($key) {   
             case RadiobuttonInfo::Originality_ID: 
                 $element = RadiobuttonInfo::Originality; 
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Originality] = $value;                
-                echo (RadiobuttonInfo::Originality.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;                
                 break;                
             case RadiobuttonInfo::Significance_ID: 
                 $element = RadiobuttonInfo::Significance;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Significance] = $value;
-                echo (RadiobuttonInfo::Significance.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;            
             case RadiobuttonInfo::Relevance_ID:
                 $element = RadiobuttonInfo::Relevance;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Relevance] = $value;
-                echo (RadiobuttonInfo::Relevance.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;                
             case RadiobuttonInfo::Presentation_ID:
                 $element = RadiobuttonInfo::Presentation;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Presentation] = $value;
-                echo (RadiobuttonInfo::Presentation.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;                
             case RadiobuttonInfo::Technical_quality_ID:
                 $element = RadiobuttonInfo::Technical_quality;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Technical_quality] = $value;
-                echo (RadiobuttonInfo::Technical_quality.' - '.$value.'<br>');                
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;                
             case RadiobuttonInfo::Overall_rating_ID:
                 $element = RadiobuttonInfo::Overall_rating;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Overall_rating] = $value;
-                echo (RadiobuttonInfo::Overall_rating.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;            
             case RadiobuttonInfo::Amount_of_rewriting_ID:
                 $element = RadiobuttonInfo::Amount_of_rewriting;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Amount_of_rewriting] = $value;
-                echo (RadiobuttonInfo::Amount_of_rewriting.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;                
             case RadiobuttonInfo::Reviewers_expertise_ID:
                 $element = RadiobuttonInfo::Reviewers_expertise;
-                $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Reviewers_expertise] = $value;
-                echo (RadiobuttonInfo::Reviewers_expertise.' - '.$value.'<br>');
+                $values[RadiobuttonInfo::Groups_text][$element] = $value;
                 break;
         }         
         
@@ -202,69 +170,72 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
             $invalid_constants[$invalid_indicator]['value'] = $value;
             $invalid_indicator++;
         }
-        
-        $i++;
     }
-    
     
     $textareas_constant = TextareaInfo::getConstants();
     
-    echo ('<br>');
-    $i = 0;
     foreach ($textareas as $key => $value) {
     
-        @$valid = check_if_element_is_valid($value, FormElements::TEXTAREA, $textareas_constant[$i]['needed']);
+        $key = str_replace("textarea", "", $key);
+        
+        @$valid = check_if_element_is_valid($value, FormElements::TEXTAREA, $textareas_constant[$key]['needed']);
         $element = '';
-        switch($i) {
+
+        switch($key) {
             case TextareaInfo::Main_contributions_ID: 
                 $element = TextareaInfo::Main_contributions;  
-                $values[TextareaInfo::Textareas_text][TextareaInfo::Main_contributions]['value'] = $value;
-                echo (TextareaInfo::Main_contributions.' - '.$value.'<br>');
+                $values[TextareaInfo::Textareas_text][$element]['value'] = $value;
                 break;                
             case TextareaInfo::Positive_aspects_ID:
                 $element = TextareaInfo::Positive_aspects;
-                $values[TextareaInfo::Textareas_text][TextareaInfo::Positive_aspects]['value'] = $value;
-                echo (TextareaInfo::Positive_aspects.' - '.$value.'<br>');
+                $values[TextareaInfo::Textareas_text][$element]['value'] = $value;
                 break;            
             case TextareaInfo::Negative_aspects_ID:
                 $element = TextareaInfo::Negative_aspects;
-                $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects]['value'] = $value;
-                echo (TextareaInfo::Negative_aspects.' - '.$value.'<br>');
+                $values[TextareaInfo::Textareas_text][$element]['value'] = $value;
                 break;                
             case TextareaInfo::Comment_ID:
                 $element = TextareaInfo::Comment;
-                $values[TextareaInfo::Textareas_text][TextareaInfo::Comment]['value'] = $value;
-                echo (TextareaInfo::Comment.' - '.$value.'<br>');
+                $values[TextareaInfo::Textareas_text][$element]['value'] = $value;
                 break;                
             case TextareaInfo::Internal_comment_ID:
                 $element = TextareaInfo::Internal_comment;
-                $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment]['value'] = $value;
-                echo (TextareaInfo::Internal_comment.' - '.$value.'<br>');                
+                $values[TextareaInfo::Textareas_text][$element]['value'] = $value;
                 break;                
         }              
-        
-        
+              
         if (!$valid) {
             $invalid_constants[$invalid_indicator]['element'] = $element;
             $invalid_constants[$invalid_indicator]['value'] = $value;
             $invalid_indicator++;
         }                                   
         
-        $i++;                                                              
     }                              
 
-    echo ('<br>');
     foreach($invalid_constants as $key => $value) {
         if (strlen($value['value']) == 0) $value['value'] = 'N/A';
-        echo ('Error -  invalid element: '.$value['element'].', value: '.$value['value'].'<br>');
     }
     
-    if (sizeof($invalid_constants) == 0) {
+    if (sizeof($invalid_constants) == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
         //upload_to_DB_offline_review_form($rid, $values);
+        return TRUE;
     }
-    else {
-        //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-		return TRUE;
+    else {        
+    
+        $invalid_fields = "";
+        $i = 0;
+        $size = sizeof($invalid_constants);
+
+        foreach($invalid_constants as $key) {
+          $invalid_fields .= $key['element'];                   
+          
+          if ($i < ($size - 1)) $invalid_fields .= ", ";
+          $i++;
+        }
+    
+        set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled... (".$invalid_fields.")",
+                    DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+        return TRUE;
     }
     
 }
@@ -273,54 +244,48 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
 //upload evaluation values into database
 //$rid - review id
 //$values - array with all values writed below this
-//
-//$originality - how is the work original
-//$significance - how is the work significant 
-//$relevance - how is the work relevant                                    
-//$presentation - presentation of the work 
-//$technical_quality - technical quality of the work 
-//$total_rating - work as a whole
-//$rewriting_amount - how much of the work should be rewritten
-//$reviewer_expertise - confidence about ranking 
-//$main_contrib - main contribution summarisation 
-//$pos_aspects - positive aspects of submission
-//$neg_aspects - negative aspects of submission 
-//$rev_comment - reviewer comment, displaying for submissioner
-//$int_comment - internal comment, displaying only for admins
 // 
 function upload_to_DB_offline_review_form($rid, $values) {									                                                                                                                         
    $qry = db_get('state', 'reviews', "`id`='" . safe($rid) . "'");
    $qry = null;
    if (!$qry) {
-	  //error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 	  return TRUE;
    }
    else if ($qry === "F") {
-	  //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, this review has been marked as finished...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, this review has been marked as finished...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 	  return TRUE;
    }
 	
-   $qstr = sprintf("UPDATE `reviews` SET `state`='U', `originality` = '" . safe($originality) .
-	  "', `significance` = '" . safe($significance) . "', `relevance` = '" . safe($relevance) .
-	  "', `presentation` = '" . safe($presentation) . "', `technical_quality` = '" . safe($technical_quality) .
-	  "', `total_rating` = '" . safe($total_rating) . "',	`rewriting_amount` = '" . safe($rewriting_amount) .
-	  "', `reviewer_expertise` = '" . safe($reviewer_expertise) . "', `main_contrib` = '" . safe($main_contrib) .
-	  "', `pos_aspects` = '" . safe($pos_aspects) . "', `neg_aspects`= '" . safe($neg_aspects) .
-	  "', `int_comment` = '".safe($int_comment)."', `rev_comment` = '" . safe($rev_comment) .
-	  "' WHERE `id`='" . safe($rid) . "'");
+   $qstr = sprintf("UPDATE `reviews` SET 
+   `state`='U', 
+   `originality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Originality] . "', 
+   `significance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Significance] . "', 
+   `relevance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Relevance] . "', 
+   `presentation` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Presentation] . "', 
+   `technical_quality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Technical_quality] . "', 
+   `total_rating` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Overall_rating] . "',	
+   `rewriting_amount` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Amount_of_rewriting] . "', 
+   `reviewer_expertise` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Reviewers_expertise] . "',
+   `main_contrib` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Main_contributions] . "', 
+   `pos_aspects` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Positive_aspects] . "', 
+   `neg_aspects`= '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects] . "', 
+   `int_comment` = '". $values[TextareaInfo::Textareas_text][TextareaInfo::Comment] ."', 
+   `rev_comment` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment] . "' 
+    WHERE `id`='" . safe($rid) . "'");
 		
    if (!$qstr) {
-	  //set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid. The review contains incompatible/unprocessable characters...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid. The review contains incompatible/unprocessable characters...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
    	   return TRUE;
    }
 	
    $qry = db_query($qstr);
    if (!$qry){
-	  //error("Database error", "Error while storing the data from the offline review form into the database. " . "The database server returned this error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid) ;
+	  error("Database error", "Error while storing the data from the offline review form into the database. " . "The database server returned this error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid) ;
 	  return TRUE;
 	}
 	
-	//set_message("review_details_info", "<b>The uploaded offline review form for Review ID# $rid was successfully processed</b>..." , DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+	set_message("review_details_info", "<b>The uploaded offline review form for Review ID# $rid was successfully processed</b>..." , DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 
 	return TRUE;	
 }
@@ -363,7 +328,7 @@ function set_hidden_RID_and_SID($rid, $sid) {
 //
 //return $mpdf - mpdf with watermark text set 
 function setWatermark($mpdf, $watermark_text) {
-    $mpdf->SetWatermarkText($watermark_text, 0.1);
+    $mpdf->SetWatermarkText($watermark_text, 0.05);
     $mpdf->showWatermarkText = true; 
     return $mpdf;
 }
