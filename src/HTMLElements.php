@@ -4,12 +4,12 @@
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
 //
-//		Copyright (c) 2010-2018 Dept. of Computer Science & Engineering,
+//		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
 //		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
 //		All rights reserved.
 //
-//		Code written by:	Vojtěch Danišík
-//		Last update on:		30-10-2018
+//		Code written by:	Vojtech Danisik
+//		Last update on:		21-02-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -31,9 +31,9 @@ class HTMLElements {
         $radio = '';
         $radio .= '<p id="radiobutton"><span id="bold_info">'.$name_of_evaluation.'</span> – '.$evaluation_info.':</p>';
         $radio .= '<p id="margin_02">';
-        $radio .= '<fieldset id="group'.$group_ID.'">';
+        $radio .= '<fieldset id="'.RadioButtonInfo::Group_text.''.$group_ID.'">';
         for($i = 0; $i <= $count_of_rankings; $i++) {
-            $radio .= '<input type="radio" name="group'.$group_ID.'" value="'.$i.'">  '.$i.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $radio .= '<input type="radio" name="'.RadioButtonInfo::Group_text.''.$group_ID.'" value="'.$i.'">  '.$i.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         } 
         $radio .= '</fieldset>'; 
         $radio .= '</p>';
@@ -56,8 +56,8 @@ class HTMLElements {
         if($textarea_text == '') $textarea_text = 'a';
         
         $area = '';
-        $area .= '<p id="textarea"><span id="bold_info">'.$textarea_header.'</span> – '.$textarea_info.': </p>';                        
-        $area .= '<textarea name="textarea'.$textarea_ID.'" rows="'.$rows.'" cols="'.$cols.'">'.$textarea_text.'</textarea>';
+        $area .= '<p id="textarea"><span id="bold_info">'.$textarea_header.'</span>'.$textarea_info.': </p>';                        
+        $area .= '<textarea name="'.TextareaInfo::Textarea_text.''.$textarea_ID.'" rows="'.$rows.'" cols="'.$cols.'">'.$textarea_text.'</textarea>';
         return $area;
     } 
     

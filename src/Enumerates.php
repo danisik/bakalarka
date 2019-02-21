@@ -4,12 +4,12 @@
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
 //
-//		Copyright (c) 2010-2018 Dept. of Computer Science & Engineering,
+//		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
 //		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
 //		All rights reserved.
 //
-//		Code written by:	Vojtěch Danišík
-//		Last update on:		27-10-2018 
+//		Code written by:	Vojtech Danisik
+//		Last update on:		21-02-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -53,6 +53,7 @@ class FormElements {
 class TextareaInfo {
     //string for identifing textareas in array of values when parsing
     const Textareas_text = 'textareas';
+    const Textarea_text = 'textarea';
 
     const Main_contributions_ID = 0;
     const Main_contributions = 'Main contributions';
@@ -109,6 +110,7 @@ class TextareaInfo {
 class RadiobuttonInfo {
     //string for identifing radiobutton groups in array of values when parsing
     const Groups_text = 'groups';
+    const Group_text = 'group';
     //first evaluation value
     const Count_of_evaluations_from = 0;
     //last evaluation value
