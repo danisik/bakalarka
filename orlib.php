@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		13-02-2019
+//		Last update on:		21-02-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -30,7 +30,6 @@ define('DOC_GP_PARSER', DOC_GP_LIB.'pdfparser/');
 //$sid - submission id
 //$submission_name - name of submission to be reviewed
 //$submission_filename - path to submission
-//
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
 
     mb_internal_encoding('UTF-8');
@@ -55,8 +54,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $watermark_text = $xml_reader->getWatermark_text();
     //info text where to upload review
     $submission_upload_info = 'After filling the form in, please, upload it to the TSD'.$year_of_conference.' web review application: Go to URL
-        <span style="display: inline; text-decoration: underline; color: blue;">https://www.kiv.zcu.cz/tsd'.$year_of_conference.' </span>and after logging in, please, proceed to section '."'My Reviews'".', select the corresponding
-        submission and press the '."'Review'".' button. There, you'."'".'ll be able to upload this PDF file.';
+        <span style="display: inline; text-decoration: underline; color: blue;">https://www.kiv.zcu.cz/tsd'.$year_of_conference.' </span>and after logging in, please, proceed to section '."'My Reviews'".', 
+        select the corresponding submission and press the '."'Review'".' button. There, you'."'".'ll be able to upload this PDF file.';
         
     $filename = 'TSD'.$year_of_conference.'_Review_Form_'.$rid.'.pdf';
 
@@ -89,7 +88,6 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //set watermark for submission
     $mpdf = setWatermark($mpdf, $watermark_text);
     //load submission and import it after review form
-    echo $submission_filename;
     $mpdf = load_submission($mpdf, DOC_MY_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
     $mpdf->Output($filename, 'D');
@@ -102,6 +100,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 //$sid - submission id
 //$revform_filename - filename of review form (pdf file)
 //
+//return boolean value
 function process_offline_review_form($rid, $sid, $revform_filename) {
     require (DOC_GP_PARSER.'vendor/autoload.php');
     include (DOC_GP_SOURCE.'Enumerates.php');
@@ -125,7 +124,8 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
                                                                
     foreach ($groups as $key => $value) {
     
-        $key = str_replace("group", "", $key);
+        //replacing radiobutton group for blank space (name of each radiobutton group is: groupID) to get ID of radiobutton
+        $key = str_replace(RadioButtonInfo::Group_text, "", $key);
     
         $valid = check_if_element_is_valid($value, FormElements::RADIOBUTTON);
         $element = '';
@@ -176,7 +176,8 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
     
     foreach ($textareas as $key => $value) {
     
-        $key = str_replace("textarea", "", $key);
+        //replacing textarea for blank space (name of each textarea is: textareaID) to get ID of textarea
+        $key = str_replace(TextareaInfo::Textarea_text, "", $key);
         
         @$valid = check_if_element_is_valid($value, FormElements::TEXTAREA, $textareas_constant[$key]['needed']);
         $element = '';
@@ -211,29 +212,41 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         }                                   
         
     }                              
-
-    foreach($invalid_constants as $key => $value) {
-        if (strlen($value['value']) == 0) $value['value'] = 'N/A';
-    }
     
+    //if every needed element have valid value and size of groups and textareas are more than zero (because size of array of groups and textareas is 0 when nothing is filled) 
     if (sizeof($invalid_constants) == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
-        //upload_to_DB_offline_review_form($rid, $values);
+        upload_to_DB_offline_review_form($rid, $values);
         return TRUE;
     }
     else {        
-    
         $invalid_fields = "";
         $i = 0;
         $size = sizeof($invalid_constants);
-
-        foreach($invalid_constants as $key) {
-          $invalid_fields .= $key['element'];                   
+        
+        if ($size > 0) {
+          //if at least one element is filled
+          foreach($invalid_constants as $key) {
+            $invalid_fields .= $key['element'];                   
           
-          if ($i < ($size - 1)) $invalid_fields .= ", ";
-          $i++;
+            if ($i < ($size - 1)) $invalid_fields .= ", ";
+            $i++;
+          }
+        }
+        else {
+          //if nothing is filled
+          $size = sizeof($radiobuttons_constant) + sizeof($textareas_constant);
+          foreach($radiobuttons_constant as $key => $value) {
+            $invalid_fields .= $value['name'].", ";             
+          }
+          
+          foreach($textareas_constant as $key => $value) {            
+            if ($value['needed']) $invalid_fields .= $value['name'].", ";
+          }
+          
+          $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields) - 2);
         }
     
-        set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled... (".$invalid_fields.")",
+        set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled... (".$invalid_fields.").",
                     DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
         return TRUE;
     }
@@ -245,8 +258,9 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
 //$rid - review id
 //$values - array with all values writed below this
 // 
+//return boolean value
 function upload_to_DB_offline_review_form($rid, $values) {									                                                                                                                         
-   $qry = db_get('state', 'reviews', "`id`='" . safe($rid) . "'");
+   $qry = db_get('state', 'reviews', "`id`='" . $rid . "'");
    $qry = null;
    if (!$qry) {
 	  error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
@@ -339,6 +353,7 @@ function setWatermark($mpdf, $watermark_text) {
 //$path_to_file - path to submission file
 //$path_to_logo - path to tsd logo
 //
+//return $mpdf - return mpdf document with imported submission
 function load_submission($mpdf, $path_to_file, $path_to_logo) { 
     $mpdf->SetImportUse();
     $page_count = $mpdf->SetSourceFile($path_to_file);
@@ -355,6 +370,7 @@ function load_submission($mpdf, $path_to_file, $path_to_logo) {
 //create image in position of header
 //$path_to_logo - path to tsd logo
 //
+//return $image - logo of TSD
 function create_header_image($path_to_logo) {
 
     $image = '<div style="position: absolute; top: 5; right: 0; width: 120;">';
@@ -386,18 +402,14 @@ function create_first_template_page($elements, $text_conversioner, $xml_reader, 
     $radio_button_info = RadioButtonInfo::getConstants();
     
     for ($i = 0; $i < count($radio_button_info); $i++) {
-        $name = $radio_button_info[$i]['name'];
-        $info = $radio_button_info[$i]['info'];
-        $first_page .= $elements->evaluation_radio_buttons($name, $info, $count_of_evaluations_to, $i);
+        $first_page .= $elements->evaluation_radio_buttons($radio_button_info[$i]['name'], $radio_button_info[$i]['info'], $count_of_evaluations_to, $i);
     }
     
     $first_page .= '</form>';
                   
     $first_page .= '<hr style="margin: 10;"/>';
                               
-    $name_main = $textarea_info[0]['name'];
-    $info_main = $textarea_info[0]['info'];
-    $first_page .= $elements->evaluation_textarea($name_main, $info_main, TextAreaInfo::Main_contributions_ID, 10, 87);
+    $first_page .= $elements->evaluation_textarea($textarea_info[0]['name'], $textarea_info[0]['info'], $textarea_info[0]['id'], 10, 87);
     
     return $first_page;
 }
@@ -410,23 +422,12 @@ function create_first_template_page($elements, $text_conversioner, $xml_reader, 
 //
 //return $secondPage - html code of second template page
 function create_second_template_page($elements, $submission_upload_info, $textarea_info) {
-    $name_positive = $textarea_info[1]['name'];
-    $info_positive = $textarea_info[1]['info'];
+    $second_page = "";
     
-    $name_negative = $textarea_info[2]['name'];
-    $info_negative = $textarea_info[2]['info'];
+    for ($i = 1; $i <= 4; $i++) {
+      $second_page .= $elements->evaluation_textarea($textarea_info[$i]['name'], $textarea_info[$i]['info'], $textarea_info[$i]['id'], 10, 87);
+    }
     
-    $name_comment = $textarea_info[3]['name'];
-    $info_comment = $textarea_info[3]['info'];
-    
-    $name_internal = $textarea_info[4]['name'];
-    $info_internal = $textarea_info[4]['info'];
-    
-    $second_page = $elements->evaluation_textarea($name_positive, $info_positive, TextAreaInfo::Positive_aspects_ID, 10, 87);
-    $second_page .= $elements->evaluation_textarea($name_negative, $info_negative, TextAreaInfo::Negative_aspects_ID, 10, 87);
-    
-    $second_page .= $elements->evaluation_textArea($name_comment, $info_comment, TextAreaInfo::Comment_ID, 10, 87);
-    $second_page .= $elements->evaluation_textArea($name_internal, $info_internal, TextAreaInfo::Internal_comment_ID, 10, 87);
     $second_page .= '<p>'.$submission_upload_info.'</p>';
     
     return $second_page;

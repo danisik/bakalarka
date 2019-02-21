@@ -1,0 +1,50 @@
+Adding new radiobutton/textarea
+===============================
+
+src/Enumerates.php
+  1. Create 3 variables (ID, NAME and INFO) in class RadioButtonInfo/TextareaInfo.
+  2. In function getConstants add this element to constants.
+orlib.php
+  3. In function process_offline_review_form add new case into switch for radiobutton/textarea.
+  4. In function upload_to_DB_offline_review_form update sql query.
+  5. Add this element into pdf document with function evaluation_radio_buttons/evaluation_textarea
+  
+  
+Adding new element in configuration.xml
+=======================================
+
+config/configuration.xml
+  1. Add new element
+src/OwnXmlReader.php
+  2. Create new variable and read value from xml file using $reader->name_of_variable_in_xml
+ 
+ 
+Changing font type of text
+=====================
+
+css/style.css
+  1. Change type of font in #evaluation_title/#evaluation_header !!! THIS WILL CHANGE ONLY EVALUATION FONT
+orlib.php
+  2. In function setMPDF, when $mpdf variable is created, change value of DEFAULT_FONT for your font !!! THIS WILL CHANGE FONT OF ALL TEXT EXCEPT HEADER
+  
+Reducing length of document title
+=================================
+
+When there is a very long title of document, then it will calculate new font size (there is minimum font size and string length for each elements - header title, title, instructions, name of reviewer). If newly calculated font size is lower than defined min_font_size variable, then it will cut the string to a defined max_length.
+
+src/TextConversion.php
+
+
+Setting transparency of watermark text
+======================================
+
+orlib.php
+  1. In function setWatermark, you can change transparency(alpha) of watermark text - second parameter of $mpdf->SetWatermarkText($text, $alpha)
+  Watermark text is saved in config/configuration.xml
+  
+  
+Change element ranking (radiobutton group)
+==========================================
+
+src/Enumerates.php
+  1. To change max rank of each element (from 0 to max_rank), set value of max_rank in class RadioButtonInfo, variable named Count_of_evaluations_to
