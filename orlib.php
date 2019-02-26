@@ -13,8 +13,9 @@
 //      Encoding: utf-8 no BOM
 //
 
-define('DOC_MY_ROOT', $_SERVER['DOCUMENT_ROOT'].'/tsd2019/');
-define('DOC_GP_ROOT',DOC_MY_ROOT.'generator_parser/');
+define('DOC_TSD_ROOT', $_SERVER['DOCUMENT_ROOT'].'/tsd2019/');
+define('DOC_MY_ROOT', DOC_TSD_ROOT.'php/');
+define('DOC_GP_ROOT',DOC_MY_ROOT.'offline-review/');
 define('DOC_GP_LIB', DOC_GP_ROOT.'lib/');
 define('DOC_GP_SOURCE', DOC_GP_ROOT.'src/');
 define('DOC_GP_MPDF', DOC_GP_LIB.'mpdf/');
@@ -39,6 +40,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     include (DOC_GP_SOURCE.'TextConversion.php');
     include (DOC_GP_SOURCE.'HTMLElements.php');
     require (DOC_GP_MPDF.'vendor/autoload.php');
+
     //mpdf class, creating pdf from html code
     $mpdf = setMPDF();
     //our class with text conversion and calculating font size
@@ -58,7 +60,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
         select the corresponding submission and press the '."'Review'".' button. There, you'."'".'ll be able to upload this PDF file.';
         
     $filename = 'TSD'.$year_of_conference.'_Review_Form_'.$rid.'.pdf';
-
+  
     //set css file for pdf
     $stylesheet = file_get_contents(DOC_GP_CSS);
     $mpdf->WriteHTML($stylesheet,1);
@@ -86,9 +88,10 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 
     $mpdf->AddPage();
     //set watermark for submission
+
     $mpdf = setWatermark($mpdf, $watermark_text);
     //load submission and import it after review form
-    $mpdf = load_submission($mpdf, DOC_MY_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
+    $mpdf = load_submission($mpdf, DOC_TSD_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
     $mpdf->Output($filename, 'D');
     header("Location: " . DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
