@@ -94,13 +94,15 @@ class Parser
      */
     public function parseContent($content)
     {
+    
         // Create structure using TCPDF Parser.
         ob_start();
         @$parser = new \TCPDF_PARSER(ltrim($content));
         list($xref, $data) = $parser->getParsedData();
+
         unset($parser);
         ob_end_clean();
-
+    
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
         }
@@ -115,15 +117,68 @@ class Parser
         $this->groups = array();
         $this->textareas = array();
 
-        foreach ($data as $id => $structure) {
+       
+        foreach ($data as $id => $structure) {               
             $this->parseObject($id, $structure, $document);
             unset($data[$id]);
         }
 
         $document->setTrailer($this->parseTrailer($xref['trailer'], $document));
         $document->setObjects($this->objects);
+        
+        if (sizeof($this->formElementsData['groups']) == 0 && sizeof($this->formElementsData['textareas']) == 0) {
+            $values = explode("<<", $content);            
+            foreach($values as $key => $value) {
+            
+                $sub_values = explode("/", $value);
+                $not_needed_main_index = array("T", "(", ")", " ");
+                $not_needed_main_value = array("V", "(", ")", "&#2013266175;", "&#2013266174;"); 
+                $main_index = "";
+                $index = "";     
+                $main_value = "";           
+                    
+                if (strpos($value, "/DV/Off/FT/Btn/Ff 49152/Kids")) {
+                    //<</DA(/F3 0 Tf 0.0 0.0 0.4 rg)/DV/Off/FT/Btn/Ff 49152/Kids[262 0 R 265 0 R 268 0 R 271 0 R 274 0 R 277 0 R 280 0 R 283 0 R 286 0 R 289 0 R 292 0 R]/T(group7)/TU(þÿ)/V/7>>
+                    //ACRO PRO
+                    
+                    $index = str_replace($not_needed_main_index, "", $sub_values[9]);      
+                    $main_value = explode(">>", $sub_values[12])[0];      
+                    $main_index = "groups";      
+                }
+                else if (strpos($value, "/FT /Btn /Ff 49152 /Kids")) {
+                    //300 0 obj <</Type /Annot /Subtype /Widget /NM (0014-3001) /M (D:20190226105951) /Rect [0 0 0 0 ] /FT /Btn /Ff 49152 /Kids [31 0 R 34 0 R 37 0 R 40 0 R 43 0 R 46 0 R 49 0 R 52 0 R 55 0 R 58 0 R 61 0 R ] /V /0 /DV /Off /T (group0) >> endobj
+                    //EVINCE
+                    
+                    $index = str_replace($not_needed_main_index, "", $sub_values[16]);      
+                    $main_value = $sub_values[13];
+                    $main_index = "groups";               
+                }        
+                else if (strpos($value, "/Subtype/Widget/T(textarea")) {
+                    //<</AP<</N 751 0 R>>/BS<</S/S/W 1>>/DA(/F1 9.9 Tf 0.000 g)/DV()/F 4/FT/Tx/Ff 4198400/H/N/M(D:20190226100627)/MK<</BC[0.6 0.6 0.72]/BG[0.975 0.975 0.975]>>/NM(0295-5091)/P 3 0 R/R 0/Rect[42.52 91.228 552.76 214.978]/Subtype/Widget/T(textarea0)/TU(þÿ)/Type/Annot/V(Nic)>>
+                    //ACRO PRO
+                    
+                    $index = str_replace($not_needed_main_index, "", $sub_values[9]);      
+                    $main_value = explode(">>", $sub_values[13])[0];     
+                    $main_value = str_replace($not_needed_main_value, "", $main_value);
+                    $main_index = "textareas";           
+                }
+                else if (strpos($value, "] >> /T (textarea")) {
+                    //299 0 obj <</Type /Annot /Subtype /Widget /Rect [42.52 152.382 552.76 276.132 ] /F 4 /FT /Tx /H /N /R 0 /Ff 4198400 /BS <</W 1 /S /S >> /MK <</BC [0.6 0.6 0.72 ] /BG [0.975 0.975 0.975 ] >> /T (textarea4) /TU (þÿ) /DV () /DA (/F1 9.9 Tf 0.000 g) /NM (0299-5095) /M (D:20190226105951) /V (þÿ s h i t t y 5) >> endobj
+                    //EVINCE
+                    
+                    $index = str_replace($not_needed_main_index, "", $sub_values[3]);      
+                    $main_value = explode(">>", $sub_values[10])[0];
+                    $main_value = mb_convert_encoding($main_value, "HTML-ENTITIES");  
+                    $main_value = str_replace($not_needed_main_value, "", $main_value);
+                    if ($main_value[0] == ' ') $main_value = substr($main_value, 1, strlen($main_value));
+                    $main_index = "textareas";        
+                }
+                
+                $this->formElementsData[$main_index][$index] = $main_value;
+            }
+        }
         $document->setFormElementsData($this->formElementsData);
-
+        
         return $document;
     }
 
