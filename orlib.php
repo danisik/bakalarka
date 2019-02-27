@@ -70,6 +70,9 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     
     $textarea_info = TextAreaInfo::getConstants();
     
+    //set watermark for submission
+    $mpdf = setWatermark($mpdf, $watermark_text);
+    
     //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $html = set_hidden_RID_and_SID($rid, $sid);
@@ -87,12 +90,10 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $mpdf->WriteHTML($html);
 
     $mpdf->AddPage();
-    //set watermark for submission
-
-    $mpdf = setWatermark($mpdf, $watermark_text);
     //load submission and import it after review form
     $mpdf = load_submission($mpdf, DOC_TSD_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
+    //$mpdf->Output();
     $mpdf->Output($filename, 'D');
     header("Location: " . DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 }
@@ -118,13 +119,12 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         RadiobuttonInfo::Groups_text => array(),
         TextareaInfo::Textareas_text => array()    
     );
-    $invalid_values = array(
+    $invalid_constants = array(
                         'element' => '',
                         'value' => '');
     $invalid_indicator = 0;
         
-    $radiobuttons_constant = RadiobuttonInfo::getConstants();
-                                                               
+    $radiobuttons_constant = RadiobuttonInfo::getConstants();                                               
     foreach ($groups as $key => $value) {
     
         //replacing radiobutton group for blank space (name of each radiobutton group is: groupID) to get ID of radiobutton
@@ -168,7 +168,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
                 break;
         }         
         
-        if (!$valid) {
+        if (!$valid) { 
             $invalid_constants[$invalid_indicator]['element'] = $element;
             $invalid_constants[$invalid_indicator]['value'] = $value;
             $invalid_indicator++;
@@ -208,31 +208,34 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
                 break;                
         }              
               
+             
         if (!$valid) {
             $invalid_constants[$invalid_indicator]['element'] = $element;
             $invalid_constants[$invalid_indicator]['value'] = $value;
+            
             $invalid_indicator++;
         }                                   
         
     }                              
     
     //if every needed element have valid value and size of groups and textareas are more than zero (because size of array of groups and textareas is 0 when nothing is filled) 
-    if (sizeof($invalid_constants) == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
+    if ($invalid_indicator == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
         upload_to_DB_offline_review_form($rid, $values);
         return TRUE;
     }
     else {        
         $invalid_fields = "";
         $i = 0;
-        $size = sizeof($invalid_constants);
         
-        if ($size > 0) {
+        if ($invalid_indicator > 0) {
           //if at least one element is filled
           foreach($invalid_constants as $key) {
-            $invalid_fields .= $key['element'];                   
+            if ($key['element'] != null) {
+              $invalid_fields .= $key['element'];                   
           
-            if ($i < ($size - 1)) $invalid_fields .= ", ";
-            $i++;
+              if ($i < ($invalid_indicator - 1)) $invalid_fields .= ", ";
+              $i++;
+            }
           }
         }
         else {
@@ -242,13 +245,13 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
             $invalid_fields .= $value['name'].", ";             
           }
           
-          foreach($textareas_constant as $key => $value) {            
-            if ($value['needed']) $invalid_fields .= $value['name'].", ";
-          }
           
-          $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields) - 2);
+          foreach($textareas_constant as $key => $value) {            
+            if ($value['needed']) $invalid_fields .= $value['name'].", ";                       
+          }
+                    
         }
-    
+        $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields) - 2);
         set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled... (".$invalid_fields.").",
                     DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
         return TRUE;
@@ -264,7 +267,6 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
 //return boolean value
 function upload_to_DB_offline_review_form($rid, $values) {									                                                                                                                         
    $qry = db_get('state', 'reviews', "`id`='" . $rid . "'");
-   $qry = null;
    if (!$qry) {
 	  error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 	  return TRUE;
@@ -276,19 +278,19 @@ function upload_to_DB_offline_review_form($rid, $values) {
 	
    $qstr = sprintf("UPDATE `reviews` SET 
    `state`='U', 
-   `originality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Originality] . "', 
-   `significance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Significance] . "', 
-   `relevance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Relevance] . "', 
-   `presentation` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Presentation] . "', 
-   `technical_quality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Technical_quality] . "', 
-   `total_rating` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Overall_rating] . "',	
-   `rewriting_amount` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Amount_of_rewriting] . "', 
-   `reviewer_expertise` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Reviewers_expertise] . "',
-   `main_contrib` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Main_contributions] . "', 
-   `pos_aspects` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Positive_aspects] . "', 
-   `neg_aspects`= '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects] . "', 
-   `int_comment` = '". $values[TextareaInfo::Textareas_text][TextareaInfo::Comment] ."', 
-   `rev_comment` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment] . "' 
+   `originality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Originality]['value'] . "', 
+   `significance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Significance]['value'] . "', 
+   `relevance` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Relevance]['value'] . "', 
+   `presentation` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Presentation]['value'] . "', 
+   `technical_quality` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Technical_quality]['value'] . "', 
+   `total_rating` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Overall_rating]['value'] . "',	
+   `rewriting_amount` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Amount_of_rewriting]['value'] . "', 
+   `reviewer_expertise` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Reviewers_expertise]['value'] . "',
+   `main_contrib` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Main_contributions]['value'] . "', 
+   `pos_aspects` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Positive_aspects]['value'] . "', 
+   `neg_aspects`= '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects]['value'] . "', 
+   `int_comment` = '". $values[TextareaInfo::Textareas_text][TextareaInfo::Comment]['value'] ."', 
+   `rev_comment` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment]['value'] . "' 
     WHERE `id`='" . safe($rid) . "'");
 		
    if (!$qstr) {
@@ -376,7 +378,7 @@ function load_submission($mpdf, $path_to_file, $path_to_logo) {
 //return $image - logo of TSD
 function create_header_image($path_to_logo) {
 
-    $image = '<div style="position: absolute; top: 5; right: 0; width: 120;">';
+    $image = '<div style="position: absolute; top: 5; right: 20; width: 120;">';
     $image .= '<img src="'.$path_to_logo.'"/>';
     $image .= '</div>';
         
