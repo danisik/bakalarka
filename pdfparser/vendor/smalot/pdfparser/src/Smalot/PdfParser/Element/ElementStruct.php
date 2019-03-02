@@ -58,8 +58,6 @@ class ElementStruct extends Element
         if (preg_match('/^\s*<<(?P<struct>.*)/is', $content)) {
             preg_match_all('/(.*?)(<<|>>)/s', trim($content), $matches);
 
-            $elements = array('groups' => array(), 'textareas' => array());
-
             $level = 0;
             $sub   = '';
             foreach ($matches[0] as $part) {

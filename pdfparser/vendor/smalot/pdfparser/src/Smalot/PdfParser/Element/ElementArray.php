@@ -147,7 +147,6 @@ class ElementArray extends Element
             // Removes 1 level [ and ].
             $sub        = substr(trim($sub), 1, -1);
             $sub_offset = 0;
-            $values = array('groups' => array(), 'textareas' => array());
             $values     = Element::parse($sub, $document, $sub_offset, true);
 
             $offset += strpos($content, '[') + 1;

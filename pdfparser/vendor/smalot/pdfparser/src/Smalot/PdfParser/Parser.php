@@ -73,7 +73,7 @@ class Parser
      */
     public function parseFile($filename)
     {
-        $content = file_get_contents($filename);
+        $content = file_get_contents($filename);        
         /*
          * 2018/06/20 @doganoo as multiple times a
          * users have complained that the parseFile()
@@ -93,15 +93,13 @@ class Parser
      * @throws \Exception
      */
     public function parseContent($content)
-    {
-    
+    {       
         // Create structure using TCPDF Parser.
         ob_start();
         @$parser = new \TCPDF_PARSER(ltrim($content));
         list($xref, $data) = $parser->getParsedData();
-
-        unset($parser);
-        ob_end_clean();
+        //unset($parser);
+        //ob_end_clean();
     
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
@@ -118,6 +116,8 @@ class Parser
         $this->textareas = array();
 
        
+       //print_r($data);
+       
         foreach ($data as $id => $structure) {               
             $this->parseObject($id, $structure, $document);
             unset($data[$id]);
@@ -125,7 +125,7 @@ class Parser
 
         $document->setTrailer($this->parseTrailer($xref['trailer'], $document));
         $document->setObjects($this->objects);
-        
+        /*
         if (sizeof($this->formElementsData['groups']) == 0 && sizeof($this->formElementsData['textareas']) == 0) {
             $values = explode("<<", $content);            
             foreach($values as $key => $value) {
@@ -138,7 +138,7 @@ class Parser
                 $main_value = "";           
                     
                 if (strpos($value, "/DV/Off/FT/Btn/Ff 49152/Kids")) {
-                    //<</DA(/F3 0 Tf 0.0 0.0 0.4 rg)/DV/Off/FT/Btn/Ff 49152/Kids[262 0 R 265 0 R 268 0 R 271 0 R 274 0 R 277 0 R 280 0 R 283 0 R 286 0 R 289 0 R 292 0 R]/T(group7)/TU(þÿ)/V/7>>
+                    //<</DA(/F3 0 Tf 0.0 0.0 0.4 rg)/DV/Off/FT/Btn/Ff 49152/Kids[262 0 R 265 0 R 268 0 R 271 0 R 274 0 R 277 0 R 280 0 R 283 0 R 286 0 R 289 0 R 292 0 R]/T(group7)/TU(Å£Ë™)/V/7>>
                     //ACRO PRO
                     
                     $index = str_replace($not_needed_main_index, "", $sub_values[9]);      
@@ -154,7 +154,7 @@ class Parser
                     $main_index = "groups";               
                 }        
                 else if (strpos($value, "/Subtype/Widget/T(textarea")) {
-                    //<</AP<</N 751 0 R>>/BS<</S/S/W 1>>/DA(/F1 9.9 Tf 0.000 g)/DV()/F 4/FT/Tx/Ff 4198400/H/N/M(D:20190226100627)/MK<</BC[0.6 0.6 0.72]/BG[0.975 0.975 0.975]>>/NM(0295-5091)/P 3 0 R/R 0/Rect[42.52 91.228 552.76 214.978]/Subtype/Widget/T(textarea0)/TU(þÿ)/Type/Annot/V(Nic)>>
+                    //<</AP<</N 751 0 R>>/BS<</S/S/W 1>>/DA(/F1 9.9 Tf 0.000 g)/DV()/F 4/FT/Tx/Ff 4198400/H/N/M(D:20190226100627)/MK<</BC[0.6 0.6 0.72]/BG[0.975 0.975 0.975]>>/NM(0295-5091)/P 3 0 R/R 0/Rect[42.52 91.228 552.76 214.978]/Subtype/Widget/T(textarea0)/TU(Å£Ë™)/Type/Annot/V(Nic)>>
                     //ACRO PRO
                     
                     $index = str_replace($not_needed_main_index, "", $sub_values[9]);      
@@ -163,20 +163,21 @@ class Parser
                     $main_index = "textareas";           
                 }
                 else if (strpos($value, "] >> /T (textarea")) {
-                    //299 0 obj <</Type /Annot /Subtype /Widget /Rect [42.52 152.382 552.76 276.132 ] /F 4 /FT /Tx /H /N /R 0 /Ff 4198400 /BS <</W 1 /S /S >> /MK <</BC [0.6 0.6 0.72 ] /BG [0.975 0.975 0.975 ] >> /T (textarea4) /TU (þÿ) /DV () /DA (/F1 9.9 Tf 0.000 g) /NM (0299-5095) /M (D:20190226105951) /V (þÿ s h i t t y 5) >> endobj
+                    //299 0 obj <</Type /Annot /Subtype /Widget /Rect [42.52 152.382 552.76 276.132 ] /F 4 /FT /Tx /H /N /R 0 /Ff 4198400 /BS <</W 1 /S /S >> /MK <</BC [0.6 0.6 0.72 ] /BG [0.975 0.975 0.975 ] >> /T (textarea4) /TU (Å£Ë™) /DV () /DA (/F1 9.9 Tf 0.000 g) /NM (0299-5095) /M (D:20190226105951) /V (Å£Ë™ s h i t t y 5) >> endobj
                     //EVINCE
                     
                     $index = str_replace($not_needed_main_index, "", $sub_values[3]);      
                     $main_value = explode(">>", $sub_values[10])[0];
-                    $main_value = mb_convert_encoding($main_value, "HTML-ENTITIES");  
+                    $main_value = mb_convert_encoding($main_value, "HTML-ENTITIES"); 
                     $main_value = str_replace($not_needed_main_value, "", $main_value);
-                    if ($main_value[0] == ' ') $main_value = substr($main_value, 1, strlen($main_value));
-                    $main_index = "textareas";        
+                    $main_index = "textareas";                    
                 }
-                
+                 
                 $this->formElementsData[$main_index][$index] = $main_value;
             }
+            
         }
+        */
         $document->setFormElementsData($this->formElementsData);
         
         return $document;
@@ -210,13 +211,14 @@ class Parser
      * @param Document $document
      */
     protected function parseObject($id, $structure, $document)
-    {
+    {    
         $header  = new Header(array(), $document);
-        $content = '';
-
-        foreach ($structure as $position => $part) {
+        $content = '';        
+        foreach ($structure as $position => $part) { 
+                      
+            //print_r($part);        
             switch ($part[0]) {
-                case '[':
+                case '[':                
                     $elements = array();
 
                     foreach ($part[1] as $sub_element) {
@@ -226,18 +228,41 @@ class Parser
                     }
 
                     $header = new Header($elements, $document);
+                    
+                    $key = null;
+                    $value = null;
+                    $type = null;
+                            
+                    list($key, $value, $type) = $this->extractElement($header);
+                            
+                    if ($key != null && $value != null && $type != null) {
+                        $this->formElementsData[$type][$key] = $value;        
+                    }
                     break;
 
-                case '<<':
+                case '<<':                    
                     $header = $this->parseHeader($part[1], $document);
+                            //print_r($header->getElements());
+                            //echo "<br>2<br>";
+                            
+                    $key = null;
+                    $value = null;
+                    $type = null;
+                            
+                    list($key, $value, $type) = $this->extractElement($header);
+                            
+                    if ($key != null && $value != null && $type != null) {
+                        $this->formElementsData[$type][$key] = $value;        
+                    }
+                    
                     break;
 
-                case 'stream':
-                    $content = isset($part[3][0]) ? $part[3][0] : $part[1];
-
+                case 'stream':                                
+                    $content = isset($part[3][0]) ? $part[3][0] : $part[1];                                                         
+                                   
                     if ($header->get('Type')->equals('ObjStm')) {
-                        $match = array();
-
+                        $match = array();              
+                        //echo "here";                                           
                         // Split xrefs and contents.
                         preg_match('/^((\d+\s+\d+\s*)*)(.*)$/s', $content, $match);
                         $content = $match[3];
@@ -261,23 +286,25 @@ class Parser
                         $ids       = array_values($table);
                         $positions = array_keys($table);
 
+                        
                         foreach ($positions as $index => $position) {
+                            
                             $id            = $ids[$index] . '_0';
                             $next_position = isset($positions[$index + 1]) ? $positions[$index + 1] : strlen($content);
                             $sub_content   = substr($content, $position, $next_position - $position);
-
+                            
                             $sub_header         = Header::parse($sub_content, $document);
                             
-                            if ($sub_header->getElements()['groups'] != null) {
-                                foreach ($sub_header->getElements()['groups'] as $key => $value) {
-                                    $this->formElementsData['groups'][$key] = $value;
-                                }
+                            $key = null;
+                            $value = null;
+                            $type = null;
+                            
+                            list($key, $value, $type) = $this->extractElement($sub_header);
+                            
+                            if ($key != null && $value != null && $type != null) {
+                                $this->formElementsData[$type][$key] = $value;        
                             }
-                            if ($sub_header->getElements()['textareas'] != null) {
-                                foreach ($sub_header->getElements()['textareas'] as $key => $value) {
-                                    $this->formElementsData['textareas'][$key] = $value;
-                                }
-                            }
+                            
                             $object             = PDFObject::factory($document, $sub_header, '');
                             $this->objects[$id] = $object;
                         }
@@ -323,11 +350,38 @@ class Parser
             $name  = $structure[$position][1];
             $type  = $structure[$position + 1][0];
             $value = $structure[$position + 1][1];
-
+                                                          
             $elements[$name] = $this->parseHeaderElement($type, $value, $document);
         }
-
+        
         return new Header($elements, $document);
+    }
+    
+    /**
+     * @param $type
+     *
+     * @return key, value and type of element
+     */
+    protected function extractElement($header) {
+        $key = null;
+        $value = null;
+        $type = null;
+        
+        @$elementKey = $header->getElements()['T'];                                                      
+        if ($elementKey != null) {
+            if (strpos($elementKey->getContent(), 'group') !== false) $type = 'groups';
+            else if (strpos($elementKey->getContent(), 'textarea') !== false) $type = 'textareas';
+                       
+            if ($type != null) {
+                $key = $elementKey->getContent();
+                @$elementValue = $header->getElements()['V'];
+                if ($elementValue != null) {
+                    $value = $elementValue->getContent();
+                }    
+            }
+        }
+        
+        return array($key, $value, $type);
     }
 
     /**
@@ -340,9 +394,9 @@ class Parser
      */
     protected function parseHeaderElement($type, $value, $document)
     {
-        
+                                                                    
         switch ($type) {
-            case '<<':
+            case '<<':                
                 return $this->parseHeader($value, $document);
 
             case 'numeric':
