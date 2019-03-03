@@ -1,5 +1,8 @@
 <?php
 
+    error_reporting(-1);
+ini_set('display_errors', 'On');
+
 //
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
@@ -68,7 +71,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //set header for all pages (text)
     $mpdf->SetHTMLHeader($elements->evaluation_header($text_conversioner, $rid, $submission_name));
     
-    $textarea_info = TextAreaInfo::getConstants();
+    $textarea_info = TextareaInfo::getConstants();
     
     //set watermark for submission
     $mpdf = setWatermark($mpdf, $watermark_text);
@@ -108,13 +111,14 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 function process_offline_review_form($rid, $sid, $revform_filename) {
     require (DOC_GP_PARSER.'vendor/autoload.php');
     include (DOC_GP_SOURCE.'Enumerates.php');
+
     
     $parser = new \Smalot\PdfParser\Parser();                       
     $pdf = $parser->parseFile($revform_filename);
     $data = $pdf->getFormElementsData();
 
-    $groups = $data['groups'];
-    $textareas = $data['textareas'];
+    $groups = $data[RadiobuttonInfo::Groups_text];
+    $textareas = $data[TextareaInfo::Textareas_text];
     $values = array(
         RadiobuttonInfo::Groups_text => array(),
         TextareaInfo::Textareas_text => array()    
@@ -136,35 +140,35 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         switch($key) {   
             case RadiobuttonInfo::Originality_ID: 
                 $element = RadiobuttonInfo::Originality; 
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;                
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;                
                 break;                
             case RadiobuttonInfo::Significance_ID: 
                 $element = RadiobuttonInfo::Significance;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;            
             case RadiobuttonInfo::Relevance_ID:
                 $element = RadiobuttonInfo::Relevance;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;                
             case RadiobuttonInfo::Presentation_ID:
                 $element = RadiobuttonInfo::Presentation;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;                
             case RadiobuttonInfo::Technical_quality_ID:
                 $element = RadiobuttonInfo::Technical_quality;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;                
             case RadiobuttonInfo::Overall_rating_ID:
                 $element = RadiobuttonInfo::Overall_rating;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;            
             case RadiobuttonInfo::Amount_of_rewriting_ID:
                 $element = RadiobuttonInfo::Amount_of_rewriting;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;                
             case RadiobuttonInfo::Reviewers_expertise_ID:
                 $element = RadiobuttonInfo::Reviewers_expertise;
-                $values[RadiobuttonInfo::Groups_text][$element] = $value;
+                $values[RadiobuttonInfo::Groups_text][$element]['value'] = $value;
                 break;
         }         
         
@@ -288,9 +292,9 @@ function upload_to_DB_offline_review_form($rid, $values) {
    `reviewer_expertise` = '" . $values[RadiobuttonInfo::Groups_text][RadiobuttonInfo::Reviewers_expertise]['value'] . "',
    `main_contrib` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Main_contributions]['value'] . "', 
    `pos_aspects` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Positive_aspects]['value'] . "', 
-   `neg_aspects`= '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects]['value'] . "', 
-   `int_comment` = '". $values[TextareaInfo::Textareas_text][TextareaInfo::Comment]['value'] ."', 
-   `rev_comment` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment]['value'] . "' 
+   `neg_aspects`= '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Negative_aspects]['value'] . "',
+   `rev_comment` = '" . $values[TextareaInfo::Textareas_text][TextareaInfo::Comment]['value'] . "', 
+   `int_comment` = '". $values[TextareaInfo::Textareas_text][TextareaInfo::Internal_comment]['value'] ."'  
     WHERE `id`='" . safe($rid) . "'");
 		
    if (!$qstr) {
@@ -318,7 +322,7 @@ function setMPDF() {
 	   'margin_top' => 30,
 	   'margin_header' => 10,
 	   'margin_footer' => 10,
-        'default_font' => 'helvetica'
+     'default_font' => 'helvetica'
     ]);
     //editable form elements
     $mpdf->useActiveForms = true;
