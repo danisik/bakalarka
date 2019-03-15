@@ -1,22 +1,19 @@
 <?php
-
 //
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in PlzeÅˆ.
+//		Faculty of Applied Sciences, University of West Bohemia in Plzeò.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		21-02-2019
+//		Last update on:		03-03-2019
 //      Encoding: utf-8 no BOM
 //
-
 //
 //      Enumerate classes
 //
-
 //enum for instruction in pdf
 class Instruction { 
     const TITLE = "title"; 
@@ -34,7 +31,6 @@ class Instruction {
         return $values;    
     }         
 }
-
 //enum contains all used form elements
 class FormElements {
     const RADIOBUTTON = 'radiobutton';
@@ -48,13 +44,11 @@ class FormElements {
         return $values;
     }
 }
-
 //enum contains info about textareas
 class TextareaInfo {
     //string for identifing textareas in array of values when parsing
     const Textareas_text = 'textareas';
     const Textarea_text = 'textarea';
-
     const Main_contributions_ID = 0;
     const Main_contributions = 'Main contributions';
     const Main_contributions_info = 'Summarise main contributions';
@@ -96,16 +90,26 @@ class TextareaInfo {
     function getConstants() {
         $values = array();
         
-        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Main_contributions_ID, TextareaInfo::Main_contributions, TextareaInfo::Main_contributions_info, true);
-        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Positive_aspects_ID, TextareaInfo::Positive_aspects, TextareaInfo::Positive_aspects_info, true);
-        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Negative_aspects_ID, TextareaInfo::Negative_aspects, TextareaInfo::Negative_aspects_info, true);
-        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Comment_ID, TextareaInfo::Comment, TextareaInfo::Comment_info, false);
-        $values = TextAreaInfo::add_value_to_array($values, TextareaInfo::Internal_comment_ID, TextareaInfo::Internal_comment, TextareaInfo::Internal_comment_info, false);
+        $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Main_contributions_ID, TextareaInfo::Main_contributions, TextareaInfo::Main_contributions_info, true);
+        $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Positive_aspects_ID, TextareaInfo::Positive_aspects, TextareaInfo::Positive_aspects_info, true);
+        $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Negative_aspects_ID, TextareaInfo::Negative_aspects, TextareaInfo::Negative_aspects_info, true);
+        $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Comment_ID, TextareaInfo::Comment, TextareaInfo::Comment_info, false);
+        $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Internal_comment_ID, TextareaInfo::Internal_comment, TextareaInfo::Internal_comment_info, false);
         
         return $values;
     }
+    
+    function getNotNeededConstants() {
+        $constants = TextareaInfo::getConstants();
+        $values = array();
+        foreach($constants as $key => $value) {
+          if ($value['needed'] != true) {
+            $values[$value['name']] .= $value['name'];
+          }
+        }
+        return $values;
+    }
 }
-
 //enum contains info about group of radiobuttons
 class RadiobuttonInfo {
     //string for identifing radiobutton groups in array of values when parsing

@@ -1,18 +1,15 @@
 <?php
 
-    error_reporting(-1);
-ini_set('display_errors', 'On');
-
 //
 //		CONFERENCE PORTAL PROJECT
 //		VERSION 3.0.6
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
+//		Faculty of Applied Sciences, University of West Bohemia in PlzeĹ.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		21-02-2019
+//		Last update on:		04-03-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -127,8 +124,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
                         'element' => '',
                         'value' => '');
     $invalid_indicator = 0;
-        
-    $radiobuttons_constant = RadiobuttonInfo::getConstants();                                               
+                                                   
     foreach ($groups as $key => $value) {
     
         //replacing radiobutton group for blank space (name of each radiobutton group is: groupID) to get ID of radiobutton
@@ -179,8 +175,6 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         }
     }
     
-    $textareas_constant = TextareaInfo::getConstants();
-    
     foreach ($textareas as $key => $value) {
     
         //replacing textarea for blank space (name of each textarea is: textareaID) to get ID of textarea
@@ -220,7 +214,13 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
             $invalid_indicator++;
         }                                   
         
-    }                              
+    }                 
+    $not_needed_textareas = TextareaInfo::getNotNeededConstants();;
+    foreach ($not_needed_textareas as $key => $value) {
+      if (!array_key_exists($key, $values[TextareaInfo::Textareas_text])) {
+        $values[TextareaInfo::Textareas_text][$key]['value'] = "";
+      }
+    }
     
     //if every needed element have valid value and size of groups and textareas are more than zero (because size of array of groups and textareas is 0 when nothing is filled) 
     if ($invalid_indicator == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
