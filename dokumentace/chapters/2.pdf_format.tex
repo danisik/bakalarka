@@ -6,12 +6,73 @@ V PDF souboru lze uchovávat velice širokou škálu dat, včetně formátované
 \section{Komprese dat v PDF}
 PDF soubory moho být poměrně kompaktní, o mnoho menší než ekvivalentní postscriptové soubory. Tato vlastnost je dosažena nejen lepší strukturou dat, ale i díky kompresním algoritmům, které jsou velice efektivní. Typ komprese dat PDF souboru lze zjistit pomocí textového editoru, který dokáže zpracovat binární data, vyhledáním klíčového slova \textbf{/Filter}. Níže jsou popsány kompresní algoritmy využívané v PDF \cite{PDFPrepressure}.
 \begin{itemize}
-	\item CCITT G3/G4 - Algoritmus je bezeztrátový a využívá se pro vykreslení černobílých obrázků.
-	\item JPEG - JPEG algoritmus může být jak ztrátový, tak i bezeztrátový. V Acrobatu se využívá pouze ztrátový s 5 stupni komprese. Využívá se pro barevné a šedotónové obrázky.
-	\item JPEG2000 - Rychlejší algoritmus na bázi JPEGu. Víceméně se nepoužívá, jelikož není kompatibilní se staršímy systémy a vysokýmy nároky na procesor.
-	\item Flate - Bezeztrátový algoritmus, vychází z kompresních algoritmů LZ77 a Huffmanova kódování.
-	\item JBIG2 - Alternativní k CCITT. V Dnešní době se nevyužívá z důvodu pomalejší komprese než je u jeho protějšku.
-	\item LZW - Komprimací LZW algoritmem lze dosáhnout až o polovinu menší velikosti díky komprimaci veškerého textu a operátorů v souboru.
-	\item RLE - Bezeztrátový algoritmus pro vykreslování černobílých obrázků. Nahrazen efektivnějším algoritmem CCITT.
-	\item ZIP - Bezeztrátový algoritmus, učinější než jeho protějšek LZW.
+	\item \textbf{CCITT G3/G4} - Algoritmus je bezeztrátový a využívá se pro vykreslení černobílých obrázků.
+	\item \textbf{JPEG} - JPEG algoritmus může být jak ztrátový, tak i bezeztrátový. V Acrobatu se využívá pouze ztrátový s 5 stupni komprese. Využívá se pro barevné a šedotónové obrázky.
+	\item \textbf{JPEG2000} - Rychlejší algoritmus na bázi JPEGu. Víceméně se nepoužívá, jelikož není kompatibilní se staršímy systémy a vysokýmy nároky na procesor.
+	\item \textbf{Flate} - Bezeztrátový algoritmus, vychází z kompresních algoritmů LZ77 a Huffmanova kódování.
+	\item \textbf{JBIG2} - Alternativní k CCITT. V Dnešní době se nevyužívá z důvodu pomalejší komprese než je u jeho protějšku.
+	\item \textbf{LZW} - Komprimací LZW algoritmem lze dosáhnout až o polovinu menší velikosti díky komprimaci veškerého textu a operátorů v souboru.
+	\item \textbf{RLE} - Bezeztrátový algoritmus pro vykreslování černobílých obrázků. Nahrazen efektivnějším algoritmem CCITT.
+	\item \textbf{ZIP} - Bezeztrátový algoritmus, učinější než jeho protějšek LZW.
+\end{itemize}
+
+\section{Vnitřní struktura PDF}
+Vnitřní reprezentace PDF souboru je rozdělena na sekce, které jsou znázorněny na obrázku \ref{fig:pdf_internal_structure}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4cm]{img/pdf_internal_structure}
+\caption{Interní struktura PDF souboru}
+\label{fig:pdf_internal_structure}
+\end{figure}
+
+Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, Body, Cross-reference a trailer}. Díky jedné z vlastností PDF formátu se při úpravě souboru staré sekce neodstraní, místo toho se pouze na jeho konci vytvoří nové sekce \cite{PDFInfoSec}.
+\begin{itemize}
+	\item \textbf{Header} - Hlavička souboru je uložena na první řádce, obsahující primárně použitou verzi PDF.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{img/pdf_hlavicka}
+	\caption{Hlavička PDF souboru}
+	\label{fig:pdf_header}
+	\end{figure}
+	
+	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci. Pomocí objektů lze reprezentovat například obrázky, text a zvukové nahrávky.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{img/pdf_body}
+	\caption{Data jednoho objektu}
+	\label{fig:pdf_body}
+	\end{figure}
+	\item \textbf{Cross-reference table} - Jinak nazývána \textbf{xref} je tabulka obsahující reference na veškeré objekty uložené v těle a v kódu začíná řetězcem \textit{xref}. Reference uložená v tabulce je reprezentována na 2 řádcích pomocí řetězce a skládá se z 5 částí o celkové velikosti 20 bytů včetně oddělovačů \textit{CRLF}:
+	\begin{itemize}
+		\item \textit{Číslo objektu} - Jednoznačný číselný identifikátor objektu.
+		\item \textit{Počet subobjektů} - Počet částí daného objektu vyskytujícího se v dokumentu.
+		\item \textit{Začátek objektu} - Tvoří většinu řetězce (prvních 10 bytů) a určuje offset od začátku PDF dokumentu až po začátek daného objektu.
+		\item \textit{Generační číslo objektu} - Vyjadřuje jak často byl objekt vymazán při úpravě dokumentu. 
+		\item \textit{Identifikátor využití} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
+	\end{itemize}
+	\newpage
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{img/pdf_xref}
+	\caption{Ukázka jednoduché xref tabulky}
+	\label{fig:pdf_xref}
+	\end{figure}
+	\item \textbf{Trailer} -  Trailer je seznam informací, ze kterých lze snadno zjistit umístění xref tabulky
+	\begin{itemize}
+		\item \textit{Size} - 
+		\item \textit{Prev} - 
+		\item \textit{Root} -
+		\item \textit{Encrypt} - 
+		\item \textit{Info} - 
+		\item \textit{ID} -
+		\item \textit{XrefStm} - 
+
+	\end{itemize}
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{img/pdf_trailer}
+	\caption{Ukázka traileru}
+	\label{fig:pdf_trailer}
+	\end{figure}
 \end{itemize}
