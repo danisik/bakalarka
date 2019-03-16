@@ -32,17 +32,18 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=12cm]{img/pdf_hlavicka}
-	\caption{Hlavička PDF souboru}
+	\caption{Ukázka hlavičky}
 	\label{fig:pdf_header}
 	\end{figure}
 	
-	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci. Pomocí objektů lze reprezentovat například obrázky, text a zvukové nahrávky.
+	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jedny data \cite{PDFAdobe}. Pomocí objektů lze reprezentovat například obrázky, text a zvukové nahrávky.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=12cm]{img/pdf_body}
-	\caption{Data jednoho objektu}
+	\caption{Ukázka dat objektu}
 	\label{fig:pdf_body}
 	\end{figure}
+
 	\item \textbf{Cross-reference table} - Jinak nazývána \textbf{xref} je tabulka obsahující reference na veškeré objekty uložené v těle a v kódu začíná řetězcem \textit{xref}. Reference uložená v tabulce je reprezentována na 2 řádcích pomocí řetězce a skládá se z 5 částí o celkové velikosti 20 bytů včetně oddělovačů \textit{CRLF}:
 	\begin{itemize}
 		\item \textit{Číslo objektu} - Jednoznačný číselný identifikátor objektu.
@@ -58,15 +59,16 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\caption{Ukázka jednoduché xref tabulky}
 	\label{fig:pdf_xref}
 	\end{figure}
-	\item \textbf{Trailer} -  Trailer je seznam informací, ze kterých lze snadno zjistit umístění xref tabulky
+
+	\item \textbf{Trailer} -  Trailer je seznam informací, ze kterých lze snadno zjistit například velikost nebo umístění xref tabulky. Trailer může obsahovat tyto elementy:
 	\begin{itemize}
-		\item \textit{Size} - 
-		\item \textit{Prev} - 
-		\item \textit{Root} -
-		\item \textit{Encrypt} - 
-		\item \textit{Info} - 
-		\item \textit{ID} -
-		\item \textit{XrefStm} - 
+		\item \textit{Size} - Udává počet objektů referencovaných v xref tabulce. 
+		\item \textit{Prev} - Offset od začátku dokumentu k předchozí xref tabulce.
+		\item \textit{Root} - Odkazuje na objekt obsahující informace ohledně katalogu xref tabulek.
+		\item \textit{Encrypt} - Specifikuje komprimující algoritmus použití pro daný dokument.
+		\item \textit{Info} - Obsahuje dodatečné informace ohledně katalogu xref tabulek.
+		\item \textit{ID} - 2-bytový identifikátor PDF dokumentu.
+		\item \textit{XrefStm} - Offset od začátku dokumentu až k dekódovanému xref streamu. Využívá se pouze u hybridně-referencovaných souborů pouze tehdy, kdy hledaný objekt není nalezen v xref tabulce (před tím, než se volá element \textit{Prev}). 
 
 	\end{itemize}
 	\begin{figure}[h!]

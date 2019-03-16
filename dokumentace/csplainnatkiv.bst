@@ -328,7 +328,7 @@ FUNCTION {format.url}
 FUNCTION {format.ftp}
 { url empty$
 	{ "" }
-	{ new.block "<ftp: \url{" url * "}" *}
+	{ new.block "<ftp: \url{" url * "}>" *}
 	if$
 }
 
