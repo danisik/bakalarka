@@ -3,7 +3,57 @@ Formát \textbf{PDF} (\textbf{P}ortable \textbf{D}ocument \textbf{F}ormat) je so
 \par 
 V PDF souboru lze uchovávat velice širokou škálu dat, včetně formátovaného textu, vektorové grafiky a rastrových obrazů, nebo například informace o rozložení, velikosti a tvaru stránky. Informace definující umístění jednotlivých položek (jsou zde zahrnuty i editovací objekty pro formuláře) na stránce jsou zde uloženy též. Do dokumentu lze ukládat i metadata. Metadata jsou informace uložené v hlavičce souboru a lze do nich uložit název dokumentu, autora dokumentu, předmět a klíčová slova. Je zde možnost uložit heslo, aby byl dokument přístupný pouze autorizovaným uživatelům. Všechny tyto informace jsou uloženy ve standardním formátu \cite{PDFTechTerms, PDFWhatIs}.
 
+
+\section{Objekty}
+PDF Objekty jsou základním stavebním kamenem pro uchovávání dat v dokumentu. Množinou PDF objektů lze reprezentovat bitmapové a vektorové objekty, barevné prostory, text, fonty aj. \cite{PDFExplained}.
+\subsection{Základní objekty}
+V PDF můžeme najít celkem 5 základních objektů:
+	\begin{itemize}
+		\item \textbf{Celá a reálná čísla} - Celá čísla jsou reprezentována jako jedno nebo více desetinných čísel z rozsahu 0..9 se znaménkem + nebo - před číslem. Reálné číslo je celé číslo rozšířené o desetinnou část s ideálně jedním desetinným číslem (reálná čísla nelze popsat exponenciálním způsobem). Přesnost a rozsah celých a reálných čísel je definován jednotlivými implementacemi PDF. V některých implementacích platí pravidlo které přetypuje celé číslo na reálné po přesáhnutí předem daného rozsahu.
+		\item \textbf{Řetězce} - Řetězec je reprezentován jako množina po sobě jdoucích bytů vepsaných mezi jednoduché závorky. Jako příklad lze uvést: \textit{(Hello, World!)}. Pro zobrazení zpětného lomítka a jednoduchých závorek je potřeba před tyto znaky přidat zpětné lomítko pro jejich správné zobrazení v dokumentu. V tabulce \ref{fig:table_escaped} lze vidět využití zpětného lomítka pro zobrazení odřádkovacích znaků:
+			\begin{table}[h!]
+			\centering
+			\begin{tabular}{|l|l|} 
+			\hline
+			\textbf{Sekvence znaků}    & \textbf{Význam}                \\ 
+			\hline
+			\textit{\textbackslash{}n} & \textit{Line feed (LF)}        \\ 
+			\hline
+			\textit{\textbackslash{}r} & \textit{Carriage return (CR)}  \\ 
+			\hline
+			\textit{\textbackslash{}t} & \textit{Tab}                   \\ 
+			\hline
+			\textit{\textbackslash{}b} & Backspace                      \\
+			\hline
+			\end{tabular}
+			\caption{Odřádkovací sekvence znaků}
+			\label{fig:table_escaped}
+			\end{table}
+		\newline Řetězce můžou být reprezentovány i jako sekvence hexadecimálních čísel vložených mezi znaky \textbf{<} a \textbf{>}. 
+		\newline Jako příklad lze uvést: \textit{<4F6EFF00> \textrightarrow 0x4F, 0x6E, 0xFF, 0x00}.
+
+		\item \textbf{Jména} - Jméno je reprezentováno jako sloučení zpětného lomítka a řetězce (př. \textit{/Jmeno}). Za jméno se pokládá i zpětné lomítko bez řetězce. Pokud bychom potřebovali nadefinovat v dokumentu jméno, jenž bude obsahovat mezery, musíme do řetězce přidat i sekvenci znaků \textbf{\#20}, jelikož v ASCII tabulce je hexadecimální hodnota 20 vyjádřena jako prázdný znak. Jména jsou case-sensitive, proto \textit{/Jmeno} a \textit{/jmeno} jsou rozdílná jména. Jeho využití v PDF je prosté, slouží jako klíče ve slovnících a pro definice složitějších (vícehodnotových) objektů.
+		\item \textbf{Boolean (pravdivostní) hodnoty} - Logické hodnoty \textbf{true}/\textbf{false} a vyskytuje se v jednotlivých záznamech ve slovníku jako příznak.
+		\item \textbf{Hodnota null} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
+	\end{itemize}
+\subsection{Složené objekty}	
+Složený objekt je takový objekt, který obsahuje seřazenou/neseřazenou množinu základních objektů i množinu složených objektů.
+	\begin{itemize}
+		\item \textbf{Pole} - Pole je v PDF reprezentováno jako seřazená množina základních i složených PDF objektů (v poli může být uložen například i slovník nebo pole) nezávisle na typech (v poli lze uchovávat například řetězec a číslo zároveň). Hodnoty pole jsou vloženy mezi znaky \textbf{[} a \textbf{]}.
+		\item \textbf{Slovníky} - Slovník se skládá z množiny dvou hodnot: klíče a hodnoty, pomocí kterých se slovník namapuje. Klíč je reprezentován pomocí \textbf{jména}, zatímco hodnota může být kterýkoliv PDF objekt, povoleny jsou i slovníky nebo pole. Slovníky jsou uloženy mezi znaky \textbf{<<} a \textbf{>>}.
+		\item \textbf{Datové proudy} - Datové proudy slouží především pro uložení binárních dat a skoro ve všech případech jsou zkomprimovány různými kombinacemi algoritmů, které jsou popsány v kapitole \ref{komprese}, proto datové proudy musí být zároveň i nepřímým odkazem. Skládají se ze slovníků a části binárních dat. Slovník je využit pro ukládání parametrů binárních dat, jako například délka binárních dat aj.
+	\end{itemize}
+\subsection{Linkovací objekty}
+PDF objekty můžou být různě velké. Pokud je objekt až příliš veliký, pak jsou v kódu dokumentu využity nepřímé odkazy. Na obrázku \ref{fig:indirect_reference} si lze všimnout využití nepřímých odkazů ve slovníku. 
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=12cm]{img/pdf_indirect_reference}
+	\caption{Ukázka nepřímého odkazu}
+	\label{fig:indirect_reference}
+	\end{figure}
+
 \section{Komprese dat v PDF}
+\label{komprese}
 PDF soubory moho být poměrně kompaktní, o mnoho menší než ekvivalentní postscriptové soubory. Tato vlastnost je dosažena nejen lepší strukturou dat, ale i díky kompresním algoritmům, které jsou velice efektivní. Typ komprese dat PDF souboru lze zjistit pomocí textového editoru, který dokáže zpracovat binární data, vyhledáním klíčového slova \textbf{/Filter}. Níže jsou popsány kompresní algoritmy využívané v PDF \cite{PDFPrepressure}.
 \begin{itemize}
 	\item \textbf{CCITT G3/G4} - Algoritmus je bezeztrátový a využívá se pro vykreslení černobílých obrázků.
@@ -36,7 +86,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_header}
 	\end{figure}
 	
-	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jedny data \cite{PDFAdobe}. Pomocí objektů lze reprezentovat například obrázky, text a zvukové nahrávky.
+	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jedny data \cite{PDFAdobe}.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=12cm]{img/pdf_body}
@@ -69,7 +119,6 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 		\item \textit{Info} - Obsahuje dodatečné informace ohledně katalogu xref tabulek.
 		\item \textit{ID} - 2-bytový identifikátor PDF dokumentu.
 		\item \textit{XrefStm} - Offset od začátku dokumentu až k dekódovanému xref streamu. Využívá se pouze u hybridně-referencovaných souborů pouze tehdy, kdy hledaný objekt není nalezen v xref tabulce (před tím, než se volá element \textit{Prev}). 
-
 	\end{itemize}
 	\begin{figure}[h!]
 	\centering
@@ -78,3 +127,4 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_trailer}
 	\end{figure}
 \end{itemize}
+\section{Formuláře v PDF}
