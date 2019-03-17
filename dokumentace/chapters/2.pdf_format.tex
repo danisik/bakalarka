@@ -47,7 +47,7 @@ Složený objekt je takový objekt, který obsahuje seřazenou/neseřazenou mno�
 PDF objekty můžou být různě velké. Pokud je objekt až příliš veliký, pak jsou v kódu dokumentu využity nepřímé odkazy. Na obrázku \ref{fig:indirect_reference} si lze všimnout využití nepřímých odkazů ve slovníku. 
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{img/pdf_indirect_reference}
+	\includegraphics[width=15cm]{img/pdf_indirect_reference}
 	\caption{Ukázka nepřímého odkazu}
 	\label{fig:indirect_reference}
 	\end{figure}
@@ -81,7 +81,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\item \textbf{Header} - Hlavička souboru je uložena na první řádce, obsahující primárně použitou verzi PDF.
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{img/pdf_hlavicka}
+	\includegraphics[width=15cm]{img/pdf_hlavicka}
 	\caption{Ukázka hlavičky}
 	\label{fig:pdf_header}
 	\end{figure}
@@ -89,7 +89,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jednu množinu dat \cite{PDFAdobe}.
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{img/pdf_body}
+	\includegraphics[width=15cm]{img/pdf_body}
 	\caption{Ukázka dat objektu}
 	\label{fig:pdf_body}
 	\end{figure}
@@ -102,10 +102,9 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 		\item \textit{Generační číslo objektu} - Vyjadřuje jak často byl objekt vymazán při úpravě dokumentu. 
 		\item \textit{Identifikátor využití} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
 	\end{itemize}
-	\newpage
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{img/pdf_xref}
+	\includegraphics[width=15cm]{img/pdf_xref}
 	\caption{Ukázka jednoduché xref tabulky}
 	\label{fig:pdf_xref}
 	\end{figure}
@@ -122,7 +121,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\end{itemize}
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{img/pdf_trailer}
+	\includegraphics[width=15cm]{img/pdf_trailer}
 	\caption{Ukázka traileru}
 	\label{fig:pdf_trailer}
 	\end{figure}
@@ -137,6 +136,12 @@ Tvorba formulářů je jedna věc, druhá věc je jejich zpracování (získán�
 Jednotlivé formulářové prvky mohou mít přiřazeny nejrůznější atributy a jsou reprezentovány jako PDF objekty. Tyto atributy lze rozdělit do následujících skupin: \textbf{Vzhled} (definovaný vzhled prvku), \textbf{Akce} (po kliknutí na prvek se provede daná akce), \textbf{Formát} (typ fontu textu aj.), \textbf{Ověřování dat} (akceptovatelný formát vstupu) a \textbf{Výpočty} (matematické operace použité při práci se vstupy z jiných prvků) \cite{PDFFormElements}. 
 \par
 Ve formuláři se může vyskytovat až 7 různých prvků viz obrázek \ref{fig:form_elements}:
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=9cm]{img/pdf_form_elements}
+	\caption{Základní prvky vyskytující se v PDF}
+	\label{fig:form_elements}
+	\end{figure}
 	\begin{itemize}
 	\item \textbf{Textové pole} - Slouží k vyplnění textu. Jako příklad lze uvést například klasický přihlašovací formulář, který obsahuje 2 textové pole, jedno pro zadání uživatelského jména a druhé (upravené, místo textu se zobrazují pouze speciální znaky pro zakrytí zadaného textu)  pro zadání hesla. Při vytváření lze předvyplnit toto pole výchozím textem, lze omezit maximální počet znaků vkládaných do pole a jejich formát. Pole může být uzamčeno a může sloužit i jako informační položka.
 	\item \textbf{Tlačítko} - Účel tohoto prvku je spouštění zvolených akcí, které se po kliknutí na tlačítko mají provést, tudíž se označují jako hlavní řídící prvek každého formuláře. Tlačítko se skládá převážně z ikonky a textu, případně mu může být nastaven externí obrázek.
@@ -146,9 +151,3 @@ Ve formuláři se může vyskytovat až 7 různých prvků viz obrázek \ref{fig
 	\item \textbf{Zaškrtávací pole} - Jedná se o indikační prvek umožňující současný výběr více položek. V odborném prostředí se označuje jako \textbf{Checkbox}.
 	\item \textbf{Podpis} - Pomocí tohoto prvku lze do dokumentu vložit elektronický podpis.
 	\end{itemize}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=8cm]{img/pdf_form_elements}
-\caption{Základní prvky vyskytující se v PDF}
-\label{fig:form_elements}
-\end{figure}
