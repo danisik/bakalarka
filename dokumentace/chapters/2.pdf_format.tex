@@ -86,7 +86,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_header}
 	\end{figure}
 	
-	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jedny data \cite{PDFAdobe}.
+	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jednu množinu dat \cite{PDFAdobe}.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=12cm]{img/pdf_body}
@@ -127,4 +127,28 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_trailer}
 	\end{figure}
 \end{itemize}
-\section{Formuláře v PDF}
+\section{PDF formuláře}
+Pod pojmem formulář si lze představit dokumenty, které od svých uživatelů vyžadují vyplnění určitých údajů. Mezi nejznámější dokumenty lze například uvést daňová přiznání, oznamovací tiskopisy, dotazníky, složenky aj. Ruční vyplňování i jejich následné zpracování bývá obvykle pracné a zdlouhavé, proto je v dnešní době výhodnější využívat interaktivní elektronické formuláře. Základní výhoda těchto formulářů spočívá ve snažším vyplňování, zpracování lze jednoduše zautomatizovat a také se díky elektronické podobě zvedne úspora papíru a financí vynaložených na tisk formulářů.  Mezi nejčastější formuláře, které lze potkat na internetu, jsou ve formátu HTML a lidé se s nima setkávají každodenně (ať už to jsou jednoduché přihlašovací formuláře stránek nebo různé dotazníky na určitá témata). Nevýhoda těchto formulářů je v jejich závislosti na internetovém připojení. 
+\par
+Proto firma Adobe přišla se svým řešením, interaktivním PDF formulářem, který lze vyplňovat kdekoliv nezávisle na internetovém připojení. Mezi další výhody PDF formulářů patří elektronický podpis (lze s ním potvrzovat smlouvy z domova), zabezpečení (dokument se otevře až po zadání správného hesla, neautorizovaným uživatelům je přístup zamítnut) aj. Tyto formuláře obsahují stejné interaktivní prvky jako mají HTML formuláře viz kapitola \ref{zakladni_prvky}. Pro generování PDF formulářů lze využít kterýkoliv programovací jazyk, který podporuje práci s PDF soubory (například \textit{PHP}, \textit{Java}), produkty firmy Adobe (například \textit{Adobe Acrobat}) nebo lze použít i nekomerční aplikace typu \textit{TeX} nebo \textit{pdfmarks}.
+\par
+Tvorba formulářů je jedna věc, druhá věc je jejich zpracování (získání dat vyplněných od uživatele). Mezi nejznámější nástroje pro zpracování vyplněných dat patří určitě nástroj \textit{FDF Toolkit} od firmy Adobe. Tento nástroj je zcela zdarma a umožňuje vytvářet orientovaná řešení pro zpracování dat v jazycích \textit{C/C++}, \textit{ActiveX}, \textit{Java} a \textit{Perl}. Jsou-li data odeslána v HTML, lze k jejich zpracování využít nástroje určené pro formáty \textit{CGI}, \textit{PHP} aj. \cite{PDFForm}.
+\subsection{Základní prvky} \label{zakladni_prvky}
+Jednotlivé formulářové prvky mohou mít přiřazeny nejrůznější atributy a jsou reprezentovány jako PDF objekty. Tyto atributy lze rozdělit do následujících skupin: \textbf{Vzhled} (definovaný vzhled prvku), \textbf{Akce} (po kliknutí na prvek se provede daná akce), \textbf{Formát} (typ fontu textu aj.), \textbf{Ověřování dat} (akceptovatelný formát vstupu) a \textbf{Výpočty} (matematické operace použité při práci se vstupy z jiných prvků) \cite{PDFFormElements}. 
+\par
+Ve formuláři se může vyskytovat až 7 různých prvků viz obrázek \ref{fig:form_elements}:
+	\begin{itemize}
+	\item \textbf{Textové pole} - Slouží k vyplnění textu. Jako příklad lze uvést například klasický přihlašovací formulář, který obsahuje 2 textové pole, jedno pro zadání uživatelského jména a druhé (upravené, místo textu se zobrazují pouze speciální znaky pro zakrytí zadaného textu)  pro zadání hesla. Při vytváření lze předvyplnit toto pole výchozím textem, lze omezit maximální počet znaků vkládaných do pole a jejich formát. Pole může být uzamčeno a může sloužit i jako informační položka.
+	\item \textbf{Tlačítko} - Účel tohoto prvku je spouštění zvolených akcí, které se po kliknutí na tlačítko mají provést, tudíž se označují jako hlavní řídící prvek každého formuláře. Tlačítko se skládá převážně z ikonky a textu, případně mu může být nastaven externí obrázek.
+	\item \textbf{Seznam} - Zobrazuje seznam položek v rolovacím okně, ze kterého lze současně označit jeden nebo více položek (s využitím klávesy \textit{Shift} nebo \textit{Ctrl}). Pro seznamy lze nastavit filtry, které budou seznam třídit podle předem daných parametrů a zobrazí položky na základě těchto filtrů.
+	\item \textbf{Kombinované pole} - Kombinované pole je ve své podstatě seznam prvků, ale liší se ve výběru položek. V kombinovaném poli lze vybrat pouze jeden aktivní prvek, ostatní budou zakázány. Platí zde pravidla s tříděním pprvků odle filtrů.
+	\item \textbf{Přepínací tlačítka} - Jinak označované jako \textbf{radio-buttony} je seznam tlačítek, ve kterém uživatel vybírá pouze jednu z nabízených hodnot.
+	\item \textbf{Zaškrtávací pole} - Jedná se o indikační prvek umožňující současný výběr více položek. V odborném prostředí se označuje jako \textbf{Checkbox}.
+	\item \textbf{Podpis} - Pomocí tohoto prvku lze do dokumentu vložit elektronický podpis.
+	\end{itemize}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=8cm]{img/pdf_form_elements}
+\caption{Základní prvky vyskytující se v PDF}
+\label{fig:form_elements}
+\end{figure}
