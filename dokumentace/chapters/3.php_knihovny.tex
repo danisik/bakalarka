@@ -1,0 +1,23 @@
+\chapter{Knihovny}
+V programování můžeme knihovnu definovat jako kolekci předem zkompilovaných procedur, funkcí (v objektovém programování i třídy a objekty), konstant a datové typy. Knihovna by měla být následně i dobře zdokumentována pro její snadnější zakomponování do již existujících modulů (při používání nezdokumentovaných knihoven se musí provádět takzvaný reverse engineering pro zjištění všech procedur a funkcí, nebo vyhledávat už hotová řešení na internetu). 
+\par
+Knihovny jsou z technického hlediska rozděleny do 2 skupin, které se následně rozdělují do 2 podskupin:
+	\begin{itemize}
+	\item \textbf{Rozdělení z hlediska způsobu propojení s programem:}
+		\begin{itemize}
+		\item \textit{Statická knihovna} - Zdrojový kód knihovny je v průběhu překládání zkopírován do výsledného programu pomocí kompilátoru. Největší výhoda statických knihoven spočívá v jistotě, že všechny potřebné knihovny budou přítomny ve výsledném programu, proto nikdy nemůže nastat situace nazvaná \textbf{dependency hell (DLL Hell)}, která značí nepřítomnost jedné nebo více knihoven, které jsou využívány jinou knihovnou, nebo také může značit nadbytečné závislosti knihoven, které nejsou ve výsledku využity.
+		\item \textit{Dynamická knihovna} - Oproti statickým knihovnám, zdrojové kódy dynamických knihoven nejsou zakomponovány ve výsledném programu, ale pomocí linkeru jsou vytvořeny záznamy na funkce použité v programu, které jsou následně uloženy do tabulky symbolů vyskytující se ve výsledném programu.
+		\end{itemize}
+	\item \textbf{Rozdělení z hlediska sdílení kódu mezi programy:}
+		\begin{itemize}
+		\item \textit{Sdílená knihovna} - Zdrojový kód sdílených knihoven je možné sdílet mezi více programy. Tímto způsobem jsou efektivně sníženy nároky na velikost operační paměti, protože úseky kódu využívané více procesory jsou uloženy ve sdílené paměti (namapovány do adresních prostorů všech procesů, které ji využívají).
+		\item \textit{Nesdílená knihovna} - Nesdílené knihovny neumožňují sdílet úseky kódu více procesorům z důvodu kopírování kódu z knihoven do souborů při linkování souborů.
+		\end{itemize}
+	\end{itemize}
+\section{PHP Knihovny pro generování PDF}
+\section{PHP Knihovny pro zpracování PDF}
+\subsection{PDF to HTML}
+\subsection{PDF Parser}
+\subsection{php-pdftk}
+\subsection{pdf-to-text}
+\subsection{TCPDF parser}
