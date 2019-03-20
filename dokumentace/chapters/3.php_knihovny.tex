@@ -5,7 +5,7 @@ Knihovny jsou z technického hlediska rozděleny do 2 skupin, které se následn
 	\begin{itemize}
 	\item \textbf{Rozdělení z hlediska způsobu propojení s programem:}
 		\begin{itemize}
-		\item \textit{Statická knihovna} - Zdrojový kód knihovny je v průběhu překládání zkopírován do výsledného programu pomocí kompilátoru. Největší výhoda statických knihoven spočívá v jistotě, že všechny potřebné knihovny budou přítomny ve výsledném programu, proto nikdy nemůže nastat situace nazvaná \textbf{dependency hell (DLL Hell)}, která značí nepřítomnost jedné nebo více knihoven, které jsou využívány jinou knihovnou, nebo také může značit nadbytečné závislosti knihoven, které nejsou ve výsledku využity.
+		\item \textit{Statická knihovna} - Zdrojový kód knihovny je v průběhu překládání zkopírován do výsledného programu pomocí kompilátoru. Největší výhoda statických knihoven spočívá v jistotě, že všechny potřebné knihovny budou přítomny ve výsledném programu, proto nikdy nemůže nastat situace nazvaná \textit{dependency hell (DLL Hell)}, která značí nepřítomnost jedné nebo více knihoven, které jsou využívány jinou knihovnou, nebo také může značit nadbytečné závislosti knihoven, které nejsou ve výsledku využity.
 		\item \textit{Dynamická knihovna} - Oproti statickým knihovnám, zdrojové kódy dynamických knihoven nejsou zakomponovány ve výsledném programu, ale pomocí linkeru jsou vytvořeny záznamy na funkce použité v programu, které jsou následně uloženy do tabulky symbolů vyskytující se ve výsledném programu.
 		\end{itemize}
 	\item \textbf{Rozdělení z hlediska sdílení kódu mezi programy:}
@@ -16,9 +16,7 @@ Knihovny jsou z technického hlediska rozděleny do 2 skupin, které se následn
 	\end{itemize}
 \section{PHP Knihovny pro generování PDF}
 \subsection{FPDF}
-IN PROGRESS
-\subsection{FPDF}
-IN PROGRESS
+\textbf{Free PDF} (zkráceně FPDF) je knihovna psána v jazyce PHP a slouží pro generování PDF souborů bez využití externích programů, jejíž zdrojové kódy jsou volně dostupné a lze je modifikovat pro potřeby uživatele. Díky volně dostupným zdrojovým kódům lze na oficiální stránce nalézt velice užitečná rozšíření této knihovny. Mezi hlavní funkcionality patří například automatické zalomování stránek, komprese stránek, hyperlinky a mnoho dalších. Bohužel zde nejdou vytvářet interaktivní formuláře, proto nelze tuto knihovnu použít pro vyvíjený modul.
 \subsection{dompdf}
 IN PROGRESS
 \subsection{TCPDF} \label{tcpdf}
@@ -27,12 +25,14 @@ Knihovna \textbf{TCPDF} je open-source PHP knihovna sloužící pro práci s PDF
 IN PROGRESS
 \section{PHP Knihovny pro zpracování PDF}
 \subsection{pdf-to-html}
-Knihovna \textbf{pdf-to-html} má za úkol překonvertovat veškerý obsah PDF souboru do HTML struktury, ze které lze snadno vyextrahovat obsah souboru a předat ho ke zpracování. Požadavky pro správné fungování této knihovny je mít v PHP konfiguraci mít povolen přístup k příkazové řádce systému a mít na serveru nainstalovaný \textbf{Poppler} (program napsaný v jazyce C++ sloužící k renderování PDF dokumentů) \cite{pdfToHtml}. Protože je tato knihovna závislá na externím programu (Poppler), pak ji nelze brát jako vhodnou pro vyvíjený modul. 
+Knihovna \textbf{pdf-to-html} má za úkol překonvertovat veškerý obsah PDF souboru do HTML struktury, ze které lze snadno vyextrahovat obsah souboru a předat ho ke zpracování. Požadavky pro správné fungování této knihovny je mít v PHP konfiguraci mít povolen přístup k příkazové řádce systému a mít na serveru nainstalovaný \textit{Poppler} (knihovna napsaná v jazyce C++ sloužící k renderování PDF dokumentů) \cite{pdfToHtml}. Protože je tato knihovna závislá na knihovně (Poppler), pak ji nelze brát jako vhodnou pro vyvíjený modul. 
 \subsection{TCPDF parser}
 Knihovna \textbf{TCPDF parser} je součást knihovny \textbf{TCPDF} (viz \ref{tcpdf}), která se soustředí na zpracování PDF souboru. Pro svůj běh nepotřebuje žádné externí knihovny a je psána pouze v jazyce PHP, ale stále se nachází ve fázi vývoje a při jejím použití nemusíme vždy dojít ke správnému výsledku. Proto z tohoto důvodu není nejvhodnější pro vyvíjený modul a bude lepší se ohlédnout po jiné knihovně.
 \subsection{PDF Parser}
 \textbf{PDF Parser} je další z mnoha knihoven sloužících pro zpracování PDF souborů. Tato knihovna je založena na již existující knihovně \textbf{TCPDF parser}, která je navíc doplněna o nové funkcionality jako je například extrakce metadat a komprimovaných souborů aj. Na oficiálních stránkách lze najít demo verzi, která demonstruje funkčnost, kdy po nahrání kteréhokoliv PDF souboru se na stránkách zobrazí data extrahovaná z nahraného souboru. Vzhledem k tomu, že PDF Parser je plně vyvinutá knihovna využívaná na mnoha webových portálech pro zpracování PDF souborů, pak ji lze brát jako vhodnou knihovnu pro vyvíjený modul.
 \subsection{php-pdftk}
 Nástroj \textbf{PDF Toolkit} (zkráceně pdftk) je multiplatformní nástroj pro manipulaci s PDF soubory, který navazuje na starší verzi nástroje \textbf{iText library}. PDF Toolkit lze najít ve tře verzích. Mezi neplacené verze patří \textit{PDFtk Server}, což je open-source tool v příkazové řádce a verze \textit{PDFtk Free}, která je úplně zdarma), zatímco mezi placené verze patří verze \textit{PDFtk Pro} (patří mezi proprietární software, jehož zdrojové soubory nejsou volně dostupné). Pomocí tohoto nástroje (převážně v placené verzi) lze oddělovat/ spojovat/šifrovat PDF soubory, měnit jeho vlastnosti, metata, vyplňovat formuláře \textit{FDF daty} (Forms Data Format) a mnoho dalších funkcionalit \cite{phppdftk}. Díky rozsáhlé funkcionalitě byla vyvinuta knihovna v PHP s názvem \textbf{php-pdftk}, pomocí které lze využívat veškerou funkcionalitu tohoto nástroje v jazyce PHP. Bohužel díky závislosti na externím programu ji nelze brát jako vhodnou pro vyvíjený modul.
-\subsection{pdf-to-text}
-IN PROGRESS
+\subsection{pdftotext}
+\textbf{pdftotext} je open-source nástroj spouštěný přes příkazovou řádku využívaný k převodu PDF souboru do prostého textu využívající knihovnu \textit{Poppler}. Je volně dostupný v Linuxových distribucích (v některých distribucích je součástí systému), zatímco pro Windows ho nalézt jako součást programu \textit{Xpdf}. Belgická firma \textit{Spatie} vyvinula open-source PHP knihovnu využívajcí tento nástroj, aby byl dostupný i v jazyce PHP. Protože tato knihovna stejně jako \textbf{pdf-to-html} využívá Poppler, pak ji nelze brát jako vhodnou pro vyvíjený modul.
+\section{Závěr průzkumu}
+Autor této práce provedl rozsáhlý průzkum zaměřující se na volně dostupné PHP knihovny pro generování a zpracování PDF souborů. Co se týče PHP knihoven pro generování interaktivních formulářů, pak zde existují  dvě velice slušné knihovny \textbf{mPDF} a \textbf{TCPDF}, které dokáží  splnit veškeré požadavky zadávajícího a navíc nejsou placené. Proto při vývoji modulu budou použity obě dvě a následně bude vybrána ta nejvíce vyhovující zadání. U PHP knihoven zpracovávající PDF soubory to tak není, většina knihoven využívá pro svojí funkcionalitu externí programy/knihovny psané v jiném programovacím jazyku a jsou převážně spouštěny z příkazové řádky, což silně odporuje požadavkům zadávajícího. Jediná knihovna splňující tyto požadavky byla \textbf{PDF Parser}, proto bude použita při vývoji modulu. 
