@@ -1,34 +1,44 @@
+%CHAPTER
 \chapter{Návrh modulu}
 IN PROGRESS
 
+%SECTION
 \section{Vzhled PDF dokumentu}
+\label{navrh_vzhledu}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Záhlaví}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Titulek}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Formulář}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Hodnocený vědecký příspěvek}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Vodoznak}
 IN PROGRESS
 
+%SUBSECTION
 \subsection{Fonty}
 IN PROGRESS
 
 
-%NÁZVY FCÍ PRO GENEROVÁNÍ I PARSOVÁNÍ, POPSAT CO BY MĚLI OBSAHOVAT ZA PARAMETRY APOD.
+%SECTION
 \section{Hlavní funkce modulu}
-IN PROGRESS
+Vyvíjený modul musí být napsán stejným stylem jako je celý webový portál konferenčního systému TSD. Jelikož se na tomto portálu vyskytuje modul, který má stejnou funkcionalitu jako modul vyvíjený autorem bakalářské práce, tak je návrh funkcí o dost lehčí. Modul vyskytující se na portálu implementuje 3 důležité funkce, které zajišťují veškerou funkcionalitu i přes to, že pro zpracovávání PDF souborů je použit externí program \textit{PDFtk}. Po konzultaci s vedoucím práce bylo rozhodnuto, že se původní názvy funkcí zachovají a budou pouze změněny jejich parametry. Autorův modul bude tedy ve výsledku obsahovat, stejně jako starý modul, 3 důležité funkce doplněny o pomocné funkce a konstanty. Všechny hlavní funkce jsou popsány níže.  
 
+%SUBSECTION
 \subsection{Funkce pro generování}
-IN PROGRESS \ref{lst:generate_function}.
+Pro generování PDF souboru byla navržena 1 funkce. Tato funkce má za úkol nejdříve nastavit veškeré fonty a styly pro vzhled dokumentu, následně využít vhodný generátor PDF souborů, který vytvoří všechny části dokumentu (vypsané v kapitole \ref{navrh_vzhledu}) a nabídne uživateli možnost stáhnout si výsledný hodnotící PDF soubor. Návrh hlavičky funkce viz \ref{lst:generate_function}.
 
 \lstset{style=phpstyle}
 \begin{lstlisting}[caption = {Návrh hlavičky funkce pro generování PDF souboru}, label = {lst:generate_function}, captionpos=b]
@@ -43,10 +53,9 @@ Popis vstupních parametrů funkce:
 	\item\textcolor{blue}{\textbf{\$submission\_filename}} - Celý název PDF souboru vědeckého příspěvku
 \end{itemize}
 
+%SUBSECTION
 \subsection{Funkce pro zpracování}
-IN PROGRESS (2 FUNKCE)
-\par
-První funkce pro zpracování PDF souboru má za úkol nahrát celý soubor do konferenčního souboru. Po nahrání souboru začne extrakce dat pomocí vhodných parserů a jejich zpracování. Následně se vše uloží do vhodných struktur a všechny extrahované hodnotící parametry se předají do následující funkce. Návrh hlavičky funkce viz \ref{lst:process_function}.
+Pro zpracování  PDF souboru byly navrženy 2 funkce, kdy první z nich má za úkol nahrát celý soubor do konferenčního souboru. Po nahrání souboru začne extrakce dat pomocí vhodných parserů a jejich zpracování. Následně se vše uloží do vhodných struktur a všechny extrahované hodnotící parametry se předají do následující funkce. Návrh hlavičky funkce viz \ref{lst:process_function}.
 
 \begin{lstlisting}[caption = {Návrh hlavičky funkce pro extrakci dat}, label = {lst:process_function}, captionpos=b]
 function process_offline_review_form($rid, $sid, $revform_filename)

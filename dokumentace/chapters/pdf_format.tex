@@ -1,12 +1,14 @@
+%CHAPTER
 \chapter{Formát PDF}
 Formát \textbf{PDF} (\textbf{P}ortable \textbf{D}ocument \textbf{F}ormat) je souborový formát vyvinutý společností Adobe v roce 1992. PDF formát byl vyvinut za účelem konzistentní prezentace dokumentů (spustitelné na více zařízeních a různých platformách). Díky konzistenci lze dosáhnout toho, že PDF soubor vytvořený a uložený v systému Windows bude zobrazen totožně na systémech Mac, na všech distribucích Linuxu nezávisle na použitém PDF prohlížeči (Adobe Reader, Foxit a další).
 \par 
 V PDF souboru lze uchovávat velice širokou škálu dat, včetně formátovaného textu, vektorové grafiky a rastrových obrazů, nebo například informace o rozložení, velikosti a tvaru stránky. Informace definující umístění jednotlivých položek (jsou zde zahrnuty i editovací objekty pro formuláře) na stránce jsou zde uloženy též. Do dokumentu lze ukládat i metadata. Metadata jsou informace uložené v hlavičce souboru a lze do nich uložit název dokumentu, autora dokumentu, předmět a klíčová slova. Je zde možnost uložit heslo, aby byl dokument přístupný pouze autorizovaným uživatelům. Všechny tyto informace jsou uloženy ve standardním formátu \cite{PDFTechTerms, PDFWhatIs}.
 
-
-	\section{Objekty}
+%SECTION
+\section{Objekty}
 PDF Objekty jsou základním stavebním kamenem pro uchovávání dat v dokumentu. Množinou PDF objektů lze reprezentovat bitmapové a vektorové objekty, barevné prostory, text, fonty aj. \cite{PDFExplained}.
-		\subsection{Základní objekty}
+%SUBSECTION
+\subsection{Základní objekty}
 V PDF můžeme najít celkem 5 základních objektů:
 	\begin{itemize}
 		\item \textbf{Celá a reálná čísla} - Celá čísla jsou reprezentována jako jedno nebo více desetinných čísel z rozsahu 0..9 se znaménkem + nebo - před číslem. Reálné číslo je celé číslo rozšířené o desetinnou část s ideálně jedním desetinným číslem (reálná čísla nelze popsat exponenciálním způsobem). Přesnost a rozsah celých a reálných čísel je definován jednotlivými implementacemi PDF. V některých implementacích platí pravidlo které přetypuje celé číslo na reálné po přesáhnutí předem daného rozsahu.
@@ -36,14 +38,16 @@ V PDF můžeme najít celkem 5 základních objektů:
 		\item \textbf{Boolean (pravdivostní) hodnoty} - Logické hodnoty \textbf{true}/\textbf{false} a vyskytuje se v jednotlivých záznamech ve slovníku jako příznak.
 		\item \textbf{Hodnota null} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
 	\end{itemize}
-		\subsection{Složené objekty}	
+%SUBSECTION
+\subsection{Složené objekty}	
 Složený objekt je takový objekt, který obsahuje seřazenou/neseřazenou množinu základních objektů i množinu složených objektů.
 	\begin{itemize}
 		\item \textbf{Pole} - Pole je v PDF reprezentováno jako seřazená množina základních i složených PDF objektů (v poli může být uložen například i slovník nebo pole) nezávisle na typech (v poli lze uchovávat například řetězec a číslo zároveň). Hodnoty pole jsou vloženy mezi znaky \textbf{[} a \textbf{]}.
 		\item \textbf{Slovníky} - Slovník se skládá z množiny dvou hodnot: klíče a hodnoty, pomocí kterých se slovník namapuje. Klíč je reprezentován pomocí \textbf{jména}, zatímco hodnota může být kterýkoliv PDF objekt, povoleny jsou i slovníky nebo pole. Slovníky jsou uloženy mezi znaky \textbf{<<} a \textbf{>>}.
 		\item \textbf{Datové proudy} - Datové proudy slouží především pro uložení binárních dat a skoro ve všech případech jsou zkomprimovány různými kombinacemi algoritmů, které jsou popsány v kapitole \ref{komprese}, proto datové proudy musí být zároveň i nepřímým odkazem. Skládají se ze slovníků a části binárních dat. Slovník je využit pro ukládání parametrů binárních dat, jako například délka binárních dat aj.
 	\end{itemize}
-		\subsection{Linkovací objekty}
+%SUBSECTION
+\subsection{Linkovací objekty}
 PDF objekty můžou být různě velké. Pokud je objekt až příliš veliký, pak jsou v kódu dokumentu využity nepřímé odkazy. Na obrázku \ref{fig:indirect_reference} si lze všimnout využití nepřímých odkazů ve slovníku. 
 	\begin{figure}[h!]
 	\centering
@@ -52,7 +56,8 @@ PDF objekty můžou být různě velké. Pokud je objekt až příliš veliký, 
 	\label{fig:indirect_reference}
 	\end{figure}
 
-	\section{Komprese dat v PDF}
+%SECTION
+\section{Komprese dat v PDF}
 \label{komprese}
 PDF soubory moho být poměrně kompaktní, o mnoho menší než ekvivalentní postscriptové soubory. Tato vlastnost je dosažena nejen lepší strukturou dat, ale i díky kompresním algoritmům, které jsou velice efektivní. Typ komprese dat PDF souboru lze zjistit pomocí textového editoru, který dokáže zpracovat binární data, vyhledáním klíčového slova \textbf{/Filter}. Níže jsou popsány kompresní algoritmy využívané v PDF \cite{PDFPrepressure}.
 \begin{itemize}
@@ -66,7 +71,8 @@ PDF soubory moho být poměrně kompaktní, o mnoho menší než ekvivalentní p
 	\item \textbf{ZIP} - Bezeztrátový algoritmus, učinější než jeho protějšek LZW.
 \end{itemize}
 
-	\section{Vnitřní struktura PDF}
+%SECTION
+\section{Vnitřní struktura PDF}
 Vnitřní reprezentace PDF souboru je rozdělena na sekce, které jsou znázorněny na obrázku \ref{fig:pdf_internal_structure}.
 
 \begin{figure}[h!]
@@ -126,13 +132,15 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_trailer}
 	\end{figure}
 \end{itemize}
-	\section{PDF formuláře}
+%SECTION
+\section{PDF formuláře}
 Pod pojmem formulář si lze představit dokumenty, které od svých uživatelů vyžadují vyplnění určitých údajů. Mezi nejznámější dokumenty lze například uvést daňová přiznání, oznamovací tiskopisy, dotazníky, složenky aj. Ruční vyplňování i jejich následné zpracování bývá obvykle pracné a zdlouhavé, proto je v dnešní době výhodnější využívat interaktivní elektronické formuláře. Základní výhoda těchto formulářů spočívá ve snažším vyplňování, zpracování lze jednoduše zautomatizovat a také se díky elektronické podobě zvedne úspora papíru a financí vynaložených na tisk formulářů.  Mezi nejčastější formuláře, které lze potkat na internetu, jsou ve formátu HTML a lidé se s nima setkávají každodenně (ať už to jsou jednoduché přihlašovací formuláře stránek nebo různé dotazníky na určitá témata). Nevýhoda těchto formulářů je v jejich závislosti na internetovém připojení. 
 \par
 Proto firma Adobe přišla se svým řešením, interaktivním PDF formulářem, který lze vyplňovat kdekoliv nezávisle na internetovém připojení. Mezi další výhody PDF formulářů patří elektronický podpis (lze s ním potvrzovat smlouvy z domova), zabezpečení (dokument se otevře až po zadání správného hesla, neautorizovaným uživatelům je přístup zamítnut) aj. Tyto formuláře obsahují stejné interaktivní prvky jako mají HTML formuláře viz kapitola \ref{zakladni_prvky}. Pro generování PDF formulářů lze využít kterýkoliv programovací jazyk, který podporuje práci s PDF soubory (například \textit{PHP}, \textit{Java}), produkty firmy Adobe (například \textit{Adobe Acrobat}) nebo lze použít i nekomerční aplikace typu \textit{TeX} nebo \textit{pdfmarks}.
 \par
 Tvorba formulářů je jedna věc, druhá věc je jejich zpracování (získání dat vyplněných od uživatele). Mezi nejznámější nástroje pro zpracování vyplněných dat patří určitě nástroj \textit{FDF Toolkit} od firmy Adobe. Tento nástroj je zcela zdarma a umožňuje vytvářet orientovaná řešení pro zpracování dat v jazycích \textit{C/C++}, \textit{ActiveX}, \textit{Java} a \textit{Perl}. Jsou-li data odeslána v HTML, lze k jejich zpracování využít nástroje určené pro formáty \textit{CGI}, \textit{PHP} aj. \cite{PDFForm}.
-		\subsection{Základní prvky} \label{zakladni_prvky}
+%SUBSECTION
+\subsection{Základní prvky} \label{zakladni_prvky}
 Jednotlivé formulářové prvky mohou mít přiřazeny nejrůznější atributy a jsou reprezentovány jako PDF objekty. Tyto atributy lze rozdělit do následujících skupin: \textbf{Vzhled} (definovaný vzhled prvku), \textbf{Akce} (po kliknutí na prvek se provede daná akce), \textbf{Formát} (typ fontu textu aj.), \textbf{Ověřování dat} (akceptovatelný formát vstupu) a \textbf{Výpočty} (matematické operace použité při práci se vstupy z jiných prvků) \cite{PDFFormElements}. 
 \par
 Ve formuláři se může vyskytovat až 7 různých prvků viz obrázek \ref{fig:form_elements}:
