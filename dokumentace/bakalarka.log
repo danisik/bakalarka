@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.11.29)  16 MAR 2019 14:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.11.29)  23 MAR 2019 17:09
 entering extended mode
 **C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/bakalarka.tex
 (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/bakalarka.tex
@@ -375,6 +375,163 @@ rent.sty"
 Package: transparent 2016/05/16 v1.1 Transparency via pdfTeX's color stack (HO)
 
 )
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\textcomp.st
+y"
+Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.def"
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+Now handling font encoding TS1 ...
+... processing UTF-8 mapping file for font encoding TS1
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
+File: ts1enc.dfu 2018/04/05 v1.2c UTF-8 support for inputenc
+   defining Unicode char U+00A2 (decimal 162)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00A4 (decimal 164)
+   defining Unicode char U+00A5 (decimal 165)
+   defining Unicode char U+00A6 (decimal 166)
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00A8 (decimal 168)
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AC (decimal 172)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00AF (decimal 175)
+   defining Unicode char U+00B0 (decimal 176)
+   defining Unicode char U+00B1 (decimal 177)
+   defining Unicode char U+00B2 (decimal 178)
+   defining Unicode char U+00B3 (decimal 179)
+   defining Unicode char U+00B4 (decimal 180)
+   defining Unicode char U+00B5 (decimal 181)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+00B9 (decimal 185)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+00BC (decimal 188)
+   defining Unicode char U+00BD (decimal 189)
+   defining Unicode char U+00BE (decimal 190)
+   defining Unicode char U+00D7 (decimal 215)
+   defining Unicode char U+00F7 (decimal 247)
+   defining Unicode char U+0192 (decimal 402)
+   defining Unicode char U+02C7 (decimal 711)
+   defining Unicode char U+02D8 (decimal 728)
+   defining Unicode char U+02DD (decimal 733)
+   defining Unicode char U+0E3F (decimal 3647)
+   defining Unicode char U+2016 (decimal 8214)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+203B (decimal 8251)
+   defining Unicode char U+203D (decimal 8253)
+   defining Unicode char U+2044 (decimal 8260)
+   defining Unicode char U+204E (decimal 8270)
+   defining Unicode char U+2052 (decimal 8274)
+   defining Unicode char U+20A1 (decimal 8353)
+   defining Unicode char U+20A4 (decimal 8356)
+   defining Unicode char U+20A6 (decimal 8358)
+   defining Unicode char U+20A9 (decimal 8361)
+   defining Unicode char U+20AB (decimal 8363)
+   defining Unicode char U+20AC (decimal 8364)
+   defining Unicode char U+20B1 (decimal 8369)
+   defining Unicode char U+2103 (decimal 8451)
+   defining Unicode char U+2116 (decimal 8470)
+   defining Unicode char U+2117 (decimal 8471)
+   defining Unicode char U+211E (decimal 8478)
+   defining Unicode char U+2120 (decimal 8480)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2126 (decimal 8486)
+   defining Unicode char U+2127 (decimal 8487)
+   defining Unicode char U+212E (decimal 8494)
+   defining Unicode char U+2190 (decimal 8592)
+   defining Unicode char U+2191 (decimal 8593)
+   defining Unicode char U+2192 (decimal 8594)
+   defining Unicode char U+2193 (decimal 8595)
+   defining Unicode char U+2329 (decimal 9001)
+   defining Unicode char U+232A (decimal 9002)
+   defining Unicode char U+2422 (decimal 9250)
+   defining Unicode char U+25E6 (decimal 9702)
+   defining Unicode char U+25EF (decimal 9711)
+   defining Unicode char U+266A (decimal 9834)
+   defining Unicode char U+FEFF (decimal 65279)
+))
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.
 sty"
 Package: amsmath 2017/09/02 v2.17a AMS math features
@@ -439,26 +596,60 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listing
+s.sty"
+\lst@mode=\count120
+\lst@gtempboxa=\box29
+\lst@token=\toks23
+\lst@length=\count121
+\lst@currlwidth=\dimen127
+\lst@column=\count122
+\lst@pos=\count123
+\lst@lostspace=\dimen128
+\lst@width=\dimen129
+\lst@newlines=\count124
+\lst@lineno=\count125
+\lst@maxwidth=\dimen130
+
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc
+.sty"
+File: lstmisc.sty 2018/09/02 1.7 (Carsten Heinz)
+\c@lstnumber=\count126
+\lst@skipnumbers=\count127
+\lst@framebox=\box30
+)
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listing
+s.cfg"
+File: listings.cfg 2018/09/02 1.7 listings configuration
+))
+Package: listings 2018/09/02 1.7 (Carsten Heinz)
+ (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\style/php_style.tex)
 No file bakalarka.aux.
 \openout1 = `bakalarka.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 94.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 98.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 98.
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 98.
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -500,17 +691,17 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.
 mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count120
-\scratchdimen=\dimen127
-\scratchbox=\box29
-\nofMPsegments=\count121
-\nofMParguments=\count122
-\everyMPshowfont=\toks23
-\MPscratchCnt=\count123
-\MPscratchDim=\dimen128
-\MPnumerator=\count124
-\makeMPintoPDFobject=\count125
-\everyMPtoPDFconversion=\toks24
+\scratchcounter=\count128
+\scratchdimen=\dimen131
+\scratchbox=\box31
+\nofMPsegments=\count129
+\nofMParguments=\count130
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count131
+\MPscratchDim=\dimen132
+\MPnumerator=\count132
+\makeMPintoPDFobject=\count133
+\everyMPtoPDFconversion=\toks25
 )
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopd
 f-base.sty"
@@ -527,8 +718,8 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-\AtBeginShipoutBox=\box30
-Package hyperref Info: Link coloring ON on input line 94.
+\AtBeginShipoutBox=\box32
+Package hyperref Info: Link coloring ON on input line 98.
 
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref
 .sty"
@@ -538,14 +729,15 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 tlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count126
+\c@section@level=\count134
 )
-LaTeX Info: Redefining \ref on input line 94.
-LaTeX Info: Redefining \pageref on input line 94.
-LaTeX Info: Redefining \nameref on input line 94.
+LaTeX Info: Redefining \ref on input line 98.
+LaTeX Info: Redefining \pageref on input line 98.
+LaTeX Info: Redefining \nameref on input line 98.
 \@outlinefile=\write3
 \openout3 = `bakalarka.out'.
 
+\c@lstlisting=\count135
  [1
 
 {C:/Users/danisik/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3
@@ -553,130 +745,339 @@ LaTeX Info: Redefining \nameref on input line 94.
 ] [4
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 97.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 101.
+
 
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 97.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 101.
+
 
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 97.
-
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 101
+.
 
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 97.
-
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 101
+.
 
 ("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 97.
+(Font)              <12> on input line 101.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 97.
+(Font)              <8> on input line 101.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 97.
+(Font)              <6> on input line 101.
 
 [5]
 \tf@toc=\write4
 \openout4 = `bakalarka.toc'.
 
- (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/1.uvod.tex
-[6
+ (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/uvod.tex
+[0
 
 ]
 Kapitola 1.
-) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/2.pdf_format.tex
-[7
+) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/pdf_format.texpdfT
+eX warning (ext4): destination with the same identifier (name{page.1}) has been
+ already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1 \chapter
+            {Form√°t PDF} [1
 
 ]
 Kapitola 2.
 
-Package natbib Warning: Citation `PDFTechTerms' on page 8 undefined on input li
+Package natbib Warning: Citation `PDFTechTerms' on page 2 undefined on input li
 ne 4.
 
 
-Package natbib Warning: Citation `PDFWhatIs' on page 8 undefined on input line 
+Package natbib Warning: Citation `PDFWhatIs' on page 2 undefined on input line 
 4.
 
 
-(C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\img/pdf_internal_structure.pd
-f_tex
+Package natbib Warning: Citation `PDFExplained' on page 2 undefined on input li
+ne 8.
 
-LaTeX Warning: File `pdf_internal_structure.pdf' not found on input line 56.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 12.
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+
+LaTeX Warning: Reference `fig:table_escaped' on page 2 undefined on input line 
+13.
 
 
-! Package pdftex.def Error: File `pdf_internal_structure.pdf' not found: using 
-draft setting.
+Overfull \hbox (3.5531pt too wide) in paragraph at lines 13--34
+\T1/lmr/m/n/12 byt∑ ve-psa-n˝ch mezi jed-no-du-chÈ z·-vorky. Jako p∞Ì-klad lze 
+uvÈst: \T1/lmr/m/it/12 (Hello,
+ []
 
-See the pdftex.def package documentation for explanation.
+pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.34 
+      [2
+
+]pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.44 		\item \textbf
+                    {Datov√© proudy} - Datov√© proudy slou≈æ√≠ p≈ôedev≈°√≠m ...
+[3]
+
+LaTeX Warning: Reference `komprese' on page 4 undefined on input line 44.
+
+
+LaTeX Warning: Reference `fig:indirect_reference' on page 4 undefined on input 
+line 47.
+
+<img/pdf_indirect_reference.png, id=55, 1350.54562pt x 138.5175pt>
+File: img/pdf_indirect_reference.png Graphic file (type png)
+<use img/pdf_indirect_reference.png>
+Package pdftex.def Info: img/pdf_indirect_reference.png  used on input line 50.
+
+(pdftex.def)             Requested size: 426.79134pt x 43.77274pt.
+
+Overfull \hbox (39.83385pt too wide) in paragraph at lines 50--51
+ [][] 
+ []
+
+
+Package natbib Warning: Citation `PDFPrepressure' on page 4 undefined on input 
+line 57.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.62 	\item \textbf
+                   {Flate} - Bezeztr√°tov√Ω algoritmus, vych√°z√≠ z kompresn...
+[4 <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_indirect_reference
+.png>]
+
+LaTeX Warning: Reference `fig:pdf_internal_structure' on page 5 undefined on in
+put line 70.
+
+<img/pdf_internal_structure.png, id=64, 166.37157pt x 408.77719pt>
+File: img/pdf_internal_structure.png Graphic file (type png)
+<use img/pdf_internal_structure.png>
+Package pdftex.def Info: img/pdf_internal_structure.png  used on input line 74.
+
+(pdftex.def)             Requested size: 113.81102pt x 279.63643pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package natbib Warning: Citation `PDFInfoSec' on page 5 undefined on input line
+ 79.
+
+<img/pdf_hlavicka.png, id=65, 1350.54562pt x 48.18pt>
+File: img/pdf_hlavicka.png Graphic file (type png)
+<use img/pdf_hlavicka.png>
+Package pdftex.def Info: img/pdf_hlavicka.png  used on input line 84.
+(pdftex.def)             Requested size: 426.79134pt x 15.22528pt.
+
+Overfull \hbox (39.83385pt too wide) in paragraph at lines 84--85
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package natbib Warning: Citation `PDFAdobe' on page 5 undefined on input line 8
+9.
+
+<img/pdf_body.png, id=66, 1351.29843pt x 258.21469pt>
+File: img/pdf_body.png Graphic file (type png)
+<use img/pdf_body.png>
+Package pdftex.def Info: img/pdf_body.png  used on input line 92.
+(pdftex.def)             Requested size: 426.79134pt x 81.55475pt.
+
+Overfull \hbox (39.83385pt too wide) in paragraph at lines 92--93
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.100 		\item \textit
+                     {Poƒçet subobjekt≈Ø} - Poƒçet ƒç√°st√≠ dan√©ho objektu ...
+[5] [6 <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_internal_struc
+ture.png> <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_hlavicka.pn
+g> <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_body.png>]
+<img/pdf_xref.png, id=80, 1351.29843pt x 168.63pt>
+File: img/pdf_xref.png Graphic file (type png)
+<use img/pdf_xref.png>
+Package pdftex.def Info: img/pdf_xref.png  used on input line 107.
+(pdftex.def)             Requested size: 426.79134pt x 53.26024pt.
+
+Overfull \hbox (39.83385pt too wide) in paragraph at lines 107--108
+ [][] 
+ []
+
+<img/pdf_trailer.png, id=81, 1351.29843pt x 349.305pt>
+File: img/pdf_trailer.png Graphic file (type png)
+<use img/pdf_trailer.png>
+Package pdftex.def Info: img/pdf_trailer.png  used on input line 124.
+(pdftex.def)             Requested size: 426.79134pt x 110.3248pt.
+
+Overfull \hbox (39.83385pt too wide) in paragraph at lines 124--125
+ [][] 
+ []
+
+[7 <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_xref.png> <C:/User
+s/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_trailer.png>]
+
+LaTeX Warning: Reference `zakladni_prvky' on page 8 undefined on input line 132
+.
+
+
+Package natbib Warning: Citation `PDFForm' on page 8 undefined on input line 13
+4.
+
+
+Package natbib Warning: Citation `PDFFormElements' on page 8 undefined on input
+ line 136.
+
+
+LaTeX Warning: Reference `fig:form_elements' on page 8 undefined on input line 
+138.
+
+<img/pdf_form_elements.png, id=91, 739.26187pt x 322.20375pt>
+File: img/pdf_form_elements.png Graphic file (type png)
+<use img/pdf_form_elements.png>
+Package pdftex.def Info: img/pdf_form_elements.png  used on input line 141.
+(pdftex.def)             Requested size: 256.0748pt x 111.6078pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8])
+(C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/php_knihovny.tex
+[9 <C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace/img/pdf_form_elements.png>
+]
+Kapitola 3.
+
+Overfull \hbox (2.2325pt too wide) in paragraph at lines 8--9
+\T1/lmr/m/n/12 po-t∞ebnÈ knihovny bu-dou p∞Ì-tomny ve v˝-sled-nÈm pro-gramu, pr
+oto
+ []
+
+[10
+
+]
+Overfull \hbox (6.96834pt too wide) in paragraph at lines 23--24
+\T1/lmr/m/n/12 sou-bory. JejÌ v˝-voj od-star-to-val u∫ v roce 2002 kdy vznikla 
+jako odno∫ knihovny
+ []
+
+[11]
+
+Package natbib Warning: Citation `pdfToHtml' on page 12 undefined on input line
+ 30.
+
+
+LaTeX Warning: Reference `tcpdf' on page 12 undefined on input line 32.
+
+
+Overfull \hbox (4.83945pt too wide) in paragraph at lines 32--33
+\T1/lmr/m/n/12 na zpra-co-v·nÌ PDF sou-boru. Pro sv∑j b•h ne-po-t∞e-buje ∫·dnÈ 
+ex-ternÌ knihovny
+ []
+
+[12]
+
+Package natbib Warning: Citation `phppdftk' on page 13 undefined on input line 
+36.
+
+) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/navrh_modulu.tex
+[13] [14]
+Kapitola 4.
+
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang
+1.sty"
+File: lstlang1.sty 2018/09/02 1.7 listings language file
+)
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang
+2.sty"
+File: lstlang2.sty 2018/09/02 1.7 listings language file
+) [15
+
+]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 34.
+
+("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd"
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 35.
+
+
+LaTeX Warning: Reference `lst:process_function' on page 16 undefined on input l
+ine 49.
+
+
+Overfull \hbox (4.98315pt too wide) in paragraph at lines 58--59
+[][]\T1/lmr/bx/n/12 $revform_filename[] \T1/lmr/m/n/12 - Cel˝ n·-zev PDF sou-bo
+ru hod-no-tÌ-cÌho p∞Ì-sp•vku 
+ []
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.56 ...ength,page=1]{pdf_internal_structure.pdf}}
-                                                  %
+l.60 \newline
+             
 ? H
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-? 
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 56.
-("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd"
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-))
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+? h
+Sorry, I already gave what help I could...
+Maybe you should try asking a human?
+An error might have occurred before I noticed any problems.
+``If all else fails, read the instructions.''
 
-LaTeX Warning: Float too large for page by 341.7024pt on input line 13.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Package natbib Warning: Citation `PDFInfoSec' on page 8 undefined on input line
- 16.
-
-
-Package natbib Warning: Citation `PDFPrepressure' on page 8 undefined on input 
-line 19.
-
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 21.
-("C:\Users\danisik\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
-File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 21.
-
-[8
-
-]
-Overfull \hbox (0.42775pt too wide) in paragraph at lines 24--25
-[]\T1/lmr/m/n/12 Flate - Be-ze-ztr·-tov˝ al-go-rit-mus, vy-ch·zÌ z kom-pres-nÌc
-h al-go-ritm∑ LZ77
- []
-
+? return
+OK, entering \nonstopmode...
 ) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/testovani.tex
-[9] [10]
-Kapitola 3.
-) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/zaver.tex [11
+[16]
+Kapitola 5.
+) (C:/Users/danisik/Desktop/bakal√°≈ôka/dokumentace\chapters/zaver.tex [17
 
 ]
-Kapitola 4.
+Kapitola 6.
 )
 No file bakalarka.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 114.
-[12
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 123.
+[18
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 114.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 123.
  (bakalarka.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 114.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 114.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 123.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 123.
 
 
 Package rerunfilecheck Warning: File `bakalarka.out' has changed.
@@ -685,31 +1086,35 @@ Package rerunfilecheck Warning: File `bakalarka.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `bakalarka.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  EF9FC1672FE0EC3208E32F7D5C2679F1;743.
+(rerunfilecheck)             After:  4662D6C064BEAFD20D7A80D11401C2DC;4762.
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 114.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 123.
  ) 
 Here is how much of TeX's memory you used:
- 11833 strings out of 492973
- 171855 string characters out of 3125805
- 289394 words of memory out of 3000000
- 15518 multiletter control sequences out of 15000+200000
- 49101 words of font info for 38 fonts, out of 3000000 for 9000
+ 15896 strings out of 492973
+ 236110 string characters out of 3125805
+ 586852 words of memory out of 3000000
+ 19482 multiletter control sequences out of 15000+200000
+ 63459 words of font info for 45 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 33i,7n,42p,1418b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 33i,9n,47p,1416b,2966s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.
-enc}{C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-m
-athsy.enc}<C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/lm/lmbx12.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/lm/lmr12.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/lm/lmr17.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/lm/lmsy10.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/lm/lmtt12.pfb>
-Output written on bakalarka.pdf (12 pages, 134389 bytes).
+enc}{C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-t
+s1.enc}<C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/l
+m/lmbx12.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/lm/lmr12.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/lm/lmr17.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/lm/lmri12.pfb><C:/Users/danisik/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/lm/lmtk10.pfb><C:/Users/danisik/AppData/Local/Programs/MiK
+TeX 2.9/fonts/type1/public/lm/lmtt10.pfb>
+Output written on bakalarka.pdf (24 pages, 401093 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
- 25 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 218 PDF objects out of 1000 (max. 8388607)
+ 76 named destinations out of 1000 (max. 500000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

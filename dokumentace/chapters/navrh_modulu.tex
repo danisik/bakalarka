@@ -23,10 +23,48 @@ IN PROGRESS
 IN PROGRESS
 
 
-\section{Generování PDF dokumentu}
-IN PROGRESS
-
 %NÁZVY FCÍ PRO GENEROVÁNÍ I PARSOVÁNÍ, POPSAT CO BY MĚLI OBSAHOVAT ZA PARAMETRY APOD.
-
-\section{Zpracování PDF dokumentu}
+\section{Hlavní funkce modulu}
 IN PROGRESS
+
+\subsection{Funkce pro generování}
+IN PROGRESS \ref{lst:generate_function}.
+
+\lstset{style=phpstyle}
+\begin{lstlisting}[caption = {Návrh hlavičky funkce pro generování PDF souboru}, label = {lst:generate_function}, captionpos=b]
+function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename)
+\end{lstlisting}
+Popis vstupních parametrů funkce:
+\begin{itemize}
+	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$reviewer\_name}} - Celé jméno posuzovatele
+	\item\textcolor{blue}{\textbf{\$sid}} - ID vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$submission\_name}} - Celý název vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$submission\_filename}} - Celý název PDF souboru vědeckého příspěvku
+\end{itemize}
+
+\subsection{Funkce pro zpracování}
+IN PROGRESS (2 FUNKCE)
+\par
+První funkce pro zpracování PDF souboru má za úkol nahrát celý soubor do konferenčního souboru. Po nahrání souboru začne extrakce dat pomocí vhodných parserů a jejich zpracování. Následně se vše uloží do vhodných struktur a všechny extrahované hodnotící parametry se předají do následující funkce. Návrh hlavičky funkce viz \ref{lst:process_function}.
+
+\begin{lstlisting}[caption = {Návrh hlavičky funkce pro extrakci dat}, label = {lst:process_function}, captionpos=b]
+function process_offline_review_form($rid, $sid, $revform_filename)
+\end{lstlisting}
+Popis vstupních parametrů funkce:
+\begin{itemize}
+	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$sid}} - ID vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$revform\_filename}} - Celý název PDF souboru hodnotícího příspěvku
+\end{itemize}
+
+Druhá funkce pro zpracování PDF souboru má za úkol uložit již extrahované hodnotící parametry do databáze konferenčního systému. Návrh hlavičky funkce viz \ref{lst:upload_function}.
+
+\begin{lstlisting}[caption = {Návrh hlavičky funkce pro uložení dat do databáze}, label = {lst:upload_function}, captionpos=b]
+function upload_to_DB_offline_review_form($rid, $values)
+\end{lstlisting}
+Popis vstupních parametrů funkce:
+\begin{itemize}
+	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$values}} - Seznam všech hodnotících parametrů 
+\end{itemize}
