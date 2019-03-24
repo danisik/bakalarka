@@ -75,8 +75,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     
     //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
-    $html = set_hidden_RID_and_SID($rid, $sid);
-    $html .= create_header_image(DOC_GP_IMG_LOGO);
+    $mpdf = set_hidden_RID_and_SID($mpdf, $rid, $sid);
+    $html = create_header_image(DOC_GP_IMG_LOGO);
     $html .= create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
     //write first page of evaluation   
     $mpdf->WriteHTML($html);
@@ -222,8 +222,21 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
       }
     }
     
+    $rid_sid = parse_RID_and_SID($pdf);
+    
+    if ($rid != $rid_sid[0]) {
+      set_failure("review_details_fail", "Review ID# (" . $rid_sid[0] . ") of file didn't match Review ID# of this Review.",
+        DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+        return TRUE;
+    }
+    else if ($sid != $rid_sid[1]) {
+      set_failure("review_details_fail", "Submission ID# (" . $rid_sid[1] . ") of file didn't match Submission ID# of this Review.",
+        DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
+        return TRUE;
+    }
+    
     //if every needed element have valid value and size of groups and textareas are more than zero (because size of array of groups and textareas is 0 when nothing is filled) 
-    if ($invalid_indicator == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) {   
+    if ($invalid_indicator == 0 && sizeof($groups) > 0 && sizeof($textareas) > 0) { 
         upload_to_DB_offline_review_form($rid, $values);
         return TRUE;
     }
@@ -255,7 +268,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
           }
                     
         }
-        $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields) - 2);
+        $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields));
         set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled... (".$invalid_fields.").",
                     DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
         return TRUE;
@@ -333,15 +346,35 @@ function setMPDF() {
 
 //
 //write RID and SID into document (hidden in document)
+//$mpdf - mpdf class, creating pdf from html code  
 //$rid - review id
 //$sid - submission id
 //
-//return $hidden - input type hidden contains rid and sid
-function set_hidden_RID_and_SID($rid, $sid) {
-    $hidden = '<input type="hidden" name="rid" value="'.$rid.'" />';
-    $hidden .= '<input type="hidden" name="sid" value="'.$sid.'" />';
+//return $mpdf - mpdf with watermark text set 
+function set_hidden_RID_and_SID($mpdf, $rid, $sid) {
+    $mpdf->SetKeywords($sid.' '.$rid);
+    return $mpdf; 
+}
+
+//
+//return RID and SID of PDF saved in metadata
+//$pdf - pdf parser class, parsing content of PDF file  
+//
+//return array - return sid and rid of PDF document
+function parse_RID_and_SID($pdf) {
+    $metadata = $pdf->getDetails();
+    $rid = '';
+    $sid = '';
     
-    return $hidden; 
+    foreach($metadata as $key => $value) {
+      if (strpos($key, 'Keywords') !== false) {
+        $data = explode(' ', $value);
+        $sid = $data[0];
+        $rid = $data[1];
+        break; 
+      }
+    }
+    return array($rid, $sid);  
 }
 
 //
