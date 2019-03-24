@@ -1,19 +1,20 @@
 \definecolor{dkgreen}{rgb}{0,.6,0}
 %\definecolor{dkblue}{rgb}{0,0,.6}
-%\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
 
 \lstdefinestyle{phpstyle}{
 language = php,
 frame = single,
-basicstyle = \footnotesize\ttfamily,
+basicstyle = \tiny\ttfamily,
 breaklines = true,
 showtabs = false,
 showstringspaces = false,
 stringstyle = \color{red},
 identifierstyle = \color{blue},
 commentstyle = \color{gray},
+numberstyle = \color{dkyellow},
 emph =[1]{function},
 emphstyle =[1]\color{dkgreen}\bfseries,
-emph =[2]{generate_offline_review_form, process_offline_review_form, upload_to_DB_offline_review_form, (, )},
+emph =[2]{generate_offline_review_form, process_offline_review_form, upload_to_DB_offline_review_form, (, ), require_once, php, new, TCPDF, SetAutoPageBreak, PDF_MARGIN_BOTTOM, AddPage, Cell, TextField, Ln, RadioButton, PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, CheckBox, ListBox, Output, WriteHTML, useActiveForms, Mpdf},
 emphstyle =[2]\color{black}
 }
