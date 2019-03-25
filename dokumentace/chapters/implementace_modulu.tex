@@ -1,79 +1,43 @@
 %CHAPTER
 \chapter{Implementace modulu}
-
+%SECTION
 \section{Generátor}
-%SUBSECTION
+Generátor by měl být při vytváření PDF dokumentu rychlý, vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.  
 \subsection{TCPDF x mPDF}
-%vyhody nevyhody, výsledný názoromezení, chyby knihovny ((popis doimplementování našeho kódu)), 
-
-\begin{figure}[h!]
+%vyhody nevyhody, výsledný názor, omezení, chyby knihovny ((popis doimplementování našeho kódu)), 
+Při analyzování dostupných PHP knihoven pro generování PDF souborů byly zjištěny 2 vyhovující knihovny, které můžou potencionálně splňovat potřebnou funkcionalitu, bohužel pouze 1 může být použit do vyvíjeného modulu. Po vytvoření jednoduchého souboru obsahující základní formulářové prvky bylo rozhodnuto, že knihovna \textbf{mPDF} bude použita pro generování PDF souborů. Důvody této volby jsou popsány níže.
+\par
+Jeden z důležitých faktorů lze označit skoro kompletní podporu \textit{CSS3} (Cascading Style Sheets 3) u \textbf{mPDF}, díky čemuž lze dosáhnout perfektního nastavení stylů pro jednotlivé objekty v dokumentu, zatímco \textbf{TCPDF} nepodporuje značné množství CSS parametrů (například parametr určující šířku vnějšího okraje prvku) a pro dosažení obdobného výsledku je zapotřebí značné množství jiných parametrů definující styl prvku.
+\par
+Důležitým faktorem při generování PDF je rychlost generování a paměťová náročnost. V tabulce \ref{tab:table_generators} lze vidět porovnání knihoven pro 2  PDF soubory, kdy komplexní PDF obsahovalo hlavně CSS styly, zatímco v dlouhém PDF byla vytvořena tabulka s více jak tisíci záznamy.
+\begin{table}[h!]
 \centering
-\includegraphics[width=8cm]{img/tcpdf_elements}
-\caption{Formulářové prvky vytvořené pomocí TCPDF}
-\label{fig:tcpdf_elements}
-\end{figure}
-
-\begin{lstlisting}[caption = {Zdrojový kód psaný v PHP využívající knihovnu TCPDF}, label = {lst:tcpdf_code}, captionpos=b]
-    <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/TSD/lib/tcpdf/tcpdf.php');
-    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, TRUE, 'UTF-8', FALSE);
-    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-    $pdf->AddPage();
-    $pdf->Cell(35, 5, 'Textove pole:');
-    $pdf->TextField('firstname', 50, 5);
-    $pdf->Ln(6);
-    $pdf->Cell(35, 5, 'Radiobutton:');
-    $pdf->RadioButton('drink', 5, array(), array(), 'Water');
-    $pdf->Cell(35, 5, 'Option');
-    $pdf->Ln(6);
-    $pdf->Cell(35, 5, 'Checkbox:');
-    $pdf->CheckBox('newsletter', 5, true, array(), array(), 'OK');
-    $pdf->Ln(10);
-    $pdf->Cell(35, 5, 'Seznam:');
-    $pdf->ListBox('listbox', 60, 15, array('', 'item1', 'item2', 'item3', 'item4'), array('multipleSelection'=>'true'));
-    $pdf->Ln(20);            
-    $pdf->Output();
-    ?>
-\end{lstlisting}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5cm]{img/mpdf_elements}
-\caption{Formulářové prvky vytvořené pomocí mPDF}
-\label{fig:mpdf_elements}
-\end{figure}
-
-\begin{lstlisting}[caption = {Zdrojový kód psaný v PHP využívající knihovnu mPDF}, label = {lst:mpdf_code}, captionpos=b]
-    <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/TSD/lib/mpdf/vendor/autoload.php');
-    $pdf = new \Mpdf\Mpdf(); 
-    $pdf->useActiveForms = true;        
-    $html = 'Textarea:    <textarea name="message" rows="1" cols="10">a</textarea>
-            <br>
-            Radiobutton: <input type="radio" name="radio" value="radio">
-            <br>
-            Checkbox:    <input type="checkbox" name="checkbox" value="checkbox">
-            <br>
-            Seznam:
-            <select name="select" size="4">
-                <option value="option1">item1</option>
-                <option value="option2">item2</option>
-                <option value="option3">item3</option>
-                <option value="option4">item4</option>
-            </select>
-            ';
-
-    $pdf->WriteHTML($html, 2);
-    $pdf->Output();
-    ?>
-\end{lstlisting}
-
+\begin{tabular}{|l|l|l|l|l|} 
+\hline
+\textbf{Název} & \multicolumn{2}{l|}{\textbf{Komplexní PDF}} & \multicolumn{2}{l|}{\textbf{Dlouhé PDF}}  \\ 
+\hline
+               & \textbf{Paměť [MB]} & \textbf{Čas [ms]}     & \textbf{Paměť [MB]} & \textbf{Čas [ms]}   \\ 
+\hline
+TCPDF          & 74                  & 35944                 & 2,3                 & 96350               \\ 
+\hline
+mPDF           & 14                  & 11316                 & 22,5                & 4120                \\
+\hline
+\end{tabular}
+\caption{Tabulka časové náročnosti a využité paměti při generování}
+\label{tab:table_generators}
+\end{table}
+\par
+Posledním a zároveň rozhodujícím důležitým faktorem je psaní PHP kódu pro vykreslování obsahu, kdy při psaní kódu u \textbf{mPDF} se využívá minimum funkcí pro nastavení parametrů PDF souboru (jako jsou například metadata), zatímco veškeré zobrazené elementy a text jsou psány v HTML stylu, který je snadno manipulovatelný a lze měnit parametry jednotlivých elementů (hodnota této vlastnosti bude oceněna hlavně u parseru). U \textbf{TCPDF} se zobrazovaný obsah vkládá pomocí předem vytvořených funkcí, kdy v některých případech tyto funkce obsahují mnoho parametrů, které si uživatel jen tak nezapamatuje a vždy bude potřebovat patřičnou dokumentaci pro správné použití (to bude zabírat mnoho času při vyvíjení nových modulů).
+\par
+Na závěr průzkumu lze říci, že ve většině případů je vhodné využít pro generování PDF souborů knihovnu \textbf{mPDF}. Pokud by ale uživatel potřeboval vygenerovat dokument ve stylu knihy (nulové využití CSS stylů a potřeba kvalitního vysázení textu), pak je lepší využít knihovnu \textbf{TCPDF}. 
+%SECTION
 \section{Parser}
 %omezení, chyby knihovny, dosáhnutí výsledků (popis doimplementování našeho kódu)
-
+%SECTION
 \section{Implementované třídy}
 %popis důležitých funkcí
-
+%SECTION
 \section{Výsledný vzhled PDF formuláře}
  %
+
 
