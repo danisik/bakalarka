@@ -6,6 +6,16 @@
 Při implementaci modulu bylo potřeba vybrat nejvhodnější knihovnu pro generování PDF souboru, kterou následně implementovat i s už předem vybraným parserem. Pro snadnější implementaci byly vytvořeny nové třídy pro ulehčení práce jak knihovnám, tak i budoucím vývojářům.
 \section{Adresářová struktura modulu}
 %popsat všechny složky, hlavní soubor atp.
+Adresářová struktura modulu na serveru vypadá následovně:
+\begin{itemize}
+	\item \textbf{config} - Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uloženy často měněná data (rok konference, upozorňující info aj.).  
+	\item \textbf{css} -  Adresář obsahující soubor \textit{style.css} s kaskádovými styly pro konfiguraci vzhledu HTML kódu a výsledného dokumentu. 
+	\item \textbf{img} - Adresář obsahující obrázky použité v dokumentu.
+	\item \textbf{lib} - Adresář obsahující zdrojové kódy knihoven třetích stran (generátor a parser).
+	\item \textbf{src} - Adresář obsahující zdrojové kódy vytvořené autorem bakalářské práce.
+	\item \textbf{how-to.txt} - Informační soubor, ve kterém se nachází implementační postupy (pro případné změny nebo rozšíření stávajícího modulu).
+	\item \textbf{orlib.php} - Hlavní soubor modulu obsahující všechny 3 hlavní funkce modulu.
+\end{itemize}
 
 %SECTION
 \section{Generátor}
@@ -37,17 +47,18 @@ mPDF   (v7.1.6)           & 14                  & 11316                 & 22,5  
 Posledním a zároveň rozhodujícím důležitým faktorem je psaní PHP kódu pro vykreslování obsahu, kdy při psaní kódu u \textbf{mPDF} se využívá minimum funkcí pro nastavení parametrů PDF souboru (jako jsou například metadata), zatímco veškeré zobrazené elementy a text jsou psány v HTML stylu, který je snadno manipulovatelný a lze měnit parametry jednotlivých elementů (hodnota této vlastnosti bude oceněna hlavně u parseru). U \textbf{TCPDF} se zobrazovaný obsah vkládá pomocí předem vytvořených funkcí, kdy v některých případech tyto funkce obsahují mnoho parametrů, které si uživatel jen tak nezapamatuje a vždy bude potřebovat patřičnou dokumentaci pro správné použití (to bude zabírat mnoho času při vyvíjení nových modulů).
 \par
 Na závěr průzkumu lze říci, že ve většině případů je vhodné využít pro generování PDF souborů knihovnu \textbf{mPDF}. Pokud by ale uživatel potřeboval vygenerovat dokument ve stylu knihy (nulové využití CSS stylů a potřeba kvalitního vysázení textu), pak je lepší využít knihovnu \textbf{TCPDF}. 
-%SECTION
 %SUBSECTION
 \subsection{Popis vytvoření dokumentu}
 %POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ŽE SE ČÁST VĚCÍ BERE Z KONFIGURÁKU, STYLY ZASE Z CSS SOUBORU, ZMÍNIT ÚPRAVY V KÓDU KNIHOVNY MPDF
+
 %SECTION
 \section{Parser}
 %omezení, chyby knihovny, dosáhnutí výsledků (popis doimplementování našeho kódu)
+
 %SUBSECTION
 \subsection{Popis zpracování dokumentu}
 %POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ZMÍNIT ÚPRAVY V KÓDU KNIHOVNY PDF PARSER
-%SECTION
+
 %SECTION
 \section{Implementované třídy}
 Pro modul bylo vytvořeno 7 tříd rozděleny do 4 souborů, které zajišťují veškerou pomocnou funkcionalitu (vytváření HTML kódu, konstanty aj.) při vytváření PDF souboru. 
@@ -79,9 +90,7 @@ newLength = \floor*{(oldFontSize / minFontSize) / textLength} \label{eq:text_len
 \end{equation}
 %SUBSECTION
 \subsection{OwnXmlReader}
-Třída načítající veškerý obsah konfiguračního souboru, který následně uloží do svých proměnných.
-
-%popis důležitých funkcí (NAŠICH)
+Třída načítající veškerý obsah konfiguračního souboru, který následně uloží do svých proměnných. Data uložená v konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
 \section{Výsledný vzhled PDF formuláře}
 
 
