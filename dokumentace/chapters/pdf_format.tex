@@ -11,8 +11,8 @@ PDF Objekty jsou základním stavebním kamenem pro uchovávání dat v dokument
 \subsection{Základní objekty}
 V PDF můžeme najít celkem 5 základních objektů:
 	\begin{itemize}
-		\item \textbf{Celá a reálná čísla} - Celá čísla jsou reprezentována jako jedno nebo více desetinných čísel z rozsahu 0..9 se znaménkem + nebo - před číslem. Reálné číslo je celé číslo rozšířené o desetinnou část s ideálně jedním desetinným číslem (reálná čísla nelze popsat exponenciálním způsobem). Přesnost a rozsah celých a reálných čísel je definován jednotlivými implementacemi PDF. V některých implementacích platí pravidlo které přetypuje celé číslo na reálné po přesáhnutí předem daného rozsahu.
-		\item \textbf{Řetězce} - Řetězec je reprezentován jako množina po sobě jdoucích bytů vepsaných mezi jednoduché závorky. Jako příklad lze uvést: \textit{(Hello, World!)}. Pro zobrazení zpětného lomítka a jednoduchých závorek je potřeba před tyto znaky přidat zpětné lomítko pro jejich správné zobrazení v dokumentu. V tabulce \ref{tab:table_escaped} lze vidět využití zpětného lomítka pro zobrazení odřádkovacích znaků:
+		\item \textbf{Celá a reálná čísla} -- Celá čísla jsou reprezentována jako jedno nebo více desetinných čísel z rozsahu 0..9 se znaménkem + nebo - před číslem. Reálné číslo je celé číslo rozšířené o desetinnou část s ideálně jedním desetinným číslem (reálná čísla nelze popsat exponenciálním způsobem). Přesnost a rozsah celých a reálných čísel je definován jednotlivými implementacemi PDF. V některých implementacích platí pravidlo které přetypuje celé číslo na reálné po přesáhnutí předem daného rozsahu.
+		\item \textbf{Řetězce} -- Řetězec je reprezentován jako množina po sobě jdoucích bytů vepsaných mezi jednoduché závorky. Jako příklad lze uvést: \textit{(Hello, World!)}. Pro zobrazení zpětného lomítka a jednoduchých závorek je potřeba před tyto znaky přidat zpětné lomítko pro jejich správné zobrazení v dokumentu. V tabulce \ref{tab:table_escaped} lze vidět využití zpětného lomítka pro zobrazení odřádkovacích znaků:
 			\begin{table}[h!]
 			\centering
 			\begin{tabular}{|l|l|} 
@@ -34,17 +34,17 @@ V PDF můžeme najít celkem 5 základních objektů:
 		\newline Řetězce můžou být reprezentovány i jako sekvence hexadecimálních čísel vložených mezi znaky \textbf{<} a \textbf{>}. 
 		\newline Jako příklad lze uvést: \textit{<4F6EFF00> \textrightarrow 0x4F, 0x6E, 0xFF, 0x00}.
 
-		\item \textbf{Jména} - Jméno je reprezentováno jako sloučení zpětného lomítka a řetězce (př. \textit{/Jmeno}). Za jméno se pokládá i zpětné lomítko bez řetězce. Pokud bychom potřebovali nadefinovat v dokumentu jméno, jenž bude obsahovat mezery, musíme do řetězce přidat i sekvenci znaků \textbf{\#20}, jelikož v ASCII tabulce je hexadecimální hodnota 20 vyjádřena jako prázdný znak. Jména jsou case-sensitive, proto \textit{/Jmeno} a \textit{/jmeno} jsou rozdílná jména. Jeho využití v PDF je prosté, slouží jako klíče ve slovnících a pro definice složitějších (vícehodnotových) objektů.
-		\item \textbf{Boolean (pravdivostní) hodnoty} - Logické hodnoty \textbf{true}/\textbf{false} a vyskytuje se v jednotlivých záznamech ve slovníku jako příznak.
-		\item \textbf{Hodnota null} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
+		\item \textbf{Jména} -- Jméno je reprezentováno jako sloučení zpětného lomítka a řetězce (př. \textit{/Jmeno}). Za jméno se pokládá i zpětné lomítko bez řetězce. Pokud bychom potřebovali nadefinovat v dokumentu jméno, jenž bude obsahovat mezery, musíme do řetězce přidat i sekvenci znaků \textbf{\#20}, jelikož v ASCII tabulce je hexadecimální hodnota 20 vyjádřena jako prázdný znak. Jména jsou case-sensitive, proto \textit{/Jmeno} a \textit{/jmeno} jsou rozdílná jména. Jeho využití v PDF je prosté, slouží jako klíče ve slovnících a pro definice složitějších (vícehodnotových) objektů.
+		\item \textbf{Boolean (pravdivostní) hodnoty} -- Logické hodnoty \textbf{true}/\textbf{false} a vyskytuje se v jednotlivých záznamech ve slovníku jako příznak.
+		\item \textbf{Hodnota null} -- Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
 	\end{itemize}
 %SUBSECTION
 \subsection{Složené objekty}	
 Složený objekt je takový objekt, který obsahuje seřazenou/neseřazenou množinu základních objektů i množinu složených objektů.
 	\begin{itemize}
-		\item \textbf{Pole} - Pole je v PDF reprezentováno jako seřazená množina základních i složených PDF objektů (v poli může být uložen například i slovník nebo pole) nezávisle na typech (v poli lze uchovávat například řetězec a číslo zároveň). Hodnoty pole jsou vloženy mezi znaky \textbf{[} a \textbf{]}.
-		\item \textbf{Slovníky} - Slovník se skládá z množiny dvou hodnot: klíče a hodnoty, pomocí kterých se slovník namapuje. Klíč je reprezentován pomocí \textbf{jména}, zatímco hodnota může být kterýkoliv PDF objekt, povoleny jsou i slovníky nebo pole. Slovníky jsou uloženy mezi znaky \textbf{<<} a \textbf{>>}.
-		\item \textbf{Datové proudy} - Datové proudy slouží především pro uložení binárních dat a skoro ve všech případech jsou zkomprimovány různými kombinacemi algoritmů, které jsou popsány v kapitole \ref{sec:komprese}, proto datové proudy musí být zároveň i nepřímým odkazem. Skládají se ze slovníků a části binárních dat. Slovník je využit pro ukládání parametrů binárních dat, jako například délka binárních dat aj.
+		\item \textbf{Pole} -- Pole je v PDF reprezentováno jako seřazená množina základních i složených PDF objektů (v poli může být uložen například i slovník nebo pole) nezávisle na typech (v poli lze uchovávat například řetězec a číslo zároveň). Hodnoty pole jsou vloženy mezi znaky \textbf{[} a \textbf{]}.
+		\item \textbf{Slovníky} -- Slovník se skládá z množiny dvou hodnot: klíče a hodnoty, pomocí kterých se slovník namapuje. Klíč je reprezentován pomocí \textbf{jména}, zatímco hodnota může být kterýkoliv PDF objekt, povoleny jsou i slovníky nebo pole. Slovníky jsou uloženy mezi znaky \textbf{<<} a \textbf{>>}.
+		\item \textbf{Datové proudy} -- Datové proudy slouží především pro uložení binárních dat a skoro ve všech případech jsou zkomprimovány různými kombinacemi algoritmů, které jsou popsány v kapitole \ref{sec:komprese}, proto datové proudy musí být zároveň i nepřímým odkazem. Skládají se ze slovníků a části binárních dat. Slovník je využit pro ukládání parametrů binárních dat, jako například délka binárních dat aj.
 	\end{itemize}
 %SUBSECTION
 \subsection{Linkovací objekty}
@@ -61,14 +61,14 @@ PDF objekty můžou být různě velké. Pokud je objekt až příliš veliký, 
 \label{sec:komprese}
 PDF soubory moho být poměrně kompaktní, o mnoho menší než ekvivalentní postscriptové soubory. Tato vlastnost je dosažena nejen lepší strukturou dat, ale i díky kompresním algoritmům, které jsou velice efektivní. Typ komprese dat PDF souboru lze zjistit pomocí textového editoru, který dokáže zpracovat binární data, vyhledáním klíčového slova \textbf{/Filter}. Níže jsou popsány kompresní algoritmy využívané v PDF \cite{PDFPrepressure}.
 \begin{itemize}
-	\item \textbf{CCITT G3/G4} - Algoritmus je bezeztrátový a využívá se pro vykreslení černobílých obrázků.
-	\item \textbf{JPEG} - JPEG algoritmus může být jak ztrátový, tak i bezeztrátový. V Acrobatu se využívá pouze ztrátový s 5 stupni komprese. Využívá se pro barevné a šedotónové obrázky.
-	\item \textbf{JPEG2000} - Rychlejší algoritmus na bázi JPEGu. Víceméně se nepoužívá, jelikož není kompatibilní se staršímy systémy a vysokýmy nároky na procesor.
-	\item \textbf{Flate} - Bezeztrátový algoritmus, vychází z kompresních algoritmů LZ77 a Huffmanova kódování.
-	\item \textbf{JBIG2} - Alternativní k CCITT. V Dnešní době se nevyužívá z důvodu pomalejší komprese než je u jeho protějšku.
-	\item \textbf{LZW} - Komprimací LZW algoritmem lze dosáhnout až o polovinu menší velikosti díky komprimaci veškerého textu a operátorů v souboru.
-	\item \textbf{RLE} - Bezeztrátový algoritmus pro vykreslování černobílých obrázků. Nahrazen efektivnějším algoritmem CCITT.
-	\item \textbf{ZIP} - Bezeztrátový algoritmus, učinější než jeho protějšek LZW.
+	\item \textbf{CCITT G3/G4} -- Algoritmus je bezeztrátový a využívá se pro vykreslení černobílých obrázků.
+	\item \textbf{JPEG} -- JPEG algoritmus může být jak ztrátový, tak i bezeztrátový. V Acrobatu se využívá pouze ztrátový s 5 stupni komprese. Využívá se pro barevné a šedotónové obrázky.
+	\item \textbf{JPEG2000} -- Rychlejší algoritmus na bázi JPEGu. Víceméně se nepoužívá, jelikož není kompatibilní se staršímy systémy a vysokýmy nároky na procesor.
+	\item \textbf{Flate} -- Bezeztrátový algoritmus, vychází z kompresních algoritmů LZ77 a Huffmanova kódování.
+	\item \textbf{JBIG2} -- Alternativní k CCITT. V Dnešní době se nevyužívá z důvodu pomalejší komprese než je u jeho protějšku.
+	\item \textbf{LZW} -- Komprimací LZW algoritmem lze dosáhnout až o polovinu menší velikosti díky komprimaci veškerého textu a operátorů v souboru.
+	\item \textbf{RLE} -- Bezeztrátový algoritmus pro vykreslování černobílých obrázků. Nahrazen efektivnějším algoritmem CCITT.
+	\item \textbf{ZIP} -- Bezeztrátový algoritmus, učinější než jeho protějšek LZW.
 \end{itemize}
 
 %SECTION
@@ -84,7 +84,7 @@ Vnitřní reprezentace PDF souboru je rozdělena na sekce, které jsou znázorn�
 
 Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, Body, Cross-reference a trailer}. Díky jedné z vlastností PDF formátu se při úpravě souboru staré sekce neodstraní, místo toho se pouze na jeho konci vytvoří nové sekce \cite{PDFInfoSec}.
 \begin{itemize}
-	\item \textbf{Header} - Hlavička souboru je uložena na první řádce, obsahující primárně použitou verzi PDF.
+	\item \textbf{Header} -- Hlavička souboru je uložena na první řádce, obsahující primárně použitou verzi PDF.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=15cm]{img/pdf_hlavicka}
@@ -92,7 +92,7 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_header}
 	\end{figure}
 	
-	\item \textbf{Body} - V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jednu množinu dat \cite{PDFAdobe}.
+	\item \textbf{Body} -- V těle dokumentu jsou uložena veškerá data objektů reprezentující celý dokument. Objekty jsou referencovány v tabulce Cross-reference z důvodu rozprostření částí dat patřících k danému objektu po celé sekci.Pokud se v dokumentu vyskytuje jeden obrázek/zvukový záznam vícekrát než jednou, tak se poté všechny objekty reprezentující obrázky odkazují na jednu množinu dat \cite{PDFAdobe}.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=15cm]{img/pdf_body}
@@ -100,13 +100,13 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_body}
 	\end{figure}
 
-	\item \textbf{Cross-reference table} - Jinak nazývána \textbf{xref} je tabulka obsahující reference na veškeré objekty uložené v těle a v kódu začíná řetězcem \textit{xref}. Reference uložená v tabulce je reprezentována na 2 řádcích pomocí řetězce a skládá se z 5 částí o celkové velikosti 20 bytů včetně oddělovačů \textit{CRLF}:
+	\item \textbf{Cross-reference table} -- Jinak nazývána \textbf{xref} je tabulka obsahující reference na veškeré objekty uložené v těle a v kódu začíná řetězcem \textit{xref}. Reference uložená v tabulce je reprezentována na 2 řádcích pomocí řetězce a skládá se z 5 částí o celkové velikosti 20 bytů včetně oddělovačů \textit{CRLF}:
 	\begin{itemize}
-		\item \textit{Číslo objektu} - Jednoznačný číselný identifikátor objektu.
-		\item \textit{Počet subobjektů} - Počet částí daného objektu vyskytujícího se v dokumentu.
-		\item \textit{Začátek objektu} - Tvoří většinu řetězce (prvních 10 bytů) a určuje offset od začátku PDF dokumentu až po začátek daného objektu.
-		\item \textit{Generační číslo objektu} - Vyjadřuje jak často byl objekt vymazán při úpravě dokumentu. 
-		\item \textit{Identifikátor využití} - Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
+		\item \textit{Číslo objektu} -- Jednoznačný číselný identifikátor objektu.
+		\item \textit{Počet subobjektů} -- Počet částí daného objektu vyskytujícího se v dokumentu.
+		\item \textit{Začátek objektu} -- Tvoří většinu řetězce (prvních 10 bytů) a určuje offset od začátku PDF dokumentu až po začátek daného objektu.
+		\item \textit{Generační číslo objektu} -- Vyjadřuje jak často byl objekt vymazán při úpravě dokumentu. 
+		\item \textit{Identifikátor využití} -- Nabývá hodnot \textit{f} (free) nebo \textit{n} (use) a vyjadřuje, zda je objekt vyobrazen v dokumentu.
 	\end{itemize}
 	\begin{figure}[h!]
 	\centering
@@ -115,15 +115,15 @@ Z obrázku lze vyčíst, že se zde vyskytují 4 hlavní sekce: \textit{Header, 
 	\label{fig:pdf_xref}
 	\end{figure}
 
-	\item \textbf{Trailer} -  Trailer je seznam informací, ze kterých lze snadno zjistit například velikost nebo umístění xref tabulky. Trailer může obsahovat tyto elementy:
+	\item \textbf{Trailer} --  Trailer je seznam informací, ze kterých lze snadno zjistit například velikost nebo umístění xref tabulky. Trailer může obsahovat tyto elementy:
 	\begin{itemize}
-		\item \textit{Size} - Udává počet objektů referencovaných v xref tabulce. 
-		\item \textit{Prev} - Offset od začátku dokumentu k předchozí xref tabulce.
-		\item \textit{Root} - Odkazuje na objekt obsahující informace ohledně katalogu xref tabulek.
-		\item \textit{Encrypt} - Specifikuje komprimující algoritmus použití pro daný dokument.
-		\item \textit{Info} - Obsahuje dodatečné informace ohledně katalogu xref tabulek.
-		\item \textit{ID} - 2-bytový identifikátor PDF dokumentu.
-		\item \textit{XrefStm} - Offset od začátku dokumentu až k dekódovanému xref streamu. Využívá se pouze u hybridně-referencovaných souborů pouze tehdy, kdy hledaný objekt není nalezen v xref tabulce (před tím, než se volá element \textit{Prev}). 
+		\item \textit{Size} -- Udává počet objektů referencovaných v xref tabulce. 
+		\item \textit{Prev} -- Offset od začátku dokumentu k předchozí xref tabulce.
+		\item \textit{Root} -- Odkazuje na objekt obsahující informace ohledně katalogu xref tabulek.
+		\item \textit{Encrypt} -- Specifikuje komprimující algoritmus použití pro daný dokument.
+		\item \textit{Info} -- Obsahuje dodatečné informace ohledně katalogu xref tabulek.
+		\item \textit{ID} -- 2-bytový identifikátor PDF dokumentu.
+		\item \textit{XrefStm} -- Offset od začátku dokumentu až k dekódovanému xref streamu. Využívá se pouze u hybridně-referencovaných souborů pouze tehdy, kdy hledaný objekt není nalezen v xref tabulce (před tím, než se volá element \textit{Prev}). 
 	\end{itemize}
 	\begin{figure}[h!]
 	\centering
@@ -151,11 +151,11 @@ Ve formuláři se může vyskytovat až 7 různých prvků viz obrázek \ref{fig
 	\label{fig:form_elements}
 	\end{figure}
 	\begin{itemize}
-	\item \textbf{Textové pole} - Slouží k vyplnění textu. Jako příklad lze uvést například klasický přihlašovací formulář, který obsahuje 2 textové pole, jedno pro zadání uživatelského jména a druhé (upravené, místo textu se zobrazují pouze speciální znaky pro zakrytí zadaného textu)  pro zadání hesla. Při vytváření lze předvyplnit toto pole výchozím textem, lze omezit maximální počet znaků vkládaných do pole a jejich formát. Pole může být uzamčeno a může sloužit i jako informační položka.
-	\item \textbf{Tlačítko} - Účel tohoto prvku je spouštění zvolených akcí, které se po kliknutí na tlačítko mají provést, tudíž se označují jako hlavní řídící prvek každého formuláře. Tlačítko se skládá převážně z ikonky a textu, případně mu může být nastaven externí obrázek.
-	\item \textbf{Seznam} - Zobrazuje seznam položek v rolovacím okně, ze kterého lze současně označit jeden nebo více položek (s využitím klávesy \textit{Shift} nebo \textit{Ctrl}). Pro seznamy lze nastavit filtry, které budou seznam třídit podle předem daných parametrů a zobrazí položky na základě těchto filtrů.
-	\item \textbf{Kombinované pole} - Kombinované pole je ve své podstatě seznam prvků, ale liší se ve výběru položek. V kombinovaném poli lze vybrat pouze jeden aktivní prvek, ostatní budou zakázány. Platí zde pravidla s tříděním pprvků odle filtrů.
-	\item \textbf{Přepínací tlačítka} - Jinak označované jako \textbf{radio-buttony} je seznam tlačítek, ve kterém uživatel vybírá pouze jednu z nabízených hodnot.
-	\item \textbf{Zaškrtávací pole} - Jedná se o indikační prvek umožňující současný výběr více položek. V odborném prostředí se označuje jako \textbf{Checkbox}.
-	\item \textbf{Podpis} - Pomocí tohoto prvku lze do dokumentu vložit elektronický podpis.
+	\item \textbf{Textové pole} -- Slouží k vyplnění textu. Jako příklad lze uvést například klasický přihlašovací formulář, který obsahuje 2 textové pole, jedno pro zadání uživatelského jména a druhé (upravené, místo textu se zobrazují pouze speciální znaky pro zakrytí zadaného textu)  pro zadání hesla. Při vytváření lze předvyplnit toto pole výchozím textem, lze omezit maximální počet znaků vkládaných do pole a jejich formát. Pole může být uzamčeno a může sloužit i jako informační položka.
+	\item \textbf{Tlačítko} -- Účel tohoto prvku je spouštění zvolených akcí, které se po kliknutí na tlačítko mají provést, tudíž se označují jako hlavní řídící prvek každého formuláře. Tlačítko se skládá převážně z ikonky a textu, případně mu může být nastaven externí obrázek.
+	\item \textbf{Seznam} -- Zobrazuje seznam položek v rolovacím okně, ze kterého lze současně označit jeden nebo více položek (s využitím klávesy \textit{Shift} nebo \textit{Ctrl}). Pro seznamy lze nastavit filtry, které budou seznam třídit podle předem daných parametrů a zobrazí položky na základě těchto filtrů.
+	\item \textbf{Kombinované pole} -- Kombinované pole je ve své podstatě seznam prvků, ale liší se ve výběru položek. V kombinovaném poli lze vybrat pouze jeden aktivní prvek, ostatní budou zakázány. Platí zde pravidla s tříděním pprvků odle filtrů.
+	\item \textbf{Přepínací tlačítka} -- Jinak označované jako \textbf{radio-buttony} je seznam tlačítek, ve kterém uživatel vybírá pouze jednu z nabízených hodnot.
+	\item \textbf{Zaškrtávací pole} -- Jedná se o indikační prvek umožňující současný výběr více položek. V odborném prostředí se označuje jako \textbf{Checkbox}.
+	\item \textbf{Podpis} -- Pomocí tohoto prvku lze do dokumentu vložit elektronický podpis.
 	\end{itemize}

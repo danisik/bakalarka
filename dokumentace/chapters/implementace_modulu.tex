@@ -8,13 +8,13 @@ Při implementaci modulu bylo potřeba vybrat nejvhodnější knihovnu pro gener
 %popsat všechny složky, hlavní soubor atp.
 Adresářová struktura modulu na serveru vypadá následovně:
 \begin{itemize}
-	\item \textbf{config} - Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uloženy často měněná data (rok konference, upozorňující info aj.).  
-	\item \textbf{css} -  Adresář obsahující soubor \textit{style.css} s kaskádovými styly pro konfiguraci vzhledu HTML kódu a výsledného dokumentu. 
-	\item \textbf{img} - Adresář obsahující obrázky použité v dokumentu.
-	\item \textbf{lib} - Adresář obsahující zdrojové kódy knihoven třetích stran (generátor a parser).
-	\item \textbf{src} - Adresář obsahující zdrojové kódy vytvořené autorem bakalářské práce.
-	\item \textbf{how-to.txt} - Informační soubor, ve kterém se nachází implementační postupy (pro případné změny nebo rozšíření stávajícího modulu).
-	\item \textbf{orlib.php} - Hlavní soubor modulu obsahující všechny 3 hlavní funkce modulu.
+	\item \textbf{config} -- Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uloženy často měněná data (rok konference, upozorňující info aj.).  
+	\item \textbf{css} --  Adresář obsahující soubor \textit{style.css} s kaskádovými styly pro konfiguraci vzhledu HTML kódu a výsledného dokumentu. 
+	\item \textbf{img} -- Adresář obsahující obrázky použité v dokumentu.
+	\item \textbf{lib} -- Adresář obsahující zdrojové kódy knihoven třetích stran (generátor a parser).
+	\item \textbf{src} -- Adresář obsahující zdrojové kódy vytvořené autorem bakalářské práce.
+	\item \textbf{how-to.txt} -- Informační soubor, ve kterém se nachází implementační postupy (pro případné změny nebo rozšíření stávajícího modulu).
+	\item \textbf{orlib.php} -- Hlavní soubor modulu obsahující všechny 3 hlavní funkce modulu.
 \end{itemize}
 
 %SECTION
@@ -80,17 +80,20 @@ Hlavním důvodem vzniku této třídy byla snaha nevytvářet HTML kód přímo
 \subsection{TextConversioner}
 V některých případech je název vědeckého příspěvku nebo jméno posuzovatele příliš dlouhé, kdy narušuje vzhled výsledného dokumentu (narušení může nastat i při chybě programátora, pokud by byl instrukční text příliš dlouhý). Proto byla vytvořena třída \textbf{TextConversioner}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určující maximální délku textu. Pokud je text delší než stanovená délka, tak se následně vypočte potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size} která se porovnává se stanovenými konstantami určující minimální font. 
 \begin{equation}
-newFontSize = \floor*{(fontSize *  maxTextLength) / textLength)} \label{eq:font_size}
+newFontSize = \floor*{\frac{maxTextLength}{textLength} \cdot fontSize} \label{eq:font_size}
 \end{equation}
 
 Za okolností že vypočtený font je menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
 
 \begin{equation}
-newLength = \floor*{(oldFontSize / minFontSize) / textLength} \label{eq:text_length}
+newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:text_length}
 \end{equation}
 %SUBSECTION
 \subsection{OwnXmlReader}
 Třída načítající veškerý obsah konfiguračního souboru, který následně uloží do svých proměnných. Data uložená v konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
+%SECTION
+\section{Technické požadavky}
+%SECTION
 \section{Výsledný vzhled PDF formuláře}
 
 

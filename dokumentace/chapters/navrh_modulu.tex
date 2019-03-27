@@ -71,11 +71,11 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
 \end{lstlisting}
 Popis vstupních parametrů funkce:
 \begin{itemize}
-	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
-	\item\textcolor{blue}{\textbf{\$reviewer\_name}} - Celé jméno posuzovatele
-	\item\textcolor{blue}{\textbf{\$sid}} - ID vědeckého příspěvku
-	\item\textcolor{blue}{\textbf{\$submission\_name}} - Celý název vědeckého příspěvku
-	\item\textcolor{blue}{\textbf{\$submission\_filename}} - Celý název PDF souboru vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$rid}} -- ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$reviewer\_name}} -- Celé jméno posuzovatele
+	\item\textcolor{blue}{\textbf{\$sid}} -- ID vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$submission\_name}} -- Celý název vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$submission\_filename}} -- Celý název PDF souboru vědeckého příspěvku
 \end{itemize}
 
 %SUBSECTION
@@ -87,9 +87,9 @@ function process_offline_review_form($rid, $sid, $revform_filename)
 \end{lstlisting}
 Popis vstupních parametrů funkce:
 \begin{itemize}
-	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
-	\item\textcolor{blue}{\textbf{\$sid}} - ID vědeckého příspěvku
-	\item\textcolor{blue}{\textbf{\$revform\_filename}} - Celý název PDF souboru hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$rid}} -- ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$sid}} -- ID vědeckého příspěvku
+	\item\textcolor{blue}{\textbf{\$revform\_filename}} -- Celý název PDF souboru hodnotícího příspěvku
 \end{itemize}
 
 Druhá funkce pro zpracování PDF souboru má za úkol uložit již extrahované hodnotící parametry do databáze konferenčního systému. Návrh hlavičky funkce viz \ref{lst:upload_function}.
@@ -99,6 +99,6 @@ function upload_to_DB_offline_review_form($rid, $values)
 \end{lstlisting}
 Popis vstupních parametrů funkce:
 \begin{itemize}
-	\item\textcolor{blue}{\textbf{\$rid}} - ID hodnotícího příspěvku
-	\item\textcolor{blue}{\textbf{\$values}} - Seznam všech hodnotících parametrů 
+	\item\textcolor{blue}{\textbf{\$rid}} -- ID hodnotícího příspěvku
+	\item\textcolor{blue}{\textbf{\$values}} -- Seznam všech hodnotících parametrů 
 \end{itemize}
