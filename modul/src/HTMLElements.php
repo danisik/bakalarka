@@ -2,14 +2,14 @@
 
 //
 //		CONFERENCE PORTAL PROJECT
-//		VERSION 3.0.6
+//		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
+//		Faculty of Applied Sciences, University of West Bohemia in PlzeĹ.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		21-02-2019
+//		Last update on:		27-03-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -18,6 +18,14 @@
 //
  
 class HTMLElements {
+
+    private $font_size_of_review_ID = 23;
+    private $font_size_of_header_title = 20;
+    private $font_size_of_title_info = 17;
+    private $font_size_of_title = 30;
+    private $font_size_of_name = 17;        
+    private $font_size_of_info = 12;
+      
     
     //
     //print radiobutton into pdf
@@ -29,7 +37,7 @@ class HTMLElements {
     //return $radio - html text contains radio buttons
     function evaluation_radio_buttons($name_of_evaluation, $evaluation_info, $count_of_rankings, $group_ID){   
         $radio = '';
-        $radio .= '<p id="radiobutton"><span id="bold_info">'.$name_of_evaluation.'</span> – '.$evaluation_info.':</p>';
+        $radio .= '<p id="radiobutton"><span id="bold_info">'.$name_of_evaluation.'</span> - '.$evaluation_info.':</p>';
         $radio .= '<p id="margin_02">';
         $radio .= '<fieldset id="'.RadioButtonInfo::Group_text.''.$group_ID.'">';
         for($i = 0; $i <= $count_of_rankings; $i++) {
@@ -56,7 +64,7 @@ class HTMLElements {
         if($textarea_text == '') $textarea_text = 'a';
         
         $area = '';
-        $area .= '<p id="textarea"><span id="bold_info">'.$textarea_header.'</span>'.$textarea_info.': </p>';                        
+        $area .= '<p id="textarea"><span id="bold_info">'.$textarea_header.'</span> - '.$textarea_info.': </p>';                        
         $area .= '<textarea name="'.TextareaInfo::Textarea_text.''.$textarea_ID.'" rows="'.$rows.'" cols="'.$cols.'">'.$textarea_text.'</textarea>';
         return $area;
     } 
@@ -68,18 +76,14 @@ class HTMLElements {
     //$name_of_submission - name of reviewed submission
     //
     //return $header - html text contains header for document
-    function evaluation_header($text_conversioner, $review_ID, $name_of_submission) {
-    
-        $font_size_of_review_ID = 23;
-        $font_size_of_header_title = 20;
+    function evaluation_header($text_conversioner, $review_ID, $name_of_submission) {        
+        $values = $text_conversioner->check_text(Instruction::HEADER_TITLE, $this->font_size_of_header_title, $name_of_submission);
         
-        $values = $text_conversioner->check_text(Instruction::HEADER_TITLE, $font_size_of_header_title, $name_of_submission);
-        
-        $font_size_of_header_title = $values["font"];
+        $new_font_size_of_header_title = $values["font"];
         $name_of_submission = $values["text"];
         
-        $header = '<p><span id="evaluation_header" style="font-size: '.$font_size_of_review_ID.'pt;">REVIEW ID #'.$review_ID.' : </span>';
-        $header .= '<span id="evaluation_header" style="font-size: '.$font_size_of_header_title.'pt;">'.$name_of_submission.'</span></p>';
+        $header = '<p><span id="evaluation_header" style="font-size: '.$this->font_size_of_review_ID.'pt;">REVIEW ID #'.$review_ID.' : </span>';
+        $header .= '<span id="evaluation_header" style="font-size: '.$new_font_size_of_header_title.'pt;">'.$name_of_submission.'</span></p>';
         $header .= '<hr/>';
         return $header;
     }
@@ -92,27 +96,23 @@ class HTMLElements {
     //$name_of_reviewer - name of reviewer
     //
     //return $title - html text contains title for document
-    function evaluation_review_title($text_conversioner, $submission_ID, $name_of_submission, $name_of_reviewer) {
-        $font_size_of_title_info = 17;
-        $font_size_of_title = 30;
-        $font_size_of_name = 17;
+    function evaluation_review_title($text_conversioner, $submission_ID, $name_of_submission, $name_of_reviewer) {                
+        $values = $text_conversioner->check_text(Instruction::TITLE, $this->font_size_of_title, $name_of_submission);
         
-        $values = $text_conversioner->check_text(Instruction::TITLE, $font_size_of_title, $name_of_submission);
-        
-        $font_size_of_title = $values["font"];
+        $new_font_size_of_title = $values["font"];
         $name_of_submission = $values["text"];
         
         
-        $values = $text_conversioner->check_text(Instruction::REVIEWER_NAME, $font_size_of_name, $name_of_reviewer);
+        $values = $text_conversioner->check_text(Instruction::REVIEWER_NAME, $this->font_size_of_name, $name_of_reviewer);
         
-        $font_size_of_name = $values['font'];
+        $new_font_size_of_name = $values['font'];
         $name_of_reviewer = $values['text'];
         
         
         $title = '';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title_info.'pt;">Offline Review Form for Submission S-ID #'.$submission_ID.'</p>';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_title.'pt;">'.$name_of_submission.'</p>';
-        $title .= '<p id="evaluation_title" style="font-size: '.$font_size_of_name.'pt;">Review by '.$name_of_reviewer.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$this->font_size_of_title_info.'pt;">Offline Review Form for Submission S-ID #'.$submission_ID.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$new_font_size_of_title.'pt;">'.$name_of_submission.'</p>';
+        $title .= '<p id="evaluation_title" style="font-size: '.$new_font_size_of_name.'pt;">Review by '.$name_of_reviewer.'</p>';
         return $title;    
     }
     
@@ -123,7 +123,6 @@ class HTMLElements {
     //
     //return $instructions - html text contains instruction text below title
     function evaluation_instructions($text_conversioner, $xml_reader) {
-        $font_size_of_info = 12;
         //get text from XML
         $instruction_header = $xml_reader->getInstruction_header();
         $instruction_text = $xml_reader->getInstruction_text();
@@ -138,10 +137,10 @@ class HTMLElements {
         $len_of_warning = mb_strlen($instruction_warning);
         
         //check text
-        $values = $text_conversioner->check_text(Instruction::INFO, $font_size_of_info, $full_text);
+        $values = $text_conversioner->check_text(Instruction::INFO, $this->font_size_of_info, $full_text);
         
         //get back updated font and text (if it was needed)
-        $font_size_of_info = $values["font"];
+        $new_font_size_of_info = $values["font"];
         $full_text = $values["text"]; 
         
         //calculate start position of each string
@@ -155,7 +154,7 @@ class HTMLElements {
         $instruction_warning = substr($full_text, $instruction_warning_start, $len_of_warning);
           
         $instructions = '';
-        $instructions .= '<p id="evaluation_instructions" style="font-size: '.$font_size_of_info.'pt">';
+        $instructions .= '<p id="evaluation_instructions" style="font-size: '.$new_font_size_of_info.'pt">';
         $instructions .= '<span id="bold_info">'.$instruction_header.': </span>'.$instruction_text.' <span style="color: red">'.$instruction_warning.'</span>';
         $instructions .= '</p>';
         return $instructions;

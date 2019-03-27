@@ -1,14 +1,14 @@
 <?php
 //
 //		CONFERENCE PORTAL PROJECT
-//		VERSION 3.0.6
+//		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
 //		Faculty of Applied Sciences, University of West Bohemia in Plzeò.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		03-03-2019
+//		Last update on:		27-03-2019
 //      Encoding: utf-8 no BOM
 //
 //

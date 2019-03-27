@@ -2,14 +2,14 @@
 
 //
 //		CONFERENCE PORTAL PROJECT
-//		VERSION 3.0.6
+//		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
 //		Faculty of Applied Sciences, University of West Bohemia in PlzeĹ.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		04-03-2019
+//		Last update on:		27-03-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -32,7 +32,8 @@ define('DOC_GP_PARSER', DOC_GP_LIB.'pdfparser/');
 //$submission_name - name of submission to be reviewed
 //$submission_filename - path to submission
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
-
+    
+    
     mb_internal_encoding('UTF-8');
     //including our classes
     include (DOC_GP_SOURCE.'Enumerates.php');
@@ -72,13 +73,12 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     
     //set watermark for submission
     $mpdf = setWatermark($mpdf, $watermark_text);
-    
     //first template page
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $mpdf = set_hidden_RID_and_SID($mpdf, $rid, $sid);
     $html = create_header_image(DOC_GP_IMG_LOGO);
     $html .= create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
-    //write first page of evaluation   
+    //write first page of evaluation       
     $mpdf->WriteHTML($html);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
     $mpdf->AddPage();
@@ -88,13 +88,13 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $html .= create_header_image(DOC_GP_IMG_LOGO);    
     $html .= create_second_template_page($elements, $submission_upload_info, $textarea_info);
     $mpdf->WriteHTML($html);
-
     $mpdf->AddPage();
     //load submission and import it after review form
     $mpdf = load_submission($mpdf, DOC_TSD_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
-    //$mpdf->Output();
-    $mpdf->Output($filename, 'D');
+    $mpdf->Output();
+    //$mpdf->Output($filename, 'D');    
+    
     header("Location: " . DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 }
 
@@ -240,7 +240,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
     else if ($sid != $rid_sid[1]) {
       set_failure("review_details_fail", "Submission ID# (" . $rid_sid[1] . ") of file didn't match Submission ID# of this Review(" . $sid . ").",
         DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-        return TRUE;
+        return FALSE;
     }
     
     //if every needed element have valid value and size of groups and textareas are more than zero (because size of array of groups and textareas is 0 when nothing is filled) 
@@ -279,7 +279,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         $invalid_fields = substr($invalid_fields, 0, strlen($invalid_fields));
         set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled (".$invalid_fields.").",
                     DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-        return TRUE;
+        return FALSE;
     }
     
 }
@@ -294,11 +294,11 @@ function upload_to_DB_offline_review_form($rid, $values) {
    $qry = db_get('state', 'reviews', "`id`='" . $rid . "'");
    if (!$qry) {
 	  error("Database error", "The database server returned an error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-	  return TRUE;
+	  return FALSE;
    }
    else if ($qry === "F") {
 	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, this review has been marked as finished...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-	  return TRUE;
+	  return FALSE;
    }
 	
    $qstr = sprintf("UPDATE `reviews` SET 
@@ -320,13 +320,13 @@ function upload_to_DB_offline_review_form($rid, $values) {
 		
    if (!$qstr) {
 	  set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid. The review contains incompatible/unprocessable characters...", DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
-   	   return TRUE;
+   	   return FALSE;
    }
 	
    $qry = db_query($qstr);
    if (!$qry){
 	  error("Database error", "Error while storing the data from the offline review form into the database. " . "The database server returned this error: " . db_error(get_session_var('dblink')), DOC_ROOT . "/index.php?form=review-details&rid=" . $rid) ;
-	  return TRUE;
+	  return FALSE;
 	}
 	
 	set_message("review_details_info", "<b>The uploaded offline review form for Review ID# $rid was successfully processed</b>..." , DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
@@ -344,9 +344,15 @@ function setMPDF() {
 	   'margin_header' => 10,
 	   'margin_footer' => 10,
      'default_font' => 'helvetica'
-    ]);
+    ]);  
     //editable form elements
     $mpdf->useActiveForms = true;
+    
+    /*
+    IMPORTANT!! -> if there is a bug in web portal like invalid utf8 characters, then 
+    it will still generate document, but with these retarded characters
+    */
+    $mpdf->ignore_invalid_utf8 = true;
     
     return $mpdf;
 }
