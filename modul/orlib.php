@@ -92,8 +92,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //load submission and import it after review form
     $mpdf = load_submission($mpdf, DOC_TSD_ROOT.$submission_filename, DOC_GP_IMG_LOGO);
     //create pdf
-    $mpdf->Output();
-    //$mpdf->Output($filename, 'D');    
+    //$mpdf->Output();
+    $mpdf->Output($filename, 'D');    
     
     header("Location: " . DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
 }
