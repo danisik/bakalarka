@@ -47,9 +47,21 @@ mPDF   (v7.1.6)           & 14                  & 11316                 & 22,5  
 Posledním a zároveň rozhodujícím důležitým faktorem je psaní PHP kódu pro vykreslování obsahu, kdy při psaní kódu u \textbf{mPDF} se využívá minimum funkcí pro nastavení parametrů PDF souboru (jako jsou například metadata), zatímco veškeré zobrazené elementy a text jsou psány v HTML stylu, který je snadno manipulovatelný a lze měnit parametry jednotlivých elementů (hodnota této vlastnosti bude oceněna hlavně u parseru). U \textbf{TCPDF} se zobrazovaný obsah vkládá pomocí předem vytvořených funkcí, kdy v některých případech tyto funkce obsahují mnoho parametrů, které si uživatel jen tak nezapamatuje a vždy bude potřebovat patřičnou dokumentaci pro správné použití (to bude zabírat mnoho času při vyvíjení nových modulů).
 \par
 Na závěr průzkumu lze říci, že ve většině případů je vhodné využít pro generování PDF souborů knihovnu \textbf{mPDF}. Pokud by ale uživatel potřeboval vygenerovat dokument ve stylu knihy (nulové využití CSS stylů a potřeba kvalitního vysázení textu), pak je lepší využít knihovnu \textbf{TCPDF}. 
+
 %SUBSECTION
 \subsection{Popis vytvoření dokumentu}
-%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ŽE SE ČÁST VĚCÍ BERE Z KONFIGURÁKU, STYLY ZASE Z CSS SOUBORU, ZMÍNIT ÚPRAVY V KÓDU KNIHOVNY MPDF
+%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ŽE SE ČÁST VĚCÍ BERE Z KONFIGURÁKU, STYLY ZASE Z CSS SOUBORU, FONTY použité pro generování)
+
+%SUBSECTION
+\subsection{Chyby v mPDF}
+Při vytváření dokumentu byly nalezeny 2 chyby znemožňující úplné vykreslení celého dokumentu. Níže jsou tyto chyby popsány i s jejich řešením.
+\par
+První chyba byla zjištěna na úplném začátku implementace generátoru, kdy při vkládání textových polí do formuláře se po přeložení kódu nevytvořil žádný dokument. Při zkoumání zdrojového kódu knihovny a vytvoření pár testovacích dokumentů bylo žjištěno, že knihovna neumožňuje vytvořit textové pole pokud se při jeho vytvoření nezadá vkládaný text. Proto bylo nutné, aby se poupravil kód knihovny, konkrétněji ve vykreslování textového pole. Aby bylo možno takto upravovat zdrojový kód knihovny, tak nesmí být knihovna pod licencí, nebo alespoň poď licencí dovolující úpravy (například \textit{GNU General Public License} verze 2, pod kterou je licencována i mPDF). Pro vyřešení tohoto problému byl přidán mechanismus, který při vytváření prázdného textového pole přidá znak \uv{\textbf{a}} (lze nalézt v souboru \textit{HTMLElements.php, řádek 64} a posléze je v knihovně při vykreslování textového pole (lze nalézt v souboru knihovny \textit{Mpdf.php, řádek 7023}) tento znak odstraněn (nemá vliv na jakýkoliv jiný znak či slova, pouze na znak \uv{\textbf{a}}).
+\par
+Druhá chyba byla nalezena při testování zkracování délky textu titulku, pokud překročí nastavenou mez. Protože v aktuální verzi PHP je z neznámých příčin chyba, která zapříčiňuje špatné ukládání některých znaků v kódování UTF-8, které by se měli přenášet i do vygenerovaného dokumentu. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky neznala a proto výsledek generování vždy skončil chybou. Ze všech vyzkoušených možností (změnit kódování textu titulku, nahrazení neplatných znaků prázdnými aj.) fungovala pouze jedna, a to nastavení atributu \textbf{ignore\_invalid\_utf8} na \textit{true} u proměnné třídy \textit{Mpdf}.
+
+ %nejdřív napsat že má takovou licenci která umožňuje úpravu, pak vypsat co jsem udělal
+%ZMÍNIT ÚPRAVY V KÓDU KNIHOVNY MPDF (TEXTAREA, NEVALIDNÍ UTF8 ZNAKY -> CRASH
 
 %SECTION
 \section{Parser}
@@ -57,7 +69,8 @@ Na závěr průzkumu lze říci, že ve většině případů je vhodné využí
 
 %SUBSECTION
 \subsection{Popis zpracování dokumentu}
-%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ZMÍNIT ÚPRAVY V KÓDU KNIHOVNY PDF PARSER
+%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ
+%ZMÍNIT JAK JSEM DOŠEL KE KÝŽENÉMU VÝSLEDKU PARSOVÁNÍ (ŽE SE PARSUJOU OBJEKTY, V NĚKTERÝCH ČÁSTECH PARSOVÁNÍ JSOU TAKHLE REPREZENTOVANÝ ATP.
 
 %SECTION
 \section{Implementované třídy}

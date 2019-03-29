@@ -7020,10 +7020,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				$w = $objattr['OUTER-WIDTH'];
 				$h = $objattr['OUTER-HEIGHT'];
                 //TODO vynulovani textu
-				if (isset($objattr['text'])) {
+				if (isset($objattr['text']) && $objattr['text'] != 'a') {
 					$texto = $objattr['text'];
-                    $texto = '';
 				}
+                else $texto = '';
 				$this->y = $y;
 				$this->x = $x;
 				if (isset($objattr['fontfamily'])) {
