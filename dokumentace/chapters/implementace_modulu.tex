@@ -51,7 +51,7 @@ newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:
 Třída načítající veškerý obsah konfiguračního souboru, který následně uloží do svých proměnných. Data uložená v konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
 %SECTION
 \section{Generátor}
-Generátor by měl být při vytváření PDF dokumentu rychlý, vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.  
+Generátor by měl být při vytváření PDF dokumentu rychlý, vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.
 %SUBSECTION
 \subsection{TCPDF x mPDF}
 Při analyzování dostupných PHP knihoven pro generování PDF souborů byly zjištěny 2 vyhovující knihovny, které můžou potencionálně splňovat potřebnou funkcionalitu, bohužel pouze 1 může být použit do vyvíjeného modulu. Po vytvoření jednoduchého souboru obsahující základní formulářové prvky bylo rozhodnuto, že knihovna \textbf{mPDF} bude použita pro generování PDF souborů. Důvody této volby jsou popsány níže.
@@ -78,31 +78,22 @@ mPDF   (v7.1.6)           & 14                  & 11316                 & 22,5  
 \par
 Posledním a zároveň rozhodujícím důležitým faktorem je psaní PHP kódu pro vykreslování obsahu, kdy při psaní kódu u \textbf{mPDF} se využívá minimum funkcí pro nastavení parametrů PDF souboru (jako jsou například metadata), zatímco veškeré zobrazené elementy a text jsou psány v HTML stylu, který je snadno manipulovatelný a lze měnit parametry jednotlivých elementů (hodnota této vlastnosti bude oceněna hlavně u parseru). U \textbf{TCPDF} se zobrazovaný obsah vkládá pomocí předem vytvořených funkcí, kdy v některých případech tyto funkce obsahují mnoho parametrů, které si uživatel jen tak nezapamatuje a vždy bude potřebovat patřičnou dokumentaci pro správné použití (to bude zabírat mnoho času při vyvíjení nových modulů).
 \par
-Na závěr průzkumu lze říci, že ve většině případů je vhodné využít pro generování PDF souborů knihovnu \textbf{mPDF}. Pokud by ale uživatel potřeboval vygenerovat dokument ve stylu knihy (nulové využití CSS stylů a potřeba kvalitního vysázení textu), pak je lepší využít knihovnu \textbf{TCPDF}. 
+Na závěr průzkumu lze říci, že ve většině případů je vhodné využít pro generování PDF souborů knihovnu \textbf{mPDF}. Pokud by bylo nutné vytvořit dokument například ve stylu knihy (nulové využití CSS stylů a potřeba kvalitního vysázení textu), pak je lepší využít knihovnu \textbf{TCPDF}. 
 
 %SUBSECTION
 \subsection{Popis vytvoření dokumentu}
-%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ, ŽE SE ČÁST VĚCÍ BERE Z KONFIGURÁKU, STYLY ZASE Z CSS SOUBORU, FONTY použité pro generování)
-Na samotném začátku generování jsou vytvořeny veškeré proměnné námi vytvořených tříd (u proměnné třídy \textbf{OwnXmlReaderu} proběhne i načtení dat z konfiguračního xml souboru). Dále jsou vytvořeny proměnné reprezentující název vytvořeného dokumentu a info ohledně nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
+Na samotném začátku generování jsou vytvořeny veškeré proměnné vytvořených tříd (u proměnné třídy \textbf{OwnXmlReaderu} proběhne i načtení dat z konfiguračního xml souboru). Dále jsou vytvořeny proměnné reprezentující název vytvořeného dokumentu a info ohledně nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
 \par
-V první části generování probíhá přiřazení CSS stylů pro jednotlivé HTML položky (použité fonty, velikosti fontů aj.), které je doprovázeno vytvořením záhlaví pro celý dokument. Pro celý dokument byl použit font \textit{Helvetica}, pouze u pár výjimek je použit font \textit{Times New Roman} (pro titulek dokumentu a veškerý text se stylem \textit{Bold}).  Do záhlaví byl vložen identifikátor hodnotícího příspěvku doplněn o název hodnoceného vědeckého příspěvku (ten je případně zkrácen na určitou délku pokud nesplňuje limity nastavené ve třídě \textbf{TextConversioner}) a logem konference TSD. Výsledný vzhled záhlaví lze vidět na obrázku \ref{fig:implement_zahlavi}.
-	\begin{figure}[h!]
-	\centering
-	\includegraphics[width=14cm]{img/implement_zahlavi}
-	\caption{Výsledné záhlaví PDF dokumentu}
-	\label{fig:implement_zahlavi}
-	\end{figure}
-\newpage
+V první části generování probíhá přiřazení CSS stylů pro jednotlivé HTML položky (použité fonty, velikosti fontů aj.), které je doprovázeno vytvořením záhlaví pro celý dokument. Pro celý dokument byl použit font \textit{Helvetica}, pouze u pár výjimek je použit font \textit{Times New Roman} (pro titulek dokumentu a veškerý text se stylem \textit{Bold}).  Do záhlaví byl vložen identifikátor hodnotícího příspěvku doplněn o název hodnoceného vědeckého příspěvku (ten je případně zkrácen na určitou délku pokud nesplňuje limity nastavené ve třídě \textbf{TextConversioner}) a logem konference TSD. 
 \par
 V druhé části generování proběhlo vložení vodoznaku do celého dokumentu, uložení jednoznačného identifikátoru jak hodnoceného vědeckého příspěvku, tak i hodnotícího příspěvku do metadat dokumentu. Na první stránce dokumentu je vykreslen titulek s identifikátorem hodnoceného vědeckého příspěvku, název hodnoceného vědeckého příspěvku (případně zkrácen stejně jako u záhlaví) a jméno posuzovatele, doplněno o doprovodný text při vyplňování hodnotícího formuláře. Pod tímto textem je vykreslena první část hodnotícího formuláře, který obsahuje 8 skupin radio buttonů a 1 textové pole.
 \par
-Ve třetí a poslední části probíhá vykreslování druhé části hodnotícího formuláře obsahující 4 textová pole, kde 2 poslední jsou nepovinná. Za hodnotícím formulářem je vložen kompletně celý hodnocený vědecký příspěvek, který se celý načte do modulu a následně stránku po stránce je přidáván do generovaného PDF dokumentu.
+Ve třetí a poslední části probíhá vykreslování druhé části hodnotícího formuláře obsahující 4 textová pole, kde 2 poslední jsou nepovinná. Za hodnotícím formulářem je vložen kompletně celý hodnocený vědecký příspěvek, kdy jeho obsah se uloží do modulu a následně stránku po stránce je přidáván do generovaného PDF dokumentu.
 %SUBSECTION
 \subsection{Chyby v mPDF}
 Při vytváření dokumentu byly nalezeny 2 chyby znemožňující úplné vykreslení celého dokumentu. Níže jsou tyto chyby popsány i s jejich řešením.
 \par
 První chyba byla zjištěna na úplném začátku implementace generátoru, kdy při vkládání textových polí do formuláře se po přeložení kódu nevytvořil žádný dokument. Při zkoumání zdrojového kódu knihovny a vytvoření pár testovacích dokumentů bylo žjištěno, že knihovna neumožňuje vytvořit textové pole pokud se při jeho vytvoření nezadá vkládaný text. Proto bylo nutné, aby se poupravil kód knihovny, konkrétněji ve vykreslování textového pole. Aby bylo možno takto upravovat zdrojový kód knihovny, tak nesmí být knihovna pod licencí, nebo alespoň poď licencí dovolující úpravy (například \textit{GNU General Public License} verze 2, pod kterou je licencována i mPDF). Pro vyřešení tohoto problému byl přidán mechanismus, který při vytváření prázdného textového pole přidá znak \uv{\textbf{a}} (viz \ref{lst:elements_a}) a posléze je v knihovně při vykreslování textového pole tento znak odstraněn (nemá vliv na jakýkoliv jiný znak či slova, pouze na znak \uv{\textbf{a}}, viz \ref{lst:mpdf_a}).
-\newpage
 \begin{lstlisting}[caption = {Přiřazení znaku \uv{\textbf{a}} jako text textového pole (HTMLElements.php)}, label = {lst:elements_a}, captionpos=b]
 if($textarea_text == '') $textarea_text = 'a';
 \end{lstlisting}
@@ -113,23 +104,36 @@ if (isset($objattr['text']) && $objattr['text'] != 'a') {
 else $texto = '';
 \end{lstlisting}
 \par
-Druhá chyba byla nalezena při testování zkracování délky textu titulku, pokud překročí nastavenou mez. Protože v aktuální verzi PHP je z neznámých příčin chyba, která zapříčiňuje špatné ukládání některých znaků v kódování UTF-8, které by se měli přenášet i do vygenerovaného dokumentu. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky neznala a proto výsledek generování vždy skončil chybou. Ze všech vyzkoušených možností (změnit kódování textu titulku, nahrazení neplatných znaků prázdnými aj.) fungovala pouze jedna, a to nastavení atributu \textbf{ignore\_invalid\_utf8} na \textit{true} u proměnné třídy \textit{Mpdf} (viz \ref{lst:ignore_invalid_utf8}).
+Druhá chyba byla nalezena při testování zkracování délky textu titulku, pokud překročí nastavenou mez. Protože v aktuální verzi PHP je z neznámých příčin chyba, která zapříčiňuje špatné ukládání některých znaků v kódování UTF-8, které by se měli přenášet i do vygenerovaného dokumentu. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky nerozpoznala a proto výsledek generování vždy skončil chybou. Ze všech vyzkoušených možností (změnit kódování textu titulku, nahrazení neplatných znaků prázdnými aj.) fungovala pouze jedna, a to nastavení atributu \textbf{ignore\_invalid\_utf8} na \textit{true} u proměnné třídy \textit{Mpdf} (viz \ref{lst:ignore_invalid_utf8}).
 \begin{lstlisting}[caption = {Nastavení atributu \textbf{ignore\_invalid\_utf8} (orlib.php)}, label = {lst:ignore_invalid_utf8}, captionpos=b]
 $mpdf->ignore_invalid_utf8 = true;
 \end{lstlisting}
 
 %SECTION
 \section{Parser}
-%omezení, chyby knihovny, dosáhnutí výsledků (popis doimplementování našeho kódu)
+Z analýzy knihoven pro zpracování PDF dokumentů splnil nutné požadavky pouze \textbf{PDF Parser}.Při implementování parseru bylo zjištěno, že jednotlivé PDF prohlížeče při uložení PDF dokumentu využívají jiné komprimační metody, využívají novější verze PDF pro nové funkce a některé prohlížeče ukládají objekty v dokumentu na více místech (duplikace, jednou komprimovaně, jednou nekomprimovaně).
 
 %SUBSECTION
 \subsection{Popis zpracování dokumentu}
-%POPSAT POSTUP VYTVOŘENÍ JEDNOTLIVÝCH ČÁSTÍ
-%ZMÍNIT JAK JSEM DOŠEL KE KÝŽENÉMU VÝSLEDKU PARSOVÁNÍ (ŽE SE PARSUJOU OBJEKTY, V NĚKTERÝCH ČÁSTECH PARSOVÁNÍ JSOU TAKHLE REPREZENTOVANÝ ATP.
+Zpracování dokumentu začíná ihned po jeho nahrání do webového portálu konferenčního systému. %POPSAT FUNGOVÁNÍ PDF PARSERU, kdy je doplněn i náš kód, popsat i licenci
+\par
+Po zpracování celého dokumentu jsou požadovaná data roztříděna na základě jejich jednoznačných identifikátorů (čísla na konci slovního identifikátoru, například \uv{\textit{textarea\textbf{0}}}, kde \textbf{0} popisuje v modulu hodnotící parametr \textit{Originality}). Před tím než budou jednotlivé hodnotící parametry uloženy pro další zpracování, jsou testovány zda jsou vyplněny (v případě, že jsou povinné). Zpracování probíhá pro každý základní prvek formuláře samostatně (ideálně pomocí cyklu a switche). V případě že všechna povinná pole jsou vyplněna a neproběhla žádná chyba ve zpracování, jsou všechny hodnotící parametry uloženy do databáze webového portálu konference TSD.
+\par
+Při nahrávání dokumentu může dojít k několika chybám, kterých se posuzovatel může dopustit, a proto jsou náležitě ošetřeny.
+\begin{itemize}
+	\item \textbf{Neplatné PDF} -- Posuzovatel při nahrávání dokumentu zvolí nevalidní PDF dokument (nevygenerovaný webovým portálem).
+	\item \textbf{Neplatný identifikátor hodnotícího příspěvku} -- Posuzovatel může při nahrávání zvolit hodnotící PDF dokument patřící k jinému hodnocení vědeckého příspěvku (posuzovaní identifikátoru hodnotícího příspěvku a vědeckého příspěvku).
+	\item \textbf{Nevyplněné požadované parametry} -- Nahrávaný PDF dokument obsahuje nevyplněné požadované hodnotící parametry. Tyto parametry jsou vypsány v chybové hlášce zobrazené po pokusu nahrát PDF dokument do webového portálu.
+	\item \textbf{Databázové chyby} -- Při ukládání dat do databáze webového portálu může dojít k neočekávané chybě, která zapříčiní nesprávné uložení dat. 
+	\item \textbf{Uzavřené hodnocení příspěvku} -- Když posuzovatel nahraje hodnotící PDF dokument do webového portálu, zatímco hodnocení vědeckého příspěvku je uzavřeno administrátorem webového portálu.
+\end{itemize}
+
+%SECTION
+\section{Výsledný vzhled PDF formuláře}
+%OBRÁZEK + JEDNODUCHÝ POPIS
 
 %SECTION
 \section{Technické požadavky}
-%SECTION
-\section{Výsledný vzhled PDF formuláře}
-
+%HW a SW požadavky - webový prohlížeč a PDF prohlížeč: https://www.datoveschranky.info/technicke-pozadavky/pozadavky-na-sw-a-hw
+%UŽIVATELSKÉ POŽADAVKY, POŽADAVKY PRO KNIHOVNY
 
