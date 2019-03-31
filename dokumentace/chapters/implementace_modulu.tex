@@ -113,9 +113,9 @@ Z analýzy knihoven pro zpracování PDF dokumentů splnil nutné požadavky pou
 
 %SUBSECTION
 \subsection{Popis zpracování dokumentu}
-Zpracování dokumentu začíná ihned po jeho nahrání do webového portálu konferenčního systému. %POPSAT FUNGOVÁNÍ PDF PARSERU, kdy je doplněn i náš kód, popsat i licenci
+Zpracování dokumentu začíná ihned po jeho nahrání do webového portálu konferenčního systému, kdy se veškerá raw data předají do PDF Parseru. Před samotnou extrakcí dat jsou pomocí TCPDF parseru (který je součástí PDF Parseru) raw data rozdělena na objekty pomocí \textit{traileru} a \textit{xref tabulky}. Následně jsou objekty dekódovány a předány PDF Parseru, který s nimi dále pracuje. Ihned po předání jsou tyto objekty dále zpracovávány podle specifických znaků, které se vyskytují v datech (například v objektu \textit{Slovník} se na samém začátku vyskytují znaky \uv{<<}). Zároveň se kontroluje název objektu, podle kterého lze zjistit o jaký typ HTML prvku se jedná. Každý prvek formuláře má přiřazen jednoznačný název. Jako příklad lze uvést textové pole, které má při generování přiřazen název \uv{textareaID}, kde ID je jednoznačný identifikátor textového pole, který je deklarován ve výčtovém typu \textbf{TextareaInfo}. Pokud je název totožný se specifickým názvem jakéhokoliv HTML prvku, které jsou v modulu naimplementovány, tak jsou potom ihned uloženy do struktury, která je po dokončení parsování poslána do modulu. 
 \par
-Po zpracování celého dokumentu jsou požadovaná data roztříděna na základě jejich jednoznačných identifikátorů (čísla na konci slovního identifikátoru, například \uv{\textit{textarea\textbf{0}}}, kde \textbf{0} popisuje v modulu hodnotící parametr \textit{Originality}). Před tím než budou jednotlivé hodnotící parametry uloženy pro další zpracování, jsou testovány zda jsou vyplněny (v případě, že jsou povinné). Zpracování probíhá pro každý základní prvek formuláře samostatně (ideálně pomocí cyklu a switche). V případě že všechna povinná pole jsou vyplněna a neproběhla žádná chyba ve zpracování, jsou všechny hodnotící parametry uloženy do databáze webového portálu konference TSD.
+Po zpracování celého dokumentu jsou požadované objekty roztříděny na základě jejich jednoznačných identifikátorů (čísla na konci slovního identifikátoru, například \uv{\textit{textarea\textbf{0}}}, kde \textbf{0} popisuje v modulu hodnotící parametr \textit{Originality}). Před uložením hodnot jsou tyto hodnotící parametry testovány, jestli jsou náležitě vyplněny (platí pouze pro povinné položky). Zpracování probíhá pro každý základní prvek formuláře samostatně (ideálně pomocí cyklu a switche). V případě že všechna povinná pole jsou vyplněna a neproběhla žádná chyba ve zpracování, jsou všechny hodnotící parametry uloženy do databáze webového portálu konference TSD.
 \par
 Při nahrávání dokumentu může dojít k několika chybám, kterých se posuzovatel může dopustit, a proto jsou náležitě ošetřeny.
 \begin{itemize}
@@ -125,6 +125,11 @@ Při nahrávání dokumentu může dojít k několika chybám, kterých se posuz
 	\item \textbf{Databázové chyby} -- Při ukládání dat do databáze webového portálu může dojít k neočekávané chybě, která zapříčiní nesprávné uložení dat. 
 	\item \textbf{Uzavřené hodnocení příspěvku} -- Když posuzovatel nahraje hodnotící PDF dokument do webového portálu, zatímco hodnocení vědeckého příspěvku je uzavřeno administrátorem webového portálu.
 \end{itemize}
+
+%SUBSECTION
+\subsection{Extrakce formulářových prvků z předpřipravených dat}
+%VLOŽIT SEM MŮJ VÝKONNÝ KÓD V PDF PARSERU, POPSAT JEHO STRUKTURU A MENŠÍ INFO
+
 
 %SECTION
 \section{Výsledný vzhled PDF formuláře}
