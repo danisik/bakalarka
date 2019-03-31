@@ -9,7 +9,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		27-03-2019
+//		Last update on:		31-03-2019
 //      Encoding: utf-8 no BOM
 //
 
@@ -37,7 +37,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     mb_internal_encoding('UTF-8');
     //including our classes
     include (DOC_GP_SOURCE.'Enumerates.php');
-    include (DOC_GP_SOURCE.'OwnXmlReader.php');
+    include (DOC_GP_SOURCE.'ConfigurationData.php');
     include (DOC_GP_SOURCE.'TextConversion.php');
     include (DOC_GP_SOURCE.'HTMLElements.php');
     require (DOC_GP_MPDF.'vendor/autoload.php');
@@ -49,12 +49,12 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //our class with printing form elements (html code)
     $elements = new HTMLElements;
     //our class with read xml file and get values
-    $xml_reader = new OwnXmlReader;
-    $xml_reader->read_XML_file(DOC_GP_CONFIGURATION);
+    $configuration_data = new ConfigurationData;
+    $configuration_data->read_XML_file(DOC_GP_CONFIGURATION);
     //year of actual conference
-    $year_of_conference = $xml_reader->getYear_of_conference();
+    $year_of_conference = $configuration_data->getYear_of_conference();
     //text for watermark
-    $watermark_text = $xml_reader->getWatermark_text();
+    $watermark_text = $configuration_data->getWatermark_text();
     //info text where to upload review
     $submission_upload_info = 'After filling the form in, please, upload it to the TSD'.$year_of_conference.' web review application: Go to URL
         <span style="display: inline; text-decoration: underline; color: blue;">https://www.kiv.zcu.cz/tsd'.$year_of_conference.' </span>and after logging in, please, proceed to section '."'My Reviews'".', 
@@ -77,7 +77,7 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     //set rid and sid into document (hidden, easy to get rid and sid when parsing pdf document)
     $mpdf = set_hidden_RID_and_SID($mpdf, $rid, $sid);
     $html = create_header_image(DOC_GP_IMG_LOGO);
-    $html .= create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
+    $html .= create_first_template_page($elements, $text_conversioner, $configuration_data, $sid, $submission_name, $reviewer_name, RadiobuttonInfo::Count_of_evaluations_to, $textarea_info);
     //write first page of evaluation       
     $mpdf->WriteHTML($html);
     //add second page - because if instructions does not exist, textareas from second page are inserted into first page 
@@ -441,7 +441,7 @@ function create_header_image($path_to_logo) {
 //create first template page
 //$elements - our class creating html elements
 //$text_conversioner - our text conversioner
-//$xml_reader - our xml reader 
+//$configuration_data - configuration data 
 //$sid - submission id
 //$submission_name - name of reviewed submission                      
 //$reviewer_name - name of current reviewer 
@@ -449,11 +449,11 @@ function create_header_image($path_to_logo) {
 //$textarea_info - enumerate contains info about textareas
 //
 //return $firstPage - html code of first template page
-function create_first_template_page($elements, $text_conversioner, $xml_reader, $sid, $submission_name, $reviewer_name, $count_of_evaluations_to, $textarea_info) {
+function create_first_template_page($elements, $text_conversioner, $configuration_data, $sid, $submission_name, $reviewer_name, $count_of_evaluations_to, $textarea_info) {
     //document title
     $first_page = $elements->evaluation_review_title($text_conversioner, $sid, $submission_name, $reviewer_name);
     //info
-    $first_page .= $elements->evaluation_instructions($text_conversioner, $xml_reader);
+    $first_page .= $elements->evaluation_instructions($text_conversioner, $configuration_data);
     $first_page .= '<form id="groups">';
     
     $radio_button_info = RadioButtonInfo::getConstants();

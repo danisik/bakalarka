@@ -9,14 +9,14 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		27-03-2019
+//		Last update on:		31-03-2019
 //      Encoding: utf-8 no BOM
 //
 
 //
 //      Class using XML Reader to get saved values from XML file (configuration.xml preffered)
 // 
-class OwnXmlReader {
+class ConfigurationData {
     
     //XML attribute which contains text
     private $XML_text_attribute = 'Text';
