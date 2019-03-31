@@ -3,9 +3,8 @@
 
 %CHAPTER
 \chapter{Implementace modulu}
-Při implementaci modulu bylo potřeba vybrat nejvhodnější knihovnu pro generování PDF souboru, kterou následně implementovat i s už předem vybraným parserem. Pro snadnější implementaci byly vytvořeny nové třídy pro ulehčení práce jak knihovnám, tak i budoucím vývojářům.
+Při implementaci modulu bylo potřeba vybrat nejvhodnější knihovnu pro generování PDF souboru, kterou následně zaintegrovat i s předem vybraným parserem. Pro snadnější zaintegrování byly vytvořeny nové třídy.
 \section{Adresářová struktura modulu}
-%popsat všechny složky, hlavní soubor atp.
 Adresářová struktura modulu na serveru vypadá následovně:
 \begin{itemize}
 	\item \textbf{config} -- Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uloženy často měněná data (rok konference, upozorňující info aj.).  
@@ -18,16 +17,16 @@ Adresářová struktura modulu na serveru vypadá následovně:
 \end{itemize}
 %SECTION
 \section{Implementované třídy}
-Pro modul bylo vytvořeno 7 tříd rozděleny do 4 souborů, které zajišťují veškerou pomocnou funkcionalitu (vytváření HTML kódu, konstanty aj.) při vytváření PDF souboru. 
+Pro modul bylo vytvořeno 7 tříd rozdělených do 4 souborů, které zajišťují veškerou pomocnou funkcionalitu (vytváření HTML kódu, konstanty aj.) při vytváření PDF souboru. 
 %SUBSECTION
-\subsection{Výčtové třídy}
-\textbf{Výčtový typ} (neboli \textbf{Enum}) je datový typ určený pro uložení konstant programu, kdy každé z této konstanty je přiřazena jedna instance výčtu. Ve vytvářeném modulu byly použity 4 třídy jako výčtové typy. 
+\subsection{Výčtové typy}
+\textbf{Výčtový typ} (neboli \textbf{Enum}) je datový typ určený pro uložení konstant programu, kdy každé z těchto konstant je přiřazena jedna instance výčtu. Ve vytvářeném modulu byly použity 4 třídy jako výčtové typy. 
 \par
 Třída \textbf{Instruction} uchovává konstanty využité při generování titulku a informací ohledně vyplňování formuláře. Tyto konstanty reprezentují celkem 4 části dokumentu (Záhlaví, Titulek dokumentu, Jméno posuzovatele a Instrukční text pro vyplňování formuláře).
 \par
 Třída \textbf{FormElements} slouží pouze pro rozlišení použitých objektů na základní prvky formuláře. Zde byly použity prvky \textit{Radiobutton} a \textit{Textové pole}.
 \par
-Ve třídě \textbf{TextareaInfo} jsou uloženy veškeré konstanty pro hodnotící parametry, které jsou reprezentovány jako \textit{Textové pole} a pomocné funkce. Každý hodnotící parametr je zde reprezentován třemi konstantami (jednoznačný identifikátor, název a jeho popis). Dále se tu vyskytují 2 konstanty využité při vytváření formulářového prvku pomocí HTML kódu a následně i při jejich zpracovávání. Byla zde vytvořena i funkce \textit{getNotNeededConstants()} pro získání nepovinných hodnotících parametrů.
+Ve třídě \textbf{TextareaInfo} jsou uloženy veškeré konstanty pro hodnotící parametry, které jsou reprezentovány jako \textit{Textové pole}, a pomocné funkce. Každý hodnotící parametr je zde reprezentován třemi konstantami (jednoznačný identifikátor, název a jeho popis). Dále se tu vyskytují 2 konstanty využité při vytváření formulářového prvku pomocí HTML kódu a následně i při jejich zpracovávání. Byla zde vytvořena i funkce \textit{getNotNeededConstants()} pro získání nepovinných hodnotících parametrů.
 \par
 Třída \textbf{RadiobuttonInfo} je téměř totožná s třídou \textbf{TextareaInfo} s tím rozdílem, že hodnotící parametry jsou reprezentovány jako \textit{Radiobutton}.
 %SUBSECTION
@@ -35,20 +34,19 @@ Třída \textbf{RadiobuttonInfo} je téměř totožná s třídou \textbf{Textar
 Hlavním důvodem vzniku této třídy byla snaha nevytvářet HTML kód přímo v hlavní funkci \textit{generate\_offline\_review\_form}, ale za použití nově vytvořených metod. Pomocí implementovaných metod lze vytvářet textová pole, radiobuttony a textové části dokumentu.
 %SUBSECTION
 \subsection{TextConversioner}
-V některých případech je název vědeckého příspěvku nebo jméno posuzovatele příliš dlouhé, kdy narušuje vzhled výsledného dokumentu (narušení může nastat i při chybě programátora, pokud by byl instrukční text příliš dlouhý). Proto byla vytvořena třída \textbf{TextConversioner}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určující maximální délku textu. Pokud je text delší než stanovená délka, tak se následně vypočte potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size} která se porovnává se stanovenými konstantami určující minimální font. 
+V některých případech je název vědeckého příspěvku nebo jméno posuzovatele příliš dlouhé, a proto narušuje vzhled výsledného dokumentu. Narušení může nastat i při chybě programátora, pokud by byl instrukční text příliš rozsáhlý. Proto byla vytvořena třída \textbf{TextConversioner}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určujícími maximální délku textu. Pokud je rozsah textu delší než stanovená délka, tak se následně vypočte potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size}, která se porovnává se stanovenými konstantami určujícími minimální font. 
 \begin{equation}
 newFontSize = \floor*{\frac{maxTextLength}{textLength} \cdot fontSize} \label{eq:font_size}
 \end{equation}
 
-Za okolností že vypočtený font je menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
+Za okolností, že vypočtený font je menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
 
 \begin{equation}
 newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:text_length}
 \end{equation}
 %SUBSECTION
-\subsection{OwnXmlReader}
-\label{subsec:ownxml}
-Třída načítající veškerý obsah konfiguračního souboru, který následně uloží do svých proměnných. Data uložená v konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
+\subsection{ConfigurationData}
+Třída načítá veškerý obsah konfiguračního souboru, který následně ukládá do svých proměnných. Data uložená v konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
 %SECTION
 \section{Generátor}
 Generátor by měl být při vytváření PDF dokumentu rychlý, vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.
@@ -82,7 +80,7 @@ Na závěr průzkumu lze říci, že ve většině případů je vhodné využí
 
 %SUBSECTION
 \subsection{Popis vytvoření dokumentu}
-Na samotném začátku generování jsou vytvořeny veškeré proměnné vytvořených tříd (u proměnné třídy \textbf{OwnXmlReaderu} proběhne i načtení dat z konfiguračního xml souboru). Dále jsou vytvořeny proměnné reprezentující název vytvořeného dokumentu a info ohledně nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
+Na samotném začátku generování jsou vytvořeny veškeré proměnné vytvořených tříd (u proměnné třídy \textbf{ConfigurationData} proběhne i načtení dat z konfiguračního xml souboru). Dále jsou vytvořeny proměnné reprezentující název vytvořeného dokumentu a info ohledně nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
 \par
 V první části generování probíhá přiřazení CSS stylů pro jednotlivé HTML položky (použité fonty, velikosti fontů aj.), které je doprovázeno vytvořením záhlaví pro celý dokument. Pro celý dokument byl použit font \textit{Helvetica}, pouze u pár výjimek je použit font \textit{Times New Roman} (pro titulek dokumentu a veškerý text se stylem \textit{Bold}).  Do záhlaví byl vložen identifikátor hodnotícího příspěvku doplněn o název hodnoceného vědeckého příspěvku (ten je případně zkrácen na určitou délku pokud nesplňuje limity nastavené ve třídě \textbf{TextConversioner}) a logem konference TSD. 
 \par
