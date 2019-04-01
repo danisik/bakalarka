@@ -129,14 +129,42 @@ Při nahrávání dokumentu může dojít k několika chybám, kterých se posuz
 %SUBSECTION
 \subsection{Extrakce formulářových prvků z předpřipravených dat}
 %VLOŽIT SEM MŮJ VÝKONNÝ KÓD V PDF PARSERU, POPSAT JEHO STRUKTURU A MENŠÍ INFO
+TCPDF parser částečně extrahuje veškeré PDF objekty do svých struktur, které jsou následně poslány do PDF Parseru, který je pomocí svých funkcí a tříd roztřídí na základě datového typu vyplněného obsahu, jako je například prostý text, datum nebo číselná hodnota. Příklad struktury jednotlivých objektů lze vidět na obrázku \ref{fig:parsing_object}. Tento obrázek ukazuje pouze část struktury, která je mnohem rozsáhlejší a každým krokem parseru se rozkládá na menší kousky.
 
-
-%SECTION
-\section{Výsledný vzhled PDF formuláře}
-%OBRÁZEK + JEDNODUCHÝ POPIS
+\begin{figure}[h!]
+\centering
+\includegraphics[width=15cm]{img/parsing_object}
+\caption{Část předpřipraveného PDF objektu}
+\label{fig:parsing_object}
+\end{figure}
+\par
+Pro extrahování dat a zjištění typu formulářového prvku byla vyvinuta metoda \textit{extractElement} viz \ref{lst:extraction_function}.
+\begin{lstlisting}[caption = {Funkční kód pro uložení formulářových prvků z PDF objektů}, label = {lst:extraction_function}, captionpos=b]
+protected function extractElement($header) {
+   $elementKey = $header->getElements()['T'];                                                      
+   if ($elementKey != null) {
+      if (strpos($elementKey->getContent(), 'group') !== false) $type = 'groups';
+      else if (strpos($elementKey->getContent(), 'textarea') !== false) $type = 'textareas';
+                       
+      if ($type != null) {
+         $key = $elementKey->getContent();
+         $elementValue = $header->getElements()['V'];
+         if ($elementValue != null) {
+            $value = $elementValue->getContent();
+         }    
+      }
+   }
+}
+\end{lstlisting}
+Kód na samém začátku kontroluje, zda je aktuálně zpracovávaný objekt pojmenován. To je zjištěno na základě indexu \uv{\textbf{T}} (T - Type) v poli elementů. Pokud název existuje, zjišťuje se zda se jedná o textové pole nebo skupinu radio buttonů. Za předpokladu, že typ objektu je validní, je kontrolována hodnota na základě indexu \uv{\textbf{V}} (V - Value) v poli elementů. Jakmile objekt obsahuje hodnotu, jsou do parseru vráceny všechny tři hodnoty (název formulářového prvku, typ formulářového prvku a jeho hodnota), které parser uloží do pole všech extrahovaných prvků.
 
 %SECTION
 \section{Technické požadavky}
 %HW a SW požadavky - webový prohlížeč a PDF prohlížeč: https://www.datoveschranky.info/technicke-pozadavky/pozadavky-na-sw-a-hw
 %UŽIVATELSKÉ POŽADAVKY, POŽADAVKY PRO KNIHOVNY
+
+%SECTION
+\section{Výsledný vzhled PDF formuláře}
+%OBRÁZEK + JEDNODUCHÝ POPIS
+
 
