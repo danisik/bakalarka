@@ -1,3 +1,24 @@
 %CHAPTER
 \chapter{Rozšiřitelnost modulu}
- 
+Modul je naimplementovaný tak, aby byl snadno rozšiřitelný o nové funkcionality. Zadání bakalářské práce sice splněno bylo, ale v blízké budoucnosti můžou být požadavky na modul změněny. Jako příklad lze uvést potřebu změnit typy hodnotících formulářových prvků (například změna radio buttonů na checkboxy), změnu typu fontu ze základního na speciální, který není přítomen v modulu a mnoho dalšího. V této kapitole jsou popsány 3 možné návrhy na rozšíření modulu, především generátoru.
+
+%SECTION
+\section{Podpora všech formulářových prvků}
+V modulu jsou momentálně podporovány 2 formulářové prvky, a to Textové pole a Radio button. Pro přidání podpory jakéhokoliv formulářového prvku je potřeba splnit několik implementačních kroků. Pro ukázku bude uvedeno vytvoření podpory pro prvek Checkbox.
+\par
+Jako první je potřeba vytvořit nový výčtový typ s názvem \textbf{CheckboxInfo}. Jednotlivé hodnotící parametry budou obsahovat jednoznačný identifikátor, název a popisek. Dále se vytvoří metoda \textit{getConstants}, která bude mít návratovou hodnotu pole všech hodnotících parametrů. Důležité při vytváření je nadefinovat konstanty reprezentující název prvku při jeho vytváření v HTML kódu. Pro checkboxy bude název například \textit{checkbox} a \textit{checkboxes} (použito při ukládání hodnot u parsování).
+\par
+Při vytváření HTML kódu reprezentující určitý formulářový prvek se vytvoří nová metoda vracející HTML kód. V tomto kódu bude použit text \textit{checkbox} jako název každého checkboxu (lze použít i pro skupinu, záleží na programátorovi) doplněn o identifikátor určující počet již vytvořených checkboxů. Tento identifikátor je vhodno vytvořit na začátku třídy \textbf{HTMLElements}.
+\par
+Při parsování je potřeba přidat tento typ do podporovaných prvků v nově implementované metodě \ref{lst:extraction_function}, kde se při kontrole typu přidá nový příkaz \textit{else if}.
+\par
+Po parsování je potřeba vytvořit nové pole, do kterého se uloží extrahované hodnoty spolu s novým polem, které bude obsahovat data roztříděná na základě jména hodnotícího parametru. Pole extrahovaných se následně roztřídí a nevalidní hodnoty se uloží do společného pole nevalidních prvků (pouze u povinných prvků). Pokud bude zvoleno kritérium povinný prvek/nepovinný prvek, je nutno tyto parametry zkontrolovat nad rámec klasické kontroly. Je to z důvodu toho, že při nevyplnění/nezvolení hodnoty hodnotícího parametru nebude tento parametr reprezentován v poli všech prvků daného typu formulářového prvku a při ukládání hodnoty do databáze nebude stávající hodnota přepsána. Pokud bude jeden z povinných prvků nevalidních, je potřeba zjistit které a přidat ho do chybového hlášení pro uživatele.
+\par
+Pokud jsou všechny povinné hodnoty extrahovány a uloženy, jsou následně uloženy do databáze. Proto je potřeba správně hodnoty z daného prvku přiřadit ke správné hodnotě.
+
+%SECTION
+\section{Změna fontu}
+%NOVÝ FONT DO MODULU - NASTAVENÍ PRO CELÝ DOKUMENT, PRO ČÁSTI, JAK VLOŽIT NOVÝ FONT (TY 2-3 SOUBORY CO SE STAHUJOU)
+
+%SECTION
+\section{Načtení nově přidaných dat z konfiguračního souboru}
