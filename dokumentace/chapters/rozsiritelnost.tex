@@ -3,7 +3,7 @@
 Modul je naimplementovaný tak, aby byl snadno rozšiřitelný o nové funkcionality. Zadání bakalářské práce sice splněno bylo, ale v blízké budoucnosti můžou být požadavky na modul změněny. Jako příklad lze uvést potřebu změnit typy hodnotících formulářových prvků (například změna radio buttonů na checkboxy), změnu typu fontu ze základního na speciální, který není přítomen v modulu a mnoho dalšího. V této kapitole jsou popsány 3 možné návrhy na rozšíření modulu, především generátoru.
 
 %SECTION
-\section{Podpora všech formulářových prvků}
+\section{Podpora ostatních formulářových prvků}
 V modulu jsou momentálně podporovány 2 formulářové prvky, a to Textové pole a Radio button. Pro přidání podpory jakéhokoliv formulářového prvku je potřeba splnit několik implementačních kroků. Pro ukázku bude uvedeno vytvoření podpory pro prvek Checkbox.
 \par
 Jako první je potřeba vytvořit nový výčtový typ s názvem \textbf{CheckboxInfo}. Jednotlivé hodnotící parametry budou obsahovat jednoznačný identifikátor, název a popisek. Dále se vytvoří metoda \textit{getConstants}, která bude mít návratovou hodnotu pole všech hodnotících parametrů. Důležité při vytváření je nadefinovat konstanty reprezentující název prvku při jeho vytváření v HTML kódu. Pro checkboxy bude název například \textit{checkbox} a \textit{checkboxes} (použito při ukládání hodnot u parsování).
@@ -18,7 +18,28 @@ Pokud jsou všechny povinné hodnoty extrahovány a uloženy, jsou následně ul
 
 %SECTION
 \section{Změna fontu}
-%NOVÝ FONT DO MODULU - NASTAVENÍ PRO CELÝ DOKUMENT, PRO ČÁSTI, JAK VLOŽIT NOVÝ FONT (TY 2-3 SOUBORY CO SE STAHUJOU)
+V celém dokumentu jsou využity 2 typy fontů - hlavní font \textit{Helvetica} je použit pro veškerý netučný text, zatímco font \textit{Times New Roman} je využit pro veškeré tučné písmo.
+\par
+Pokud je potřeba změnit font netučného písma, tak je nutné změnit parametr \textit{default\_font} reprezentující typ fontu při vytváření proměnné třídy \textbf{Mpdf} v metodě \textit{setMPDF}. V případě, že chce programátor použít speciální typy fontů vytvořené třetí stranou, pak je potřeba stáhnout \textit{TrueType} (koncovka .ttf) soubor s definovanými styly a vložit ho do složky \textit{ttfonts}, která se nachází v mPDF složce. Pro využívání tučného písma, kurzívu a tučnou kurzívu daného typu fontu, je potřeba stáhnout ke každému stylu extra soubor. Následně je potřeba vytvořit záznam ve třídě \textit{FontVariables} taktéž v knihovně mPDF viz \ref{lst:font_define}.
+\begin{lstlisting}[caption = {Nový záznam fontu v knihovně mPDF}, label = {lst:font_define}, captionpos=b]
+'fontdata' => [
+   "timesnewroman" => [
+      'R' => "TimesNewRoman.ttf",
+      'B' => "TimesNewRomanBold.ttf",
+      'I' => "TimesNewRomanItalic.ttf",
+      'BI' => "TimesNewRomanBoldItalic.ttf",
+      'useOTL' => 0xFF,
+   ],
+],
+\end{lstlisting}
+\par
+Pro změnu tučného písma v PDF dokumentu je nutné změnit atribut určující typ fontu v CSS souboru \textit{style.css}. Tučné písmo je použito především na názvy hodnotících parametrů a titulek dokumentu.
 
 %SECTION
 \section{Načtení nově přidaných dat z konfiguračního souboru}
+Konfigurační soubor \textit{configuration.xml} obsahuje data, která se můžou častěji měnit v průběhu hodnocení bez nutnosti přepisovat zdrojový kód modulu. Pro přidání nového záznamu je nutné dodržovat stanovený postup:
+\begin{enumerate}
+	\item Vytvoření nového elementu a přiřadit mu text.
+	\item Vytvoření nové proměnné ve třídě \textit{ConfigurationData}.
+	\item Načtení dat pomocí XML readeru implementovaného v PHP. Při získávání dat elementu je nutné dodržovat styl \textit{\$reader->nazev\_elementu}. 
+\end{enumerate}
