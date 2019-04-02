@@ -113,15 +113,30 @@
 \input{chapters/testovani.tex} 
 \input{chapters/zaver.tex}
 
-%TEX VLNA STÁHNOUT
-
-% 
-% PRO ANGLICKOU SAZBU JE NUTNÉ ZMĚNIT
-% CITAČNÍ STYL!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% LITERATURA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{csplainnatkiv}
 {\raggedright\small
 \bibliography{literature/literatura}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PŘÍLOHA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{chapter}{0}
+\renewcommand{\thechapter}{\Alph{chapter}}
+
+\input{chapters/uzivatelska_dokumentace.tex}
+\input{chapters/testovaci_reporty.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% KONEC TEXTU PRÁCE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

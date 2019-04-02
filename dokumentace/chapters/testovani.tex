@@ -1,8 +1,61 @@
 %CHAPTER
 \chapter{Ověření kvality software}
-%TESTOVÁNÍ NA WEBOVÝCH PROHLÍŽEČÍCH
-%TESTOVÁNÍ V PDF PROHLÍŽEČÍCH
-%TESTOVACÍ SCÉNÁŘ PRO UŽIVATELE
+Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s nejvíce využívanými webovými a PDF prohlížeči.Vyplněné testovací scénáře se nachází v příloze bakalářské práce.
 
-% automatické testy ?? + vstupní data + výsledky, webové prohlížeče (tabulka, kde bude vygenerovana verze PDF, zda vše funguje atp.) to samé i u pdf prohlížečů, pdf prohlížeče, popis chyb ??, scénář vytvořit pár vstupních dat, vymyslet výsledky a ty nechat "otestovat" uživateli, zda se nahrál soubor se správnými výsledky
+%SECTION
+\section{Testovací scénář pro uživatele}
+Testovací scénář je orientován především na vzhled celého dokumentu a rozpoložení jeho jednotlivých částí. Dále byly položeny otázky na bezproblémové ovládání modulu (vygenerování a nahrání PDF dokumentu). Poslední otázka byla zaměřena na poznámky a připomínky ohledně vytvořeného modulu, které by do budoucna mohli posloužit při případném rozšiřování modulu.
+Výsledný testovací scénář předložený uživatelům konferenčního systému TSD obsahuje tyto otázky:
+\begin{itemize}
+	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání PDF dokumentu ?}
+	\item \textbf{Jak by jste ohodnotil vzhled dokumentu jako celek ?}
+	\item \textbf{Jak hodnotíte vzhled formuláře a použité prvky reprezentující jednotlivé hodnotící parametry ?}
+	\item \textbf{Byla velikost textového pole dostatečně velká pro případně komentáře ohledně vědeckého příspěvku ?}
+	\item \textbf{Jak hodnotíte rychlost stažení a nahrání PDF dokumentu ?} 
+	\item \textbf{Byly Vámi vyplněné hodnoty správně nahrány do webového portálu ?}
+	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je prosím zde:}
+\end{itemize}
+
+%SECTION
+\section{Generování a stažení PDF souboru}
+%TESTOVÁNÍ NA WEBOVÝCH PROHLÍŽEČÍCH
+
+Microsoft Edge, Internet Explorer, Mozilla Firefox, Google Chrome, Safari, Opera
+
+%SECTION
+\section{Vyplnění a nahrání PDF souboru}
+%TESTOVÁNÍ V PDF PROHLÍŽEČÍCH
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|} 
+\hline
+\textbf{PDF prohlížeč} & \textbf{Verze PDF} & \textbf{Interaktivní formulář} & \textbf{Uložení hodnot}  \\ 
+\hline
+Adobe Acrobat Reader   & 1.6                & Ano                            & Ano                      \\ 
+\hline
+Adobe Acrobat Pro      & 1.6                & Ano                            & Ano                      \\ 
+\hline
+Evince                 & 1.4                & Ano                            & Ano                      \\ 
+\hline
+PDFElements            & 1.4                & Ano                            & Ano                      \\ 
+\hline
+Nitro Pro              & 1.4                & Ano                            & Ano                      \\ 
+\hline
+Sumatra                & X                  & Ne                             & Ne                       \\ 
+\hline
+Foxit - Linux          & 1.4                & Ano                            & Ano                      \\ 
+\hline
+Evince - Linux         & 1.4                & Ano                            & Ano                      \\
+\hline
+\end{tabular}
+\end{table}
+
+%SECTION
+\section{Výsledky testování}
+\subsection{Vzhled PDF dokumentu}
+\subsection{Nalezené chyby a připomínky}
+
+% automatické testy ?? + vstupní data + výsledky, webové prohlížeče (tabulka, kde bude vygenerovana verze PDF, zda vše funguje atp.) to samé i u pdf prohlížečů, pdf prohlížeče, popis chyb nalezených při testování, scénář vytvořit pár vstupních dat, vymyslet výsledky a ty nechat "otestovat" uživateli, zda se nahrál soubor se správnými výsledky
+
  
