@@ -1,26 +1,26 @@
 %CHAPTER
 \chapter{Rozšiřitelnost modulu}
-Modul je naimplementovaný tak, aby byl snadno rozšiřitelný o nové funkcionality. Zadání bakalářské práce sice splněno bylo, ale v blízké budoucnosti můžou být požadavky na modul změněny. Jako příklad lze uvést potřebu změnit typy hodnotících formulářových prvků (například změna radio buttonů na checkboxy), změnu typu fontu ze základního na speciální, který není přítomen v modulu a mnoho dalšího. V této kapitole jsou popsány 3 možné návrhy na rozšíření modulu, především generátoru.
+Modul je naimplementovaný tak, aby byl snadno rozšiřitelný o nové funkcionality. Zadání bakalářské práce sice splněno bylo, ale v blízké budoucnosti mohou být požadavky na modul změněny. Jako příklad lze uvést potřebu změnit typy hodnotících formulářových prvků, například změna radio buttonů na checkboxy, změnu typu fontu ze základního na speciální, který není přítomen v modulu a mnoho dalšího. V této kapitole jsou popsány 3 možné návrhy na rozšíření modulu, především generátoru.
 
 %SECTION
 \section{Podpora zbylých formulářových prvků}
 V modulu jsou momentálně podporovány 2 formulářové prvky, a to Textové pole a Radio button. Pro přidání podpory jakéhokoliv formulářového prvku je potřeba splnit několik implementačních kroků. Pro ukázku bude uvedeno vytvoření podpory pro prvek Checkbox.
 \par
-Jako první je potřeba vytvořit nový výčtový typ s názvem \textbf{CheckboxInfo}. Jednotlivé hodnotící parametry budou obsahovat jednoznačný identifikátor, název a popisek. Dále se vytvoří metoda \textit{getConstants}, která bude mít návratovou hodnotu pole všech hodnotících parametrů. Důležité při vytváření je nadefinovat konstanty reprezentující název prvku při jeho vytváření v HTML kódu. Pro checkboxy bude název například \textit{checkbox} a \textit{checkboxes} (použito při ukládání hodnot u parsování).
+Nejprve je potřeba vytvořit nový výčtový typ s názvem \textbf{CheckboxInfo}. Jednotlivé hodnotící parametry budou obsahovat jednoznačný identifikátor, název a popisek. Dále se vytvoří metoda \textit{getConstants}, která bude mít návratovou hodnotu pole všech hodnotících parametrů. Důležité při vytváření je nadefinovat konstanty reprezentující název prvku při jeho vytváření v HTML kódu. Pro checkboxy bude název například \textit{checkbox} a \textit{checkboxes} (použito při ukládání hodnot u parsování).
 \par
-Při vytváření HTML kódu reprezentující určitý formulářový prvek se vytvoří nová metoda vracející HTML kód. V tomto kódu bude použit text \textit{checkbox} jako název každého checkboxu (lze použít i pro skupinu, záleží na programátorovi) doplněn o identifikátor určující počet již vytvořených checkboxů. Tento identifikátor je vhodno vytvořit na začátku třídy \textbf{HTMLElements}.
+Pro generování HTML kódu reprezentujícím určitý formulářový prvek je potřeba vytvořit novou metodu ve třídě \textbf{HTMLElements}. Tato metoda bude mít za úkol poskytovat HTML kód nadefinovaný programátorem, pomocí kterého bude, v našem případě, vykreslen checkbox v dokumentu. V tomto kódu bude použit text \textit{checkbox} jako název každého checkboxu (lze použít i pro skupinu, záleží na programátorovi) doplněn o identifikátor určující počet již vytvořených checkboxů. Tento identifikátor je vhodné vytvořit na začátku třídy \textbf{HTMLElements}.
 \par
 Při parsování je potřeba přidat tento typ do podporovaných prvků v nově implementované metodě \ref{lst:extraction_function}, kde se při kontrole typu přidá nový příkaz \textit{else if}.
 \par
-Po parsování je potřeba vytvořit nové pole, do kterého se uloží extrahované hodnoty spolu s novým polem, které bude obsahovat data roztříděná na základě jména hodnotícího parametru. Pole extrahovaných se následně roztřídí a nevalidní hodnoty se uloží do společného pole nevalidních prvků (pouze u povinných prvků). Pokud bude zvoleno kritérium povinný prvek/nepovinný prvek, je nutno tyto parametry zkontrolovat nad rámec klasické kontroly. Je to z důvodu toho, že při nevyplnění/nezvolení hodnoty hodnotícího parametru nebude tento parametr reprezentován v poli všech prvků daného typu formulářového prvku a při ukládání hodnoty do databáze nebude stávající hodnota přepsána. Pokud bude jeden z povinných prvků nevalidních, je potřeba zjistit které a přidat ho do chybového hlášení pro uživatele.
+Po parsování je potřeba vytvořit nové pole, do kterého se uloží extrahované hodnoty spolu s novým polem, které bude obsahovat data roztříděná na základě jména hodnotícího parametru. Pole extrahovaných hodnot se následně roztřídí a nevalidní hodnoty se uloží do společného pole nevalidních prvků (pouze u povinných prvků). Pokud bude zvoleno kritérium povinný prvek/nepovinný prvek, je nutno tyto parametry zkontrolovat nad rámec klasické kontroly. Při nevyplnění nebo nezvolení hodnoty hodnotícího parametru nebude tento parametr reprezentován v poli všech prvků daného typu formulářového prvku a při ukládání hodnoty do databáze nebude stávající hodnota přepsána. Pokud bude jeden z povinných prvků nevalidní, je potřeba zjistit který a přidat ho do chybového hlášení pro uživatele.
 \par
-Pokud jsou všechny povinné hodnoty extrahovány a uloženy, jsou následně uloženy do databáze. Proto je potřeba správně hodnoty z daného prvku přiřadit ke správné hodnotě.
+Pokud jsou všechny povinné hodnoty extrahovány a uloženy, jsou následně zaneseny do databáze.
 
 %SECTION
 \section{Změna fontu}
-V celém dokumentu jsou využity 2 typy fontů - hlavní font \textit{Helvetica} je použit pro veškerý netučný text, zatímco font \textit{Times New Roman} je využit pro veškeré tučné písmo.
+V celém dokumentu jsou využity 2 typy fontů - hlavní font \textit{Helvetica} pro veškerý netučný text, zatímco font \textit{Times New Roman} pro veškeré tučné písmo.
 \par
-Pokud je potřeba změnit font netučného písma, tak je nutné změnit parametr \textit{default\_font} reprezentující typ fontu při vytváření proměnné třídy \textbf{Mpdf} v metodě \textit{setMPDF}. V případě, že chce programátor použít speciální typy fontů vytvořené třetí stranou, pak je potřeba stáhnout \textit{TrueType} (koncovka .ttf) soubor s definovanými styly a vložit ho do složky \textit{ttfonts}, která se nachází v mPDF složce. Pro využívání tučného písma, kurzívu a tučnou kurzívu daného typu fontu, je potřeba stáhnout ke každému stylu extra soubor. Následně je potřeba vytvořit záznam ve třídě \textit{FontVariables} taktéž v knihovně mPDF viz \ref{lst:font_define}.
+Pokud je potřeba změnit font netučného písma, tak je nutné změnit parametr \textit{default\_font} reprezentující typ fontu při vytváření proměnné třídy \textbf{Mpdf} v metodě \textit{setMPDF}. Pokud chce programátor použít speciální typy fontů vytvořené třetí stranou, pak je potřeba stáhnout \textit{TrueType} (koncovka .ttf) soubor s definovanými styly a vložit ho do složky \textit{ttfonts}, která se nachází v mPDF složce. Pro využívání tučného písma, kurzívu a tučnou kurzívu daného typu fontu je potřeba stáhnout ke každému stylu extra soubor. Následně je potřeba vytvořit záznam ve třídě \textit{FontVariables} taktéž v knihovně mPDF viz \ref{lst:font_define}.
 \begin{lstlisting}[caption = {Nový záznam fontu v knihovně mPDF}, label = {lst:font_define}, captionpos=b]
 'fontdata' => [
    "timesnewroman" => [
@@ -37,9 +37,9 @@ Pro změnu tučného písma v PDF dokumentu je nutné změnit atribut určujíc�
 
 %SECTION
 \section{Načtení nově přidaných dat z konfiguračního souboru}
-Konfigurační soubor \textit{configuration.xml} obsahuje data, která se můžou častěji měnit v průběhu hodnocení bez nutnosti přepisovat zdrojový kód modulu. Pro přidání nového záznamu je nutné dodržovat stanovený postup:
+Konfigurační soubor \textit{configuration.xml} obsahuje data, která se mohou častěji měnit v průběhu hodnocení bez nutnosti přepisovat zdrojový kód modulu. Pro přidání nového záznamu je nutné dodržovat stanovený postup:
 \begin{enumerate}
-	\item Vytvoření nového elementu a přiřadit mu text.
+	\item Vytvoření nového elementu a přiřazení text.
 	\item Vytvoření nové proměnné ve třídě \textit{ConfigurationData}.
 	\item Načtení dat pomocí XML readeru implementovaného v PHP. Při získávání dat elementu je nutné dodržovat styl \textit{\$reader->nazev\_elementu}. 
 \end{enumerate}
