@@ -1,7 +1,7 @@
 # bakalarka
 Originální knihovny:
 
-mpdf knihovna: https://github.com/mpdf/mpdf 
+tcpdf knihovna: https://github.com/tecnickcom/tcpdf
 
 pdf parser knihovna: https://www.pdfparser.org/
 
