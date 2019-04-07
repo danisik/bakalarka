@@ -94,8 +94,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $pdf = create_second_template_page($pdf, $elements, $text_conversioner, $sid, $submission_name, $submission_upload_info);
     //$pdf = $elements->load_submission($pdf, $text_conversioner, $review_ID, $name_of_submission, $submission_filename);    
         
-    //$pdf->Output($filename, 'D');
-    $pdf->Output();    
+    $pdf->Output($filename, 'D');
+    //$pdf->Output();    
     
     return TRUE;
     
@@ -174,14 +174,17 @@ EOD;
 //
 //return boolean value
 function process_offline_review_form($rid, $sid, $revform_filename) {
+    
     require (DOC_GP_PARSER.'vendor/autoload.php');
     include (DOC_GP_SOURCE.'Enumerates.php');
-
     
-    $parser = new \Smalot\PdfParser\Parser();                       
-    $pdf = $parser->parseFile($revform_filename);
+    $parser = new \Smalot\PdfParser\Parser();                               
+    $pdf = $parser->parseFile($revform_filename, DOC_GP_LIB.'tcpdf/');
+    
     $data = $pdf->getFormElementsData();
-
+    print_r($data);
+    
+    
     $groups = $data[RadiobuttonInfo::Groups_text];
     $textareas = $data[TextareaInfo::Textareas_text];
     $values = array(
@@ -237,11 +240,18 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         }         
         
         if (!$valid) { 
-            $invalid_constants[$invalid_indicator]['element'] = $element;
-            $invalid_constants[$invalid_indicator]['value'] = $value;
+            $invalid_constants[$invalid_indicator] = $element;
             $invalid_indicator++;
         }
     }
+    echo '<br>';
+    print_r($values);
+    echo '<br>';
+    $invalid = full_element_control($invalid_constants, $invalid_indicator, $values[RadiobuttonInfo::Groups_text], FormElements::RADIOBUTTON);
+    $invalid_constants = $invalid[0];
+    $invalid_indicator = $invalid[1];
+    
+    
     
     foreach ($textareas as $key => $value) {
     
@@ -276,13 +286,16 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
               
              
         if (!$valid) {
-            $invalid_constants[$invalid_indicator]['element'] = $element;
-            $invalid_constants[$invalid_indicator]['value'] = $value;
-            
+            $invalid_constants[$invalid_indicator]['element'] = $element;            
             $invalid_indicator++;
         }                                   
         
-    }                 
+    }        
+    
+    $invalid = full_element_control($invalid_constants, $invalid_indicator, $values[TextareaInfo::Textareas_text], FormElements::TEXTAREA);
+    $invalid_constants = $invalid[0];
+    $invalid_indicator = $invalid[1];
+             
     $not_needed_textareas = TextareaInfo::getNotNeededConstants();;
     foreach ($not_needed_textareas as $key => $value) {
       if (!array_key_exists($key, $values[TextareaInfo::Textareas_text])) {
@@ -323,8 +336,8 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         if ($invalid_indicator > 0) {
           //if at least one element is filled
           foreach($invalid_constants as $key) {
-            if ($key['element'] != null) {
-              $invalid_fields .= $key['element'];                   
+            if ($key != null) {
+              $invalid_fields .= $key;                   
           
               if ($i < ($invalid_indicator - 1)) $invalid_fields .= ", ";
               $i++;
@@ -348,8 +361,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
         set_failure("review_details_fail", "<b>Unable to process the offline review form</b> " . "for Review ID# $rid, all required fields must be filled (".$invalid_fields.").",
                     DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
         return FALSE;
-    }
-    
+    } 
 }
 
 //upload evaluation values into database
@@ -411,7 +423,7 @@ function check_if_element_is_valid($elementValue, $elementType, $elementNeeded =
     $valid = true;      
     switch($elementType) {
         case FormElements::RADIOBUTTON:
-            if($elementValue == 'Off') $valid = false;
+            if($elementValue == 'Off' && $elementNeeded == true) $valid = false;
             break;
         case FormElements::TEXTAREA:
             if($elementValue == '' && $elementNeeded == true) $valid = false;
@@ -420,5 +432,58 @@ function check_if_element_is_valid($elementValue, $elementType, $elementNeeded =
     
     return $valid;
 } 
+
+//return RID and SID of PDF saved in metadata
+//$pdf - pdf parser class, parsing content of PDF file  
+//
+//return array - return sid and rid of PDF document
+function parse_RID_and_SID($pdf) {
+    $metadata = $pdf->getDetails();
+    $rid = '';
+    $sid = '';
+    
+    //format of RID and SID: KEY: KeyWords, VALUE: RID, SID
+    foreach($metadata as $key => $value) {
+      if (strpos($key, 'Keywords') !== false) {
+        $data = explode(' ', $value);
+        $sid = $data[0];
+        $rid = $data[1];
+        break; 
+      }
+    }
+    return array($rid, $sid);  
+}
+
+//control one type of form element if contains all values
+//$invalid_constants - array of invalid constants
+//$invalid_indicator - index to array
+//$elements - values parsed from pdf
+//$elementType - type of form element 
+//
+//return array - $invalid_constants and $invalid_indicator
+
+function full_element_control($invalid_constants, $invalid_indicator, $elements, $elementType) {
+  $constants = '';
+  $index = '';
+  switch($elementType) {
+    case FormElements::RADIOBUTTON:
+      $constants = RadiobuttonInfo::getConstants();
+      $index = RadiobuttonInfo::Groups_text;
+      break;
+    case FormElements::TEXTAREA:
+      $constants = TextareaInfo::getConstants();
+      $index = TextareaInfo::Textareas_text;
+      break;
+  }
+  
+  foreach($constants as $key => $value) {
+    if ($elements[$value['name']] == null && $value['needed'] == true) {
+      $invalid_constants[$invalid_indicator] = $value['name'];
+      $invalid_indicator++;
+    }
+  }
+  
+  return array($invalid_constants, $invalid_indicator);
+}
 
 ?>

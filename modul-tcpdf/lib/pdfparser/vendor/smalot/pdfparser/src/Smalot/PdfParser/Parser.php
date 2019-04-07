@@ -4,13 +4,13 @@
  * @file
  *          This file is part of the PdfParser library.
  *
- * @author  Sébastien MALOT <sebastien@malot.fr>
+ * @author  SĂ©bastien MALOT <sebastien@malot.fr>
  * @date    2017-01-03
  * @license LGPLv3
  * @url     <https://github.com/smalot/pdfparser>
  *
  *  PdfParser is a pdf library written in PHP, extraction oriented.
- *  Copyright (C) 2017 - Sébastien MALOT <sebastien@malot.fr>
+ *  Copyright (C) 2017 - SĂ©bastien MALOT <sebastien@malot.fr>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -39,6 +39,7 @@ use Smalot\PdfParser\Element\ElementNull;
 use Smalot\PdfParser\Element\ElementNumeric;
 use Smalot\PdfParser\Element\ElementString;
 use Smalot\PdfParser\Element\ElementXRef;
+         
     
 /**
  * Class Parser
@@ -71,7 +72,7 @@ class Parser
      * @return Document
      * @throws \Exception
      */
-    public function parseFile($filename)
+    public function parseFile($filename, $path_to_tcpdf)
     {
         $content = file_get_contents($filename);        
         /*
@@ -83,8 +84,8 @@ class Parser
          * by adding @throws tag to PHPDoc.
          *
          * See here for an example: https://github.com/smalot/pdfparser/issues/204
-         */
-        return $this->parseContent($content);
+         */        
+        return $this->parseContent($content, $path_to_tcpdf);
     }
 
     /**
@@ -92,14 +93,15 @@ class Parser
      * @return Document
      * @throws \Exception
      */
-    public function parseContent($content)
-    {       
+    public function parseContent($content, $path_to_tcpdf)
+    {   
+        require_once($path_to_tcpdf.'tcpdf_parser.php');    
         // Create structure using TCPDF Parser.
         ob_start();
-        @$parser = new \TCPDF_PARSER(ltrim($content));
+                
+        $parser = new \TCPDF_PARSER(ltrim($content));
+        
         list($xref, $data) = $parser->getParsedData();
-        //unset($parser);
-        //ob_end_clean();
     
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
@@ -116,6 +118,8 @@ class Parser
         $this->textareas = array();
 
        
+       //print_r($data);
+       
         foreach ($data as $id => $structure) {               
             $this->parseObject($id, $structure, $document);
             unset($data[$id]);
@@ -126,6 +130,7 @@ class Parser
         $document->setFormElementsData($this->formElementsData);
         
         return $document;
+        
     }
 
     protected function parseTrailer($structure, $document)
@@ -160,8 +165,7 @@ class Parser
         $header  = new Header(array(), $document);
         $content = '';        
         foreach ($structure as $position => $part) { 
-                      
-            //print_r($part);        
+                             
             switch ($part[0]) {
                 case '[':                
                     $elements = array();
@@ -187,8 +191,6 @@ class Parser
 
                 case '<<':                    
                     $header = $this->parseHeader($part[1], $document);
-                            //print_r($header->getElements());
-                            //echo "<br>2<br>";
                             
                     $key = null;
                     $value = null;
@@ -206,8 +208,7 @@ class Parser
                     $content = isset($part[3][0]) ? $part[3][0] : $part[1];                                                         
                                    
                     if ($header->get('Type')->equals('ObjStm')) {
-                        $match = array();              
-                        //echo "here";                                           
+                        $match = array();                                                     
                         // Split xrefs and contents.
                         preg_match('/^((\d+\s+\d+\s*)*)(.*)$/s', $content, $match);
                         $content = $match[3];
@@ -300,7 +301,7 @@ class Parser
         }
         
         return new Header($elements, $document);
-    }
+    }    
     
     /**
      * @param $type
@@ -308,13 +309,14 @@ class Parser
      * @return key, value and type of element
      */
     protected function extractElement($header) {
+        
         $key = null;
         $value = null;
         $type = null;
         
         @$elementKey = $header->getElements()['T'];                                                      
         if ($elementKey != null) {
-            if (strpos($elementKey->getContent(), 'group') !== false) $type = 'groups';
+            if (strpos($elementKey->getContent(), 'group') !== false) $type = 'groups';            
             else if (strpos($elementKey->getContent(), 'textarea') !== false) $type = 'textareas';
                        
             if ($type != null) {

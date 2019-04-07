@@ -157,28 +157,30 @@ class RadiobuttonInfo {
     //$id - id of constant
     //$name - name of constant
     //$info - specific info of constant
+    //$needed_to_fill - if this textarea must be filled or not
     //
     //return $values - array of constants with new, added, constant
-    function add_value_to_array($values, $id, $name, $info) {    
+    function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
         $values[$id]['id'] = $id;
         $values[$id]['name'] = $name;
         $values[$id]['info'] = $info;
+        $values[$id]['needed'] = $needed_to_fill;
         $values[$id]['type'] = FormElements::RADIOBUTTON;
         
         return $values;
-    }  
+    }
     
     function getConstants() {
         $values = array();
         
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Originality_ID, RadioButtonInfo::Originality, RadioButtonInfo::Originality_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Significance_ID, RadioButtonInfo::Significance, RadioButtonInfo::Significance_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Relevance_ID, RadioButtonInfo::Relevance, RadioButtonInfo::Relevance_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Presentation_ID, RadioButtonInfo::Presentation, RadioButtonInfo::Presentation_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Technical_quality_ID, RadioButtonInfo::Technical_quality, RadioButtonInfo::Technical_quality_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Overall_rating_ID, RadioButtonInfo::Overall_rating, RadioButtonInfo::Overall_rating_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Amount_of_rewriting_ID, RadioButtonInfo::Amount_of_rewriting, RadioButtonInfo::Amount_of_rewriting_Info);
-        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Reviewers_expertise_ID, RadioButtonInfo::Reviewers_expertise, RadioButtonInfo::Reviewers_expertise_Info);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Originality_ID, RadioButtonInfo::Originality, RadioButtonInfo::Originality_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Significance_ID, RadioButtonInfo::Significance, RadioButtonInfo::Significance_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Relevance_ID, RadioButtonInfo::Relevance, RadioButtonInfo::Relevance_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Presentation_ID, RadioButtonInfo::Presentation, RadioButtonInfo::Presentation_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Technical_quality_ID, RadioButtonInfo::Technical_quality, RadioButtonInfo::Technical_quality_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Overall_rating_ID, RadioButtonInfo::Overall_rating, RadioButtonInfo::Overall_rating_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Amount_of_rewriting_ID, RadioButtonInfo::Amount_of_rewriting, RadioButtonInfo::Amount_of_rewriting_Info, true);
+        $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Reviewers_expertise_ID, RadioButtonInfo::Reviewers_expertise, RadioButtonInfo::Reviewers_expertise_Info, true);
     
         return $values;
     }
