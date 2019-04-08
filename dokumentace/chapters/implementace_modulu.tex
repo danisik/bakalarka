@@ -7,17 +7,15 @@ Při implementaci modulu bylo třeba vybrat nejvhodnější knihovnu pro generov
 \section{Adresářová struktura modulu}
 Adresářová struktura modulu na serveru vypadá následovně:
 \begin{itemize}
-	\item \textbf{config} -- Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uložena často měněná data (rok konference, upozorňující info aj.).  
-	\item \textbf{css} --  Adresář obsahující soubor \textit{style.css} s kaskádovými styly pro konfiguraci vzhledu HTML kódu a výsledného dokumentu. 
-	\item \textbf{img} -- Adresář obsahující obrázky použité v dokumentu.
+	\item \textbf{config} -- Adresář obsahující konfigurační soubor \textit{configuration.xml}, ve kterém jsou uložena často měněná data (rok konference, upozorňující informace aj.).  
+	\item \textbf{img} -- Adresář obsahující obrázky použité v dokumentu (logo konference TSD).
 	\item \textbf{lib} -- Adresář obsahující zdrojové kódy knihoven třetích stran (generátor a parser).
 	\item \textbf{src} -- Adresář obsahující zdrojové kódy vytvořené autorem bakalářské práce.
-	\item \textbf{how-to.txt} -- Informační soubor, ve kterém se nachází implementační postupy (pro případné změny nebo rozšíření stávajícího modulu).
 	\item \textbf{orlib.php} -- Hlavní soubor modulu obsahující všechny 3 stěžejní funkce modulu.
 \end{itemize}
 %SECTION
 \section{Implementované třídy}
-Pro modul bylo vytvořeno 7 tříd rozdělených do 4 souborů, které zajišťují veškerou pomocnou funkcionalitu (vytváření HTML kódu, konstanty aj.) při generování PDF souboru. 
+Pro modul bylo vytvořeno 7 tříd rozdělených do 4 souborů, které zajišťují veškerou pomocnou funkcionalitu (vytváření formulářových prvků, konstanty aj.) při generování PDF souboru. 
 %SUBSECTION
 \subsection{Výčtové typy}
 \textbf{Výčtový typ} (neboli \textbf{Enum}) je datový typ určený pro uložení konstant programu, kdy každé z těchto konstant je přiřazena jedna instance výčtu. Ve vytvářeném modulu byly použity 4 třídy jako výčtové typy. 
@@ -30,8 +28,8 @@ Ve třídě \textbf{TextareaInfo} jsou uloženy veškeré konstanty pro hodnotí
 \par
 Třída \textbf{RadiobuttonInfo} je téměř totožná s třídou \textbf{TextareaInfo} s tím rozdílem, že hodnotící parametry jsou reprezentovány jako \textit{Radiobutton}.
 %SUBSECTION
-\subsection{HTMLElements}
-Hlavním důvodem vzniku této třídy byla snaha nevytvářet HTML kód přímo v hlavní funkci \textit{generate\_offline\_review\_form} ale použít nově vytvořené metody. Pomocí implementovaných metod lze vytvářet textová pole, radiobuttony a textové části dokumentu.
+\subsection{TCPDFElements}
+Hlavním důvodem vzniku této třídy byla snaha nevytvářet formulářové prvky přímo v hlavní funkci \textit{generate\_offline\_review\_form} ale použít nově vytvořené metody. Pomocí implementovaných metod lze vytvářet textová pole, radiobuttony, textové části dokumentu a načítat vědecký příspěvek.
 %SUBSECTION
 \subsection{TextConversioner}
 V některých případech jsou název vědeckého příspěvku nebo jméno posuzovatele příliš dlouhé, a proto narušuje vzhled výsledného dokumentu. Problém může nastat i při chybě programátora, pokud by byl instrukční text příliš rozsáhlý. Proto byla vytvořena třída \textbf{TextConversioner}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určujícími maximální délku textu. Pokud je rozsah textu delší než stanovená délka, tak se následně vypočte potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size}, která se porovnává se stanovenými konstantami určujícími minimální font. 
@@ -88,7 +86,7 @@ V druhé části generování proběhlo vložení vodoznaku do celého dokumentu
 \par
 Ve třetí a poslední části probíhá vykreslování zbylých čtyř textových polí, kde 2 poslední z nich jsou nepovinná. Za hodnotícím formulářem je vložen kompletně celý hodnocený vědecký příspěvek, jehož obsah se uloží do modulu a následně stránku po stránce je přidáván do generovaného PDF dokumentu.
 %SUBSECTION
-\subsection{Chyby v mPDF}
+\subsection{Nedostatky v mPDF}
 Při vytváření dokumentu byly nalezeny 2 chyby znemožňující úplné vykreslení celého dokumentu. Níže jsou tyto chyby popsány i s návrhem jejich řešením.
 \par
 První chyba byla zjištěna na úplném začátku implementace generátoru, kdy při vkládání textových polí do formuláře se po přeložení kódu nevytvořil žádný dokument. Při zkoumání zdrojového kódu knihovny a vytvoření testovacích dokumentů bylo zjištěno, že knihovna neumožňuje použít textové pole, pokud se při jeho vytvoření nezadá vkládaný text. Proto bylo nutné upravit kód knihovny, konkrétně ve vykreslování textového pole. Aby bylo možné takto upravovat zdrojový kód knihovny, tak nesmí být knihovna pod licencí a naopak musí  být alespoň pod licencí dovolující úpravy, například \textit{GNU General Public License} verze 2, pod kterou je licencována i mPDF. Pro vyřešení tohoto problému byl přidán mechanismus, který při vytváření prázdného textového pole přidá znak \uv{\textbf{a}} (viz \ref{lst:elements_a}) a posléze je v knihovně při vykreslování textového pole tento znak odstraněn, což nemá vliv na jakýkoliv jiný znak či slova než zmiňovaný znak \uv{\textbf{a}}, viz \ref{lst:mpdf_a}.
@@ -102,7 +100,7 @@ if (isset($objattr['text']) && $objattr['text'] != 'a') {
 else $texto = '';
 \end{lstlisting}
 \par
-Druhý nedostatek byl nalezen při testování zkracování délky textu titulku, pokud překročí nastavenou mez. Protože v aktuální verzi PHP je z neznámých příčin chyba, která zapříčiňuje špatné ukládání některých znaků v kódování UTF-8, které by se měli přenášet i do vygenerovaného dokumentu. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky nerozpoznala, a proto výsledek vždy skončil chybou. Ze všech vyzkoušených možností, jako například změna kódování textu titulku nebo nahrazení neplatných znaků prázdnými, fungovala pouze jedna, a to nastavení atributu \textbf{ignore\_invalid\_utf8} na \textit{true} u proměnné třídy \textit{Mpdf} (viz \ref{lst:ignore_invalid_utf8}).
+Druhá chyba byla nalezen při testování zkracování délky textu titulku, pokud překročí nastavenou mez. V aktuální verzi PHP se vyskytuje problém, který zneplatňuje některé UTF-8 znaky. Pokud je například vytvořen nový uživatel se jménem obsahující například znak \uv{\textbf{ř}}, pak se tento znak nepřevede správně a bude vykreslen jako neznámý znak. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky nerozpoznala, a proto výsledek vždy skončil chybou. Ze všech vyzkoušených možností, jako například změna kódování textu titulku nebo nahrazení neplatných znaků prázdnými, fungovala pouze jedna, a to nastavení atributu \textbf{ignore\_invalid\_utf8} na \textit{true} u proměnné třídy \textit{Mpdf} (viz \ref{lst:ignore_invalid_utf8}).
 \begin{lstlisting}[caption = {Nastavení atributu \textbf{ignore\_invalid\_utf8} (orlib.php)}, label = {lst:ignore_invalid_utf8}, captionpos=b]
 $mpdf->ignore_invalid_utf8 = true;
 \end{lstlisting}
@@ -113,7 +111,7 @@ Z analýzy knihoven pro zpracování PDF dokumentů splnil nutné požadavky pou
 
 %SUBSECTION
 \subsection{Popis zpracování dokumentu}
-Zpracování dokumentu začíná ihned po jeho nahrání do webového portálu konferenčního systému, kdy se veškerá raw data předají do PDF Parseru. Před samotnou extrakcí dat jsou pomocí TCPDF parseru, který je součástí PDF Parseru, raw data rozdělena na objekty pomocí \textit{traileru} a \textit{xref tabulky}. Následně jsou objekty dekódovány a předány PDF Parseru, který s nimi dále pracuje. Ihned po předání jsou tyto objekty dále zpracovávány podle specifických znaků, které se vyskytují v datech, například v objektu \textit{Slovník} se na samém začátku vyskytují znaky \uv{<<}. Zároveň se kontroluje název objektu, podle kterého lze zjistit o jaký typ HTML prvku se jedná. Každý prvek formuláře má přiřazen jednoznačný název. Jako příklad lze uvést textové pole, které má při generování přiřazen název \uv{textareaID}, kde ID je jednoznačný identifikátor textového pole, který je deklarován ve výčtovém typu \textbf{TextareaInfo}. Pokud je název totožný se specifickým názvem jakéhokoliv HTML prvku, který je v modulu naimplementován, tak je potom ihned uložen do struktury, která je po dokončení parsování poslána do modulu. 
+Zpracování dokumentu začíná ihned po jeho nahrání do webového portálu konferenčního systému, kdy se veškerá raw data předají do PDF Parseru. Před samotnou extrakcí dat jsou pomocí TCPDF parseru, který je součástí PDF Parseru, raw data rozdělena na objekty pomocí \textit{traileru} a \textit{xref tabulky}. Následně jsou objekty dekódovány a předány PDF Parseru, který s nimi dále pracuje. Ihned po předání jsou tyto objekty dále zpracovávány podle specifických znaků, které se vyskytují v datech, například v objektu \textit{Slovník} se na samém začátku vyskytují znaky \uv{<<}. Zároveň se kontroluje název objektu, podle kterého lze zjistit o jaký typ formulářového prvku se jedná. Každý prvek formuláře má přiřazen jednoznačný název. Jako příklad lze uvést textové pole, které má při generování přiřazen název \uv{textareaID}, kde ID je jednoznačný identifikátor textového pole, který je deklarován ve výčtovém typu \textbf{TextareaInfo}. Pokud je název totožný se specifickým názvem jakéhokoliv formulářového prvku, který je v modulu naimplementován, tak je potom ihned uložen do struktury, která je po dokončení parsování poslána do modulu. 
 \par
 Po zpracování celého dokumentu jsou požadované objekty roztříděny na základě jejich jednoznačných identifikátorů (čísla na konci slovního identifikátoru, například \uv{\textit{textarea\textbf{0}}}, kde \textbf{0} popisuje v modulu hodnotící parametr \textit{Originality}). Před uložením hodnot jsou tyto parametry testovány, jestli jsou náležitě vyplněny, což platí pouze pro povinné položky. Zpracování probíhá pro každý základní prvek formuláře samostatně ideálně pomocí cyklu a switche. V případě, že všechna povinná pole jsou vyplněna a neproběhla žádná chyba ve zpracování, jsou všechny hodnotící parametry uloženy do databáze webového portálu konference TSD.
 \par
@@ -168,9 +166,8 @@ Výsledný vzhled PDF formuláře lze vidět na přiloženém PDF souboru níže
 
 %SECTION
 \section{Technické požadavky}
-Technické požadavky pro bezproblémové fungování mPDF a PDF Parser jsou:
+Technické požadavky pro bezproblémové fungování TCPDI a PDF Parser jsou:
 \begin{itemize} 
-	\item \textbf{PHP verze} -- mPDF pro své fungování potřebuje minimální verzi PHP 5.6.0, zatímco u PDF Parseru postačí verze 5.3. Proto je nutné mít na serveru PHP verzi 5.6.0.
-	\item \textbf{Podpůrné knihovny} -- Při importování PDF souborů pomocí knihovny FPDI (FPDI je součástí mPDF) je potřeba stáhnout podpůrnou knihovnu \textbf{Zlib} pro kompresi.
-	\item \textbf{PHP rozšíření} -- Jako poslední požadavek je nutné povolit na serveru rozšíření \textit{mbstring}, \textit{mbregex}, \textit{gd}.
+	\item \textbf{PHP verze} --TCPDI  momentálně funguje na všech verzích PHP, zatímco u PDF Parseru je potřeba minimální verze 5.3. Proto je nutné mít na serveru PHP verzi alespoň 5.3.0.
+	\item \textbf{Podpůrné knihovny} -- Při kompresi stránek PDF souborů pomocí knihovny TCPDI je potřeba mít na serveru povoleno rozšíření \textbf{php-zlib}.
 \end{itemize}
