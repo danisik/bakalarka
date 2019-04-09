@@ -20,12 +20,14 @@ error_reporting(0);
 //error_reporting(~0);
 //ini_set('display_errors', 1);
 
-define('DOC_GP_ROOT', getcwd().'/offline-review/');
-define('DOC_GP_LIB', DOC_GP_ROOT.'lib/');
-define('DOC_GP_SOURCE', DOC_GP_ROOT.'src/');
+
+define('DOC_GP_ROOT', DATA_ROOT.'/php/');
+define('DOC_GP_OFFLINE_REVIEW', DOC_GP_ROOT.'offline-review/');
+define('DOC_GP_LIB', DOC_GP_OFFLINE_REVIEW.'lib/');
+define('DOC_GP_SOURCE', DOC_GP_OFFLINE_REVIEW.'src/');
 define('DOC_GP_MPDF', DOC_GP_LIB.'mpdf/');
-define('DOC_GP_CONFIGURATION', DOC_GP_ROOT.'config/configuration.xml');
-define('DOC_GP_IMG', DOC_GP_ROOT.'img/');
+define('DOC_GP_CONFIGURATION', DOC_GP_OFFLINE_REVIEW.'config/configuration.xml');
+define('DOC_GP_IMG', DOC_GP_OFFLINE_REVIEW.'img/');
 define('ORLIB_LOGO', 'tsd-logo.png');
 define('DOC_GP_PARSER', DOC_GP_LIB.'pdfparser/');
 
@@ -95,8 +97,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $pdf = $elements->set_hidden_RID_and_SID($pdf, $rid, $sid);                                                   
                       
     $pdf = create_first_template_page($pdf, $elements, $text_conversioner, $configuration_data, $rid, $sid, $submission_name, $reviewer_name);   
-    $pdf = create_second_template_page($pdf, $elements, $text_conversioner, $sid, $submission_name, $submission_upload_info);
-    //$pdf = $elements->load_submission($pdf, $text_conversioner, $review_ID, $name_of_submission, $submission_filename);    
+    $pdf = create_second_template_page($pdf, $elements, $text_conversioner, $sid, $submission_name, $submission_upload_info);    
+    $pdf = $elements->load_submission($pdf, $text_conversioner, $review_ID, $name_of_submission, DATA_ROOT.'/'.$submission_filename);    
         
     $pdf->Output($filename, 'D');
     //$pdf->Output();    
@@ -184,7 +186,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
     
     $parser = new \Smalot\PdfParser\Parser();
     
-    
+    /*
     //If $revform_filename sended to this method send invalid PDF filename (like revform384.xxx, where filename extension is not PDF)
     //then there is some internal error in web system and parser cannot read this file.
     $filename_extension = substr($revform_filename, strlen($revform_filename) - 3, strlen($revform_filename));    
@@ -193,6 +195,7 @@ function process_offline_review_form($rid, $sid, $revform_filename) {
           DOC_ROOT . "/index.php?form=review-details&rid=" . $rid);
         return FALSE;
     }
+    */
     
     //$revform_filename = substr($revform_filename, 0, strlen($revform_filename) - 3).'pdf';                                       
     $pdf = $parser->parseFile($revform_filename, DOC_GP_LIB.'tcpdf/');
