@@ -5,7 +5,7 @@
 //		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in PlzeĹ.
+//		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
@@ -14,9 +14,9 @@
 //
 
 //
-//      Class for printing tcpdf elements
+//      Class for printing elements
 //
-class TCPDFElements {
+class Elements {
     
     //default font size of title parameters
     private $font_size_of_review_ID = 23;

@@ -78,12 +78,12 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     include (DOC_GP_SOURCE.'Enumerates.php');
     include (DOC_GP_SOURCE.'ConfigurationData.php');
     include (DOC_GP_SOURCE.'TextConversioner.php');
-    include (DOC_GP_SOURCE.'TCPDFElements.php');
+    include (DOC_GP_SOURCE.'Elements.php');
                              
     $text_conversioner = new TextConversioner;
     $configuration_data = new ConfigurationData;
     $configuration_data->read_XML_file(DOC_GP_CONFIGURATION); 
-    $elements = new TCPDFElements(DOC_GP_IMG.ORLIB_LOGO, $configuration_data->getWatermark_text());
+    $elements = new Elements(DOC_GP_IMG.ORLIB_LOGO, $configuration_data->getWatermark_text());
 
     $year_of_conference = $configuration_data->getYear_of_conference();
     $submission_upload_info = 'After filling the form in, please, upload it to the TSD'.$year_of_conference.' web review application: Go to URL
