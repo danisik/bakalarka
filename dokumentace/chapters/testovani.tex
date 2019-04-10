@@ -1,6 +1,6 @@
 %CHAPTER
 \chapter{Ověření kvality software}
-Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s nejvíce využívanými webovými a PDF prohlížeči.Vyplněné testovací scénáře se nachází v příloze bakalářské práce.
+Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a PDF prohlížeči.Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
 
 %SECTION
 \section{Testovací scénář pro uživatele}
@@ -19,12 +19,12 @@ Výsledný testovací scénář předložený uživatelům konferenčního syst�
 %SECTION
 \section{Generování a stažení PDF souboru}
 %TESTOVÁNÍ NA WEBOVÝCH PROHLÍŽEČÍCH
-
-Microsoft Edge, Internet Explorer, Mozilla Firefox, Google Chrome, Safari, Opera
+Scénář: doba generování, výsledek generování, Microsoft Edge, Internet Explorer, Mozilla Firefox, Google Chrome, Safari, Opera
 
 %SECTION
 \section{Vyplnění a nahrání PDF souboru}
 %TESTOVÁNÍ V PDF PROHLÍŽEČÍCH
+Jaká data byla použita při vyplňování, odkaz na tabulku, rychlost nahrání, správné výsledky zda byly extrahovány
 
 \begin{table}[h!]
 \centering
@@ -52,10 +52,11 @@ Evince - Linux         & 1.4                & Ano                            & A
 \end{table}
 
 %SECTION
-\section{Výsledky testování}
+\section{Nalezené chyby při testování}
+že se neextrahovala data stejně jako když byla použta MPDF -> ta kontrola na value 'Off', chyba s~nahráváním (kdy se do systému neúspěšně nahrálo PDF
+
+%SECTION
+\section{Výsledky uživatelského testování}
 \subsection{Vzhled PDF dokumentu}
 \subsection{Nalezené chyby a připomínky}
-
-% automatické testy ?? + vstupní data + výsledky, webové prohlížeče (tabulka, kde bude vygenerovana verze PDF, zda vše funguje atp.) to samé i u pdf prohlížečů, pdf prohlížeče, popis chyb nalezených při testování, scénář vytvořit pár vstupních dat, vymyslet výsledky a ty nechat "otestovat" uživateli, zda se nahrál soubor se správnými výsledky
-
  
