@@ -8,15 +8,15 @@ Při návrhu výsledného vzhledu celého dokumentu je potřeba klást důraz hl
 
 %SUBSECTION
 \subsection{Záhlaví}
-Záhlaví dokumentu by mělo obsahovat jednoznačný identifikátor hodnotícího příspěvku doplněný o název vědeckého příspěvku, který bude hodnocen. Rozhodně by zde nemělo chybět ani logo konference TSD (ideálně ve vektorovém formátu). V případě, že název vědeckého příspěvku bude zasahovat do loga, tak bude název zkrácen na fixní velikost.
+Záhlaví dokumentu by mělo obsahovat jednoznačný identifikátor hodnotícího příspěvku doplněný o~název vědeckého příspěvku, který bude hodnocen. Rozhodně by zde nemělo chybět ani logo konference TSD (ideálně ve vektorovém formátu). V~případě, že název vědeckého příspěvku bude zasahovat do loga, tak bude název zkrácen na fixní velikost.
 
 %SUBSECTION
 \subsection{Titulek}
-Titulek dokumentu by měl uživateli jednoznačně říct, který vědecký příspěvek hodnotí (ideálně zobrazit název i identifikátor). V titulku by nemělo chybět ani jméno posuzovatele a doplňující informace ohledně vyplňování formuláře, případně ho informovat o nedostatcích a omezeních aktuálně vygenerovaného PDF dokumentu.
+Titulek dokumentu by měl uživateli jednoznačně říct, který vědecký příspěvek hodnotí (ideálně zobrazit název i identifikátor). V~titulku by nemělo chybět ani jméno posuzovatele a doplňující informace ohledně vyplňování formuláře, případně ho informovat o~nedostatcích a omezeních aktuálně vygenerovaného PDF dokumentu.
 
 %SUBSECTION
 \subsection{Formulář}
-Vzhled formuláře by se měl v ideálním případě shodovat s webovým formulářem. První část formuláře obsahuje stupnicové hodnocení, zatímco druhá je spíše slovní formou. Po konzultaci s vedoucím práce bylo usouzeno, že element \textbf{Combo box} reprezentující stupnicové hodnocení parametru bude nahrazen skupinou elementů \textbf{Radio button}. Důvod tohoto rozhodnutí spočíval v lepším zobrazení hodnot na stupnici, doplněn o neschopnosti PHP generátorů zobrazit pěkný \textbf{Combo box} s bezproblémovou funkcionalitou (špatná manipulace při vybírání hodnot). Pro uložení doplňujícího textu byl použit element \textbf{Text area} pro případné poznámky ohledně stavu a obsahu vědeckého příspěvku. Element popisující \textit{Review state} a tlačítko \textit{Save review} nebudou do formuláře vloženy, jejich funkcionalita není potřebná pro modulem vytvářený formulář.
+Vzhled formuláře by se měl v~ideálním případě shodovat s~webovým formulářem. První část formuláře obsahuje stupnicové hodnocení, zatímco druhá je spíše slovní formou. Po konzultaci s~vedoucím práce bylo usouzeno, že element \textbf{Combo box} reprezentující stupnicové hodnocení parametru bude nahrazen skupinou elementů \textbf{Radio button}. Důvod tohoto rozhodnutí spočíval v~lepším zobrazení hodnot na stupnici, doplněn o~neschopnosti PHP generátorů zobrazit pěkný \textbf{Combo box} s~bezproblémovou funkcionalitou (špatná manipulace při vybírání hodnot). Pro uložení doplňujícího textu byl použit element \textbf{Text area} pro případné poznámky ohledně stavu a obsahu vědeckého příspěvku. Element popisující \textit{Review state} a tlačítko \textit{Save review} nebudou do formuláře vloženy, jejich funkcionalita není potřebná pro modulem vytvářený formulář.
 
 %SUBSECTION
 \subsection{Hodnocený vědecký příspěvek}
@@ -24,12 +24,12 @@ Vygenerovaný dokument by měl hlavně sloužit pro vyplňování hodnotícího 
 
 %SUBSECTION
 \subsection{Vodoznak}
-Ve světě se často stává, že se neoprávněně kopírují již hotová díla, která nejsou stále zaregistrovaná a mohou být případným zlodějem ukradnuta a vydána pod zlodějovo jménem. Proto je vhodné do celého dokumentu vložit vodoznak, který bude jasně říkat, že se jedná pouze o hodnotící soubor, nikoliv o plnohodnotné dílo.
+Ve světě se často stává, že se neoprávněně kopírují již hotová díla, která nejsou stále zaregistrovaná a mohou být případným zlodějem ukradnuta a vydána pod zlodějovo jménem. Proto je vhodné do celého dokumentu vložit vodoznak, který bude jasně říkat, že se jedná pouze o~hodnotící soubor, nikoliv o~plnohodnotné dílo.
 
 %SUBSECTION
 \subsection{Fonty}
 \label{subsec:fonty}
-V PDF a PostScript prostředí se lze setkat s pojmem \uv{14 standardních/základních fontů}. Tento pojem byl odvozen ze standardních 13 PostScript fontů a vyjadřuje základní fonty používané při vytváření veškerých PDF souborů. Všechny základní fonty lze nalézt v tabulce \ref{tab:table_basic_fonts}.
+V~PDF a PostScript prostředí se lze setkat s~pojmem \uv{14 standardních/základních fontů}. Tento pojem byl odvozen ze standardních 13 PostScript fontů a vyjadřuje základní fonty používané při vytváření veškerých PDF souborů. Všechny základní fonty lze nalézt v~tabulce \ref{tab:table_basic_fonts}.
 
 \begin{table}[h!]
 \centering
@@ -59,11 +59,11 @@ V PDF a PostScript prostředí se lze setkat s pojmem \uv{14 standardních/zákl
 
 %SECTION
 \section{Hlavní funkce modulu}
-Vyvíjený modul musí být napsán stejným stylem jako je celý webový portál konferenčního systému TSD. Jelikož se na tomto portálu vyskytuje modul, který má stejnou funkcionalitu jako modul vyvíjený autorem bakalářské práce, tak je návrh funkcí jednodušší. Modul vyskytující se na portálu implementuje 3 důležité funkce, které zajišťují veškerou funkcionalitu i přes to, že pro zpracovávání PDF souborů je použit externí program \textit{PDFtk}. Po konzultaci s vedoucím práce bylo rozhodnuto, že se původní názvy funkcí zachovají a budou pouze změněny jejich parametry. Autorův modul bude tedy ve výsledku obsahovat, stejně jako starý modul, 3 důležité funkce doplněny o pomocné funkce a konstanty. Všechny hlavní funkce jsou popsány níže.  
+Vyvíjený modul musí být napsán stejným stylem jako je celý webový portál konferenčního systému TSD. Jelikož se na tomto portálu vyskytuje modul, který má stejnou funkcionalitu jako modul vyvíjený autorem bakalářské práce, tak je návrh funkcí jednodušší. Modul vyskytující se na portálu implementuje 3 důležité funkce, které zajišťují veškerou funkcionalitu i přes to, že pro zpracovávání PDF souborů je použit externí program \textit{PDFtk}. Po konzultaci s~vedoucím práce bylo rozhodnuto, že se původní názvy funkcí zachovají a budou pouze změněny jejich parametry. Autorův modul bude tedy ve výsledku obsahovat, stejně jako starý modul, 3 důležité funkce doplněny o~pomocné funkce a konstanty. Všechny hlavní funkce jsou popsány níže.  
 
 %SUBSECTION
 \subsection{Funkce pro generování}
-Pro generování PDF souboru byla navržena 1 funkce. Tato funkce má za úkol nejdříve nastavit veškeré fonty a styly pro vzhled dokumentu, následně využít vhodný generátor PDF souborů, který vytvoří všechny části dokumentu (vypsané v kapitole \ref{sec:navrh_vzhledu}) a nabídne uživateli možnost stáhnout si výsledný hodnotící PDF soubor. Návrh hlavičky funkce viz \ref{lst:generate_function}.
+Pro generování PDF souboru byla navržena 1 funkce. Tato funkce má za úkol nejdříve nastavit veškeré fonty a styly pro vzhled dokumentu, následně využít vhodný generátor PDF souborů, který vytvoří všechny části dokumentu (vypsané v~kapitole \ref{sec:navrh_vzhledu}) a nabídne uživateli možnost stáhnout si výsledný hodnotící PDF soubor. Návrh hlavičky funkce viz \ref{lst:generate_function}.
 
 \lstset{style=phpstyle}
 \begin{lstlisting}[caption = {Návrh hlavičky funkce pro generování PDF souboru}, label = {lst:generate_function}, captionpos=b]
@@ -80,7 +80,7 @@ Popis vstupních parametrů funkce:
 
 %SUBSECTION
 \subsection{Funkce pro zpracování}
-Pro zpracování  PDF souboru byly navrženy 2 funkce, kdy první z nich má za úkol nahrát celý soubor do konferenčního souboru. Po nahrání souboru začne extrakce dat pomocí vhodných parserů a jejich zpracování. Následně se vše uloží do vhodných struktur a všechny extrahované hodnotící parametry se předají do následující funkce. Návrh hlavičky funkce viz \ref{lst:process_function}.
+Pro zpracování  PDF souboru byly navrženy 2 funkce, kdy první z~nich má za úkol nahrát celý soubor do konferenčního souboru. Po nahrání souboru začne extrakce dat pomocí vhodných parserů a jejich zpracování. Následně se vše uloží do vhodných struktur a všechny extrahované hodnotící parametry se předají do následující funkce. Návrh hlavičky funkce viz \ref{lst:process_function}.
 
 \begin{lstlisting}[caption = {Návrh hlavičky funkce pro extrakci dat}, label = {lst:process_function}, captionpos=b]
 function process_offline_review_form($rid, $sid, $revform_filename)
