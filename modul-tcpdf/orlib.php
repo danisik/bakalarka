@@ -97,8 +97,8 @@ function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_na
     $pdf = $elements->set_hidden_RID_and_SID($pdf, $rid, $sid);                                                   
                       
     $pdf = create_first_template_page($pdf, $elements, $text_conversioner, $configuration_data, $rid, $sid, $submission_name, $reviewer_name);   
-    $pdf = create_second_template_page($pdf, $elements, $text_conversioner, $sid, $submission_name, $submission_upload_info);    
-    $pdf = $elements->load_submission($pdf, $text_conversioner, $review_ID, $name_of_submission, DATA_ROOT.'/'.$submission_filename);    
+    $pdf = create_second_template_page($pdf, $elements, $text_conversioner, $rid, $submission_name, $submission_upload_info);    
+    $pdf = $elements->load_submission($pdf, $text_conversioner, $rid, $submission_name, DATA_ROOT.'/'.$submission_filename);    
         
     $pdf->Output($filename, 'D');
     //$pdf->Output();    
