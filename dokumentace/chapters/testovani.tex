@@ -1,28 +1,24 @@
 %CHAPTER
 \chapter{Ověření kvality software}
-Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a PDF prohlížeči.Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
+Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a PDF prohlížeči. Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
 
 %SECTION
-\section{Testovací scénář pro uživatele}
-Testovací scénář je orientován především na vzhled celého dokumentu a rozpoložení jeho jednotlivých částí. Dále byly položeny otázky na bezproblémové ovládání modulu (vygenerování a nahrání PDF dokumentu). Poslední otázka byla zaměřena na poznámky a připomínky ohledně vytvořeného modulu, které by do budoucna mohli posloužit při případném rozšiřování modulu.
-Výsledný testovací scénář předložený uživatelům konferenčního systému TSD obsahuje tyto otázky:
-\begin{itemize}
-	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání PDF dokumentu?}
-	\item \textbf{Jak by jste ohodnotil vzhled dokumentu jako celek?}
-	\item \textbf{Jak hodnotíte vzhled formuláře a použité prvky reprezentující jednotlivé hodnotící parametry?}
-	\item \textbf{Byla velikost textového pole dostatečně velká pro případně komentáře ohledně vědeckého příspěvku?}
-	\item \textbf{Jak hodnotíte rychlost stažení a nahrání PDF dokumentu?} 
-	\item \textbf{Byly Vámi vyplněné hodnoty správně nahrány do webového portálu?}
-	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je prosím zde:}
-\end{itemize}
+\section{Testování modulu}
 
-%SECTION
-\section{Generování a stažení PDF souboru}
-%TESTOVÁNÍ NA WEBOVÝCH PROHLÍŽEČÍCH
-Scénář: doba generování, výsledek generování, Microsoft Edge, Internet Explorer, Mozilla Firefox, Google Chrome, Safari, Opera
+%SUBSECTION
+\subsection{Generování PDF souboru}
+Pro generování a stažení dokumentu bylo použito šest nejčastěji využívaných webových prohlížečů.
+\par
+Jako první testované prohlížeče lze zmínit \textit{Microsoft Edge (v42.17134.1.0)} a \textit{Internet Explorer (v11)} firmy Microsoft, které jsou již předinstalované na všech operačních systémech Windows od verze 10. Stažení proběhlo zcela v~pořádku, při stahování je potřeba zvolit možnost stažení souboru do počítače, nikoliv pouze otevření souboru. Vygenerovaný PDF soubor obsahoval všechny potřebné části pro hodnocení vědeckého příspěvku. Formulář bylo možné editovat.
+\par
+Generování bylo testováno i na webových prohlížečích \textit{Mozilla Firefox (v66.0.2)} a \textit{Google Chrome (v73.0.3683.103)}. Testování probíhalo na dvou operačních systémech Windows a Linux. I~zde proběhlo generování a stažení dokumentu bez sebemenších problémů, kdy Google Chrome ihned po stažení otevřel výchozí prohlížeč PDF souborů, zatímco Mozilla Firefox nabídla možnost stažení či pouze otevření PDF souboru. Stejně jako tomu bylo u~prvních dvou webových prohlížečů, bylo nutno soubor stáhnout, nikoliv pouze otevřít. Vygenerovaný soubor obsahoval editovatelný formulář i vědecký příspěvek, který je posuzován.
+\par
+Poslední dva webové prohlížece, na kterých bylo generování PDF souboru testováno, jsou \textit{Safari (v5.1.7)} a \textit{Opera (v58)}. Testování probíhalo pouze na systému Windows. Po stažení byl PDF soubor ihned otevřen výchozím PDF prohlížečem. Formulář byl editovatelný, veškeré části hodnotícího PDF souboru zde byly přítomny.
+\par
+Protože chytré telefony má dnes skoro každý, proto bylo nutné otestovat generování PDF souboru i na systémech \textit{Android (v4.2.1 -- Jelly Bean)} a \textit{iOS (v12.2)}. Bez sebemenších problémů byl hodnotící PDF soubor vygenerován. Hodnotící formulář byl editovatelný.
 
-%SECTION
-\section{Vyplnění a nahrání PDF souboru}
+%SUBSECTION
+\subsection{Zpracování PDF souboru}
 %TESTOVÁNÍ V PDF PROHLÍŽEČÍCH
 Jaká data byla použita při vyplňování, odkaz na tabulku, rychlost nahrání, správné výsledky zda byly extrahovány
 
@@ -51,12 +47,31 @@ Evince - Linux         & 1.4                & Ano                            & A
 \end{tabular}
 \end{table}
 
-%SECTION
-\section{Nalezené chyby při testování}
+%SUBSECTION
+\subsection{Nalezené chyby při testování}
 že se neextrahovala data stejně jako když byla použta MPDF -> ta kontrola na value 'Off', chyba s~nahráváním (kdy se do systému neúspěšně nahrálo PDF
+dále zmínit že se po každém nahrání nepřepsali hodnoty, pokud v~novém formuláři něco nebylo vyplněno
+
+%SECTION
+\section{Testovací scénář}
+Testovací scénář je orientován především na vzhled celého dokumentu a rozpoložení jeho jednotlivých částí. Dále byly položeny otázky na bezproblémové ovládání modulu (vygenerování a nahrání PDF dokumentu). Poslední otázka byla zaměřena na poznámky a připomínky ohledně vytvořeného modulu, které by do budoucna mohli posloužit při případném rozšiřování modulu.
+Výsledný testovací scénář předložený uživatelům konferenčního systému TSD obsahuje tyto otázky:
+\begin{itemize}
+	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání PDF dokumentu?}
+	\item \textbf{Jak by jste ohodnotil vzhled dokumentu jako celek?}
+	\item \textbf{Jak hodnotíte vzhled formuláře a použité prvky reprezentující jednotlivé hodnotící parametry?}
+	\item \textbf{Byla velikost textového pole dostatečně velká pro případně komentáře ohledně vědeckého příspěvku?}
+	\item \textbf{Jak hodnotíte rychlost stažení a nahrání PDF dokumentu?} 
+	\item \textbf{Byly Vámi vyplněné hodnoty správně nahrány do webového portálu?}
+	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je prosím zde:}
+\end{itemize}
 
 %SECTION
 \section{Výsledky uživatelského testování}
+nezapomenout dodat referenci na testovací reporty (kapitola B)
+%SUBSECTION
 \subsection{Vzhled PDF dokumentu}
+%SUBSECTION
 \subsection{Nalezené chyby a připomínky}
+
  

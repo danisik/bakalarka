@@ -118,11 +118,11 @@ Následně byla knihovna FPDI nahrazena TCPDI parserem a otestována na několik
 
 %SUBSECTION
 \subsection{Změna knihovny pro generování PDF souborů}
-Změna knihovny pro generování PDF souborů byla nutná z důvodu nedokonalosti mPDF při slučování více PDF souborů, která nebyla na první pohled vidět. Při testování byla objevena nová knihovna TCPDI, která rozšiřuje již existující knihovnu TCPDF o nové funkce při slučování dvou či více PDF souborů. 
+Změna knihovny pro generování PDF souborů byla nutná z~důvodu nedokonalosti mPDF při slučování více PDF souborů, která nebyla na první pohled vidět. Při testování byla objevena nová knihovna TCPDI, která rozšiřuje již existující knihovnu TCPDF o~nové funkce při slučování dvou či více PDF souborů. 
 \par
-Pro zprovoznění TCPDI je nutné, aby byla na serveru přítomna knihovna TCPDF, do které bude následně vložen zdrojový kód TCPDI. Zdrojový kód TCPDI se skládá ze tří souborů. První soubor \textbf{tcpdi\_parser.php} obsahuje třídu \textit{tcpdi\_parser}, která zpracovává raw kód PDF souboru a ukládá ho do předem stanovených struktur. Druhý soubor \textbf{tcpdi.php} obsahuje třídu \textit{TCPDI}, která rozšiřuje stávající třídu TCPDF a umožňuje slučovat raw kód PDF souborů, ze kterého následně zobrazí výsledný PDF soubor. Třetí a zároveň poslední soubor \textbf{fpdf\_tpl.php} obsahuje třídu \textit{fpdf\_tpl}, která vytváří základy pro znovupoužití PDF objektů v PDF souboru.
+Pro zprovoznění TCPDI je nutné, aby byla na serveru přítomna knihovna TCPDF, do které bude následně vložen zdrojový kód TCPDI. Zdrojový kód TCPDI se skládá ze tří souborů. První soubor \textbf{tcpdi\_parser.php} obsahuje třídu \textit{tcpdi\_parser}, která zpracovává raw kód PDF souboru a ukládá ho do předem stanovených struktur. Druhý soubor \textbf{tcpdi.php} obsahuje třídu \textit{TCPDI}, která rozšiřuje stávající třídu TCPDF a umožňuje slučovat raw kód PDF souborů, ze kterého následně zobrazí výsledný PDF soubor. Třetí a zároveň poslední soubor \textbf{fpdf\_tpl.php} obsahuje třídu \textit{fpdf\_tpl}, která vytváří základy pro znovupoužití PDF objektů v~PDF souboru.
 \par
-Pro generování obsahu PDF souboru se nevytváří HTML kód, ale využívají se předem vytvořené metody. Jako příklad lze uvést metodu \textit{TextField} třídy TCPDI pomocí které se do souboru vloží textové pole. TCPDI obsahuje metodu, která umožnuje generovat PDF soubor i pomocí HTML kódu, ale z důvodu nedostatečné podpory CSS stylů je tento způsob generování nedoporučován. Proto bylo nutné kompletně přepsat již vytvořený zdrojový kód generátoru a co nejvíce se přiblížit vzhledu PDF souboru jako tomu bylo u mPDF. Starý zdrojový kód využívající knihovnu mPDF byl zachován pro případ, že bude vytvořena nová knihovna, která bude schopna slučovat PDF soubory nehledě na verzi PDF a bude kompatibilní s mPDF. 
+Pro generování obsahu PDF souboru se nevytváří HTML kód, ale využívají se předem vytvořené metody. Jako příklad lze uvést metodu \textit{TextField} třídy TCPDI pomocí které se do souboru vloží textové pole. TCPDI obsahuje metodu, která umožnuje generovat PDF soubor i pomocí HTML kódu, ale z~důvodu nedostatečné podpory CSS stylů je tento způsob generování nedoporučován. Proto bylo nutné kompletně přepsat již vytvořený zdrojový kód generátoru a co nejvíce se přiblížit vzhledu PDF souboru jako tomu bylo u~mPDF. Starý zdrojový kód využívající knihovnu mPDF byl zachován pro případ, že bude vytvořena nová knihovna, která bude schopna slučovat PDF soubory nehledě na verzi PDF a bude kompatibilní s~mPDF. 
 
 %SECTION
 \section{Parser}
@@ -184,5 +184,5 @@ Technické požadavky pro bezproblémové fungování TCPDI a PDF Parser jsou:
 \begin{itemize} 
 	\item \textbf{PHP verze} --TCPDI  momentálně funguje na všech verzích PHP, zatímco u~PDF Parseru je potřeba minimální verze 5.3. Proto je nutné mít na serveru PHP verzi alespoň 5.3.0.
 	\item \textbf{Podpůrné knihovny} -- Při kompresi stránek PDF souborů pomocí knihovny TCPDI je potřeba mít na serveru povoleno rozšíření \textbf{php-zlib}.
-	\item \textbf{FPDF\_TPL verze} -- Aktuální verze TCPDI je kompatibilní pouze s verzí 1.2.3 knihovny FPDF\_TPL. 
+	\item \textbf{FPDF\_TPL verze} -- Aktuální verze TCPDI je kompatibilní pouze s~verzí 1.2.3 knihovny FPDF\_TPL. 
 \end{itemize}
