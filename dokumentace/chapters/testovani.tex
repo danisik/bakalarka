@@ -15,12 +15,11 @@ Generování bylo testováno i na webových prohlížečích \textit{Mozilla Fir
 \par
 Poslední dva webové prohlížece, na kterých bylo generování PDF souboru testováno, jsou \textit{Safari (v5.1.7)} a \textit{Opera (v58)}. Testování probíhalo pouze na systému Windows. Po stažení byl PDF soubor ihned otevřen výchozím PDF prohlížečem. Formulář byl editovatelný, veškeré části hodnotícího PDF souboru zde byly přítomny.
 \par
-Protože chytré telefony má dnes skoro každý, proto bylo nutné otestovat generování PDF souboru i na systémech \textit{Android (v4.2.1 -- Jelly Bean)} a \textit{iOS (v12.2)}. Bez sebemenších problémů byl hodnotící PDF soubor vygenerován. Hodnotící formulář byl editovatelný.
+Protože chytré telefony má dnes skoro každý, bylo proto nutné otestovat generování PDF souboru i na operačních systémech \textit{Android (v4.2.1 -- Jelly Bean)} a \textit{iOS (v12.2)}. Bez sebemenších problémů byl hodnotící PDF soubor vygenerován. Hodnotící formulář byl editovatelný.
 
 %SUBSECTION
-\subsection{Zpracování PDF souboru}
-%TESTOVÁNÍ V PDF PROHLÍŽEČÍCH
-Jaká data byla použita při vyplňování, odkaz na tabulku, rychlost nahrání, správné výsledky zda byly extrahovány
+\subsection{Vyplnění a zpracování PDF souboru}
+Pro vyplnění vygenerovaného hodnotícího PDF souboru bylo použito sedm PDF prohlížečů, viz \ref{tab:table_zpracovani}. Pro nahrání vyplněného PDF souboru byl použit webový prohlížeč Google Chrome.
 
 \begin{table}[h!]
 \centering
@@ -28,29 +27,45 @@ Jaká data byla použita při vyplňování, odkaz na tabulku, rychlost nahrán�
 \hline
 \textbf{PDF prohlížeč} & \textbf{Verze PDF} & \textbf{Interaktivní formulář} & \textbf{Uložení hodnot}  \\ 
 \hline
-Adobe Acrobat Reader   & 1.6                & Ano                            & Ano                      \\ 
+Adobe Acrobat Reader   & 1.6.0                & Ano                            & Ano                      \\ 
 \hline
-Adobe Acrobat Pro      & 1.6                & Ano                            & Ano                      \\ 
+Adobe Acrobat Pro      & 1.6.0                & Ano                            & Ano                      \\ 
 \hline
-Evince                 & 1.4                & Ano                            & Ano                      \\ 
+Evince                 & 1.4.0                & Ano                            & Ano                      \\ 
 \hline
-PDFElements            & 1.4                & Ano                            & Ano                      \\ 
+PDFElements            & 1.4.0                & Ano                            & Ano                      \\ 
 \hline
-Nitro Pro              & 1.4                & Ano                            & Ano                      \\ 
+Nitro Pro              & 1.4.0                & Ano                            & Ano                      \\ 
 \hline
 Sumatra                & X                  & Ne                             & Ne                       \\ 
 \hline
-Foxit - Linux          & 1.4                & Ano                            & Ano                      \\ 
+Foxit - Linux          & 1.4.0                & Ano                            & Ano                      \\ 
 \hline
-Evince - Linux         & 1.4                & Ano                            & Ano                      \\
+Evince - Linux         & 1.4.0                & Ano                            & Ano                      \\
 \hline
 \end{tabular}
+\caption{PDF prohlížeče použité při testování}
+\label{tab:table_zpracovani}
 \end{table}
+
+\par
+Nejčastěji využívané PDF prohlížeče jsou \textit{Adobe Acrobat Reader} a \textit{Adobe Acrobat Pro} ve verzi v19.01.020091. Hodnotící formulář zde byl editovatelný, obrázky se vyskytují v~perfektní kvalitě a při ukládání byla použita verze PDF 1.6.0. Po nahrání hodnotícího PDF souboru do webového portálu konference TSD byly všechny vyplněné hodnoty extrahování a úspěšně uloženy do databáze.
+\par
+Mezi známější PDF prohlížeče lze zařadit i \textit{Evince (v3.32)}, který byl použit pro testování na operačních systémech \textit{Windows 10} a \textit{Linux}. Vzhled formulářových prvků zde vypadal trochu jinak než jak tomu bylo u~Adobe prohlížečů, při ukládání PDF souboru byla použita verze PDF 1.4.0. Nahrání souboru a extrahování potřebných hodnot proběhlo bez sebemenších problémů na obou operačních systémech.
+\par
+Mezi méně známé PDF prohlížeče lze zařadit \textit{PDFElements (v6)}, \textit{Nitro Pro (v12)} a \textit{Foxit (v9.4.1.16828)}. Všechny tyto prohlížeče bezproblémově uložili všechny vyplněné hodnoty ve verzi PDF 1.4.0. Stejně jako tomu bylo u~\textit{Evince}, i zde se nevyskytl žádný problém při nahrávání souboru a extrakci požadovaných hodnot.
+\par
+Jako poslední PDF prohlížeč byl použit prohlížeč \textit{Sumatra (v3.1.2)}. Sumatra nepodporuje editovatelné formuláře, slouží pouze k~prohlížení PDF souborů. Proto z~tohoto důvodu nelze použít prohlížeč Sumatra pro vygenerovaný hodnotící PDF soubor.
 
 %SUBSECTION
 \subsection{Nalezené chyby při testování}
-že se neextrahovala data stejně jako když byla použta MPDF -> ta kontrola na value 'Off', chyba s~nahráváním (kdy se do systému neúspěšně nahrálo PDF
-dále zmínit že se po každém nahrání nepřepsali hodnoty, pokud v~novém formuláři něco nebylo vyplněno
+%že se neextrahovala data stejně jako když byla použta MPDF -> ta kontrola na value 'Off', chyba s~nahráváním (kdy se do systému neúspěšně nahrálo PDF
+%dále zmínit že se po každém nahrání nepřepsali hodnoty, pokud v~novém formuláři něco nebylo vyplněno
+Při testování modulu se objevily dvě větší chyby, které nebyly zapříčiněné použitou knihovnou.Jednalo se o~chyby při zpracovávání nahraného PDF souboru.
+\par
+První chyba byla objevena při testování knihovny TCPDI. Při kontrole extrahovaných hodnot z~nahraného PDF souboru se u~každé skupiny přepínacích tlačítek kontroluje, zda obsahuje hodnotu \uv{Off}. Pokud obsahuje, pak uživatel nezvolil ani jednu možnost v~dané skupině přepínacích tlačítek. Bohužel tento postup fungoval pouze u~formulářů vygenerovaných knihovnou mPDF, nikoliv u~formulářů vygenerovaných knihovnou TCPDI. U~TCPDI se při nezvolené možnosti ve skupině přepínacích tlačítek se daný hodnotící prvek ani neextrahuje, tudíž není dostupný a nelze ho nijak zkontrolovat. Proto byla přidána kontrola, zda extrahovaná data obsahují všechny hodnotící parametry u~všech formulářových prvků.
+\par
+Druhá chyba byla nalezena při ukládání hodnot do databáze. V~hodnotícím formuláři se vyskytují parametry, které uživatel nemusí vyplňovat. Pokud tyto položky nejsou vyplněné, nejsou při nahrávání extrahovány a následně uloženy do databáze, tudíž při nahrání nového PDF souboru se stávalo, že zde zůstali z~předchozího hodnocení komentáře. Proto bylo nutné zjistit zda tyto nepovinné parametry jsou vyplněny a pokud ne, byly explicitně vytvořeny v~modulu s~přiřazenou hodnotou, která byla prázdný řetězec. Tímto způsobem byly přepsány všechny parametry z~minulého hodnocení.
 
 %SECTION
 \section{Testovací scénář}
@@ -68,7 +83,7 @@ Výsledný testovací scénář předložený uživatelům konferenčního syst�
 
 %SECTION
 \section{Výsledky uživatelského testování}
-nezapomenout dodat referenci na testovací reporty (kapitola B)
+\ref{chap:testovaci_reporty}
 %SUBSECTION
 \subsection{Vzhled PDF dokumentu}
 %SUBSECTION

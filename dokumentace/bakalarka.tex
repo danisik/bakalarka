@@ -70,7 +70,7 @@
 % Odkazy v PDF jsou aktivní; navíc se automaticky vkládá
 % balíček 'url', který umožňuje např. dělení slov
 % uvnitř URL
-\usepackage[pdftex]{hyperref}
+\usepackage[pdftex,hypertexnames=false]{hyperref}
 \hypersetup{colorlinks=true,
   unicode=true,
   linkcolor=black,
@@ -90,6 +90,7 @@
 \usepackage{mathtools}
 \usepackage[final]{pdfpages}
 \usepackage{verbatim}
+\usepackage{fancyhdr}
 
 \input{style/php_style.tex}
 
@@ -101,7 +102,11 @@
 \begin{document}
 %
 \maketitle
+\pagestyle{empty}
 \tableofcontents
+\pagestyle{plain}
+\addtocontents{toc}{
+\protect\thispagestyle{empty}} 
 
 \thispagestyle{empty}
 \setcounter{page}{0} 
