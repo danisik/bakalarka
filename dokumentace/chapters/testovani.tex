@@ -59,8 +59,6 @@ Jako poslední PDF prohlížeč byl použit prohlížeč \textit{Sumatra (v3.1.2
 
 %SUBSECTION
 \subsection{Nalezené chyby při testování}
-%že se neextrahovala data stejně jako když byla použta MPDF -> ta kontrola na value 'Off', chyba s~nahráváním (kdy se do systému neúspěšně nahrálo PDF
-%dále zmínit že se po každém nahrání nepřepsali hodnoty, pokud v~novém formuláři něco nebylo vyplněno
 Při testování modulu se objevily dvě větší chyby, které nebyly zapříčiněné použitou knihovnou.Jednalo se o~chyby při zpracovávání nahraného PDF souboru.
 \par
 První chyba byla objevena při testování knihovny TCPDI. Při kontrole extrahovaných hodnot z~nahraného PDF souboru se u~každé skupiny přepínacích tlačítek kontroluje, zda obsahuje hodnotu \uv{Off}. Pokud obsahuje, pak uživatel nezvolil ani jednu možnost v~dané skupině přepínacích tlačítek. Bohužel tento postup fungoval pouze u~formulářů vygenerovaných knihovnou mPDF, nikoliv u~formulářů vygenerovaných knihovnou TCPDI. U~TCPDI se při nezvolené možnosti ve skupině přepínacích tlačítek se daný hodnotící prvek ani neextrahuje, tudíž není dostupný a nelze ho nijak zkontrolovat. Proto byla přidána kontrola, zda extrahovaná data obsahují všechny hodnotící parametry u~všech formulářových prvků.

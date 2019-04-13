@@ -1,3 +1,13 @@
 %CHAPTER
 \chapter{Závěr}
- 
+ V~rámci této práce se autor seznámil s~konferenčním systémem TSD a prostudoval již existující PHP knihovny pro práci s~formátem PDF.
+\par
+Na základě nabytých znalostí byl navržen a implementován modul umožňující vygenerování hodnotícího PDF souboru a jeho zpracování. Modul využívá dvě PHP knihovny třetích stran, které zajišťují veškerou funkcionalitu. 
+\par
+Pro generování hodnotícího PDF souboru byla nejdříve použita knihovna mPDF, která ale měla jeden zásadní nedostatek, který spočíval v~nezpůsobilosti sloučit PDF soubory s~verzí PDF nad 1.4. Po zjištění tohoto nedostatku byla vybrána knihovna TCPDI, se kterou lze tyto PDF soubory slučovat, ač lepší vzhled výsledného vygenerovaného souboru bylo lepší v~případě mPDF. 
+\par
+Pro zpracování hodnotícího PDF souboru byla použita knihovna PDF Parser, která měla za úkol zpracovat nahraný soubor a následně z~něj extrahovat hodnotící parametry. Protože tato knihovna pouze zpracovává veškerá data a nerozlišuje zda je daný objekt formulářový prvek, obrázek nebo text, musela být upravena. Upravení spočívalo v~přidání kontroly objektu při zpracovávání, zda se jedná o~daný hodnotící parametr. PDF Parser je distribuován pod licencí GPLv2, která umožňuje takovéto úpravy zdrojového kódu.
+\par
+Tady bude rekapitulace hodnocení z~testování
+\par
+Zadaní práce bylo bezpodmínečně splněno, výsledný modul umožňuje posuzovatelům nechat si vygenerovat hodnotící PDF soubor pro posuzování vědeckého příspěvku off-line a následně ho nahrát zpět na webový portál konference TSD. Veškerá funkcionalita byla zajištěna pomocí PHP knihoven třetích stran, které autor práce zakomponoval do systému s~využitím pomocného zdrojového kódu.
