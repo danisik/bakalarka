@@ -150,7 +150,7 @@
 % LANGUAGE DEPENDENT DEFAULT SETTINGS
 %
 \@ifclasswith{thesiskiv}{czech}{
- \university{Západočeská univerzita v Plzni}
+ \university{Západočeská univerzita v~Plzni}
  \faculty{Fakulta aplikovaných věd}
  \department{Katedra informatiky a výpočetní techniky}
  \@ifclasswith{thesiskiv}{BP}
@@ -160,10 +160,10 @@
  \titlepagetown{Plzeň}
  \declarationtown{Plzni}
  \def\KIV@declarationname{Prohlášení}
- \def\KIV@declarationtext{Prohlašuji, že jsem \KIV@thesistype\ práci vypracoval\ifdeclarationfemale{a}\fi\ samostatně a výhradně s použitím citovaných pramenů. \par V bakalářské práci jsou použity názvy programových produktů, firem apod., které mohou být ochrannými známkami nebo registrovanými ochrannými známkami příslušných vlastníků.}
+ \def\KIV@declarationtext{Prohlašuji, že jsem \KIV@thesistype\ práci vypracoval\ifdeclarationfemale{a}\fi\ samostatně a výhradně s~použitím citovaných pramenů. \par V~bakalářské práci jsou použity názvy programových produktů, firem apod., které mohou být ochrannými známkami nebo registrovanými ochrannými známkami příslušných vlastníků.}
  \def\KIV@declarationfoot{V \KIV@declarationtown\ dne\ }
  \def\KIV@thanksname{Poděkování}
- \def\KIV@thankstext{Děkuji panu Ing. Kamilu Ekšteinovi, Ph.D. za ochotu při vedení bakalářské práce a rady s jejím vypracováním.}
+ \def\KIV@thankstext{Děkuji panu Ing. Kamilu Ekšteinovi, Ph.D. za ochotu při vedení bakalářské práce a rady s~jejím vypracováním.}
 }{}
 \@ifclasswith{thesiskiv}{english}{
  \university{University of West Bohemia}
@@ -176,7 +176,7 @@
  \titlepagetown{Plzeň}
  \declarationtown{Plzeň}
  \def\KIV@declarationname{Declaration}
- \def\KIV@declarationtext{I hereby declare that this \KIV@thesistype\ thesis is completely my own work and that I used only the cited sources.}
+ \def\KIV@declarationtext{I hereby declare that this \KIV@thesistype\ thesis is completely my own work and that I~used only the cited sources.}
  \def\KIV@declarationfoot{\KIV@declarationtown,\ }
 }{}
 %

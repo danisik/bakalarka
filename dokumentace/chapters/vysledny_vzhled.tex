@@ -1,4 +1,17 @@
 %CHAPTER
 \chapter{Vzhled PDF formuláře}\label{chap:vysledny_vzhled_formulare}
-\includepdf[pages=1,pagecommand={},width=1.3\textwidth]{pdf/vysledny_vzhled.pdf}
-\includepdf[pages=2,pagecommand={},width=1.3\textwidth]{pdf/vysledny_vzhled.pdf}
+\begin{center}
+\begin{minipage}[b]{0.95\textwidth}
+	%\framebox{
+		\includepdf[pages=1,pagecommand={},frame,width=0.95\textwidth]{pdf/vysledny_vzhled.pdf}
+	%}
+\end{minipage}
+\end{center}
+\newpage
+\begin{center}
+\begin{minipage}[b]{0.95\textwidth}
+	%\framebox{
+		\includepdf[pages=2,pagecommand={},frame,width=0.95\textwidth]{pdf/vysledny_vzhled.pdf}
+	%}
+\end{minipage}
+\end{center}
