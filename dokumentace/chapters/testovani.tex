@@ -59,6 +59,7 @@ Jako poslední PDF prohlížeč byl použit prohlížeč \textit{Sumatra (v3.1.2
 
 %SUBSECTION
 \subsection{Nalezené chyby při testování}
+\label{subsec:chyby_pri_testovani}
 Při testování modulu se objevily dvě větší chyby, které nebyly zapříčiněné použitou knihovnou.Jednalo se o~chyby při zpracovávání nahraného PDF souboru.
 \par
 První chyba byla objevena při testování knihovny TCPDI. Při kontrole extrahovaných hodnot z~nahraného PDF souboru se u~každé skupiny přepínacích tlačítek kontroluje, zda obsahuje hodnotu \uv{Off}. Pokud obsahuje, pak uživatel nezvolil ani jednu možnost v~dané skupině přepínacích tlačítek. Bohužel tento postup fungoval pouze u~formulářů vygenerovaných knihovnou mPDF, nikoliv u~formulářů vygenerovaných knihovnou TCPDI. U~TCPDI se při nezvolené možnosti ve skupině přepínacích tlačítek se daný hodnotící prvek ani neextrahuje, tudíž není dostupný a nelze ho nijak zkontrolovat. Proto byla přidána kontrola, zda extrahovaná data obsahují všechny hodnotící parametry u~všech formulářových prvků.
@@ -81,10 +82,12 @@ Výsledný testovací scénář předložený uživatelům konferenčního syst�
 
 %SECTION
 \section{Výsledky uživatelského testování}
-\ref{chap:testovaci_reporty}
+Funkčnost modulu byla otestována dvěma uživateli webového portálu konference TSD. Níže jsou popsány souhrny jednotlivých částí testovacího reportu. V~kapitole \ref{chap:testovaci_reporty} jsou podrobně rozepsány všechny odpovědi uživatelu.
 %SUBSECTION
 \subsection{Vzhled PDF dokumentu}
+Vzhled hodnotícího formuláře byl podle uživatelů vcelku přehledný a věcný, ale svým vzhledem je ani neurazil, ani nenadchnul. Velikost textových polí byla dostatečně velká pro zadání všech informací. Ohledně celkového vzhledu dokumentu měli uživatelé námitku na odsazení výběrových tlačítek. Ocenili by především větší odsazení skupin výběrových tlačítek od ostatních sekcí.
 %SUBSECTION
 \subsection{Nalezené chyby a připomínky}
+Při stahování a nahrávání dokumentů se nevyskytly žádné problémy a vše proběhlo bez výraznějších prodlev mezi 1-2 vteřinami. Při nahrávání vyplněného hodnotícího PDF souboru do webového portálu se u~prvního uživatele vyskytly problémy, zatímco druhý neměl žádné připomínky. Připomínky prvního uživatele byly: portál nezná háčky, čárky a opravuje je na nesmyslné znaky, je schopný nahrát i nesmyslný text ve stylu samých teček a problém při ukládání hodnot do databáze, který spočíval v~přepisování starých hodnot novými. Co se týče špatného zobrazování háčků a čárek tak tento problém byl vysvětlen v~kapitole \ref{subsec:nedostatky_v_mpdf}. Ohledně nesmyslného textu, většina hodnotících parametrů je povinná a proto musí být i v~off-line formuláři náležitě vyplněny všechny povinné parametry. Poslední připomínka byla zjištěna ke konci autorova testování, kdy už byly rozeslány testovací reporty všem uživatelům, viz kapitola \ref{subsec:chyby_pri_testovani}.  
 
  
