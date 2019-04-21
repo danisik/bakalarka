@@ -75,12 +75,15 @@ class ORLIBPDF extends TCPDI {
 function generate_offline_review_form($rid, $reviewer_name, $sid, $submission_name, $submission_filename) {
   
     mb_internal_encoding('UTF-8');
-    include (DOC_GP_SOURCE.'Enumerates.php');
+    include (DOC_GP_SOURCE.'Instruction.php');
+    include (DOC_GP_SOURCE.'FormElements.php');
+    include (DOC_GP_SOURCE.'TextareaInfo.php');
+    include (DOC_GP_SOURCE.'RadiobuttonInfo.php');
     include (DOC_GP_SOURCE.'ConfigurationData.php');
-    include (DOC_GP_SOURCE.'TextConversioner.php');
+    include (DOC_GP_SOURCE.'TextConverter.php');
     include (DOC_GP_SOURCE.'Elements.php');
                              
-    $text_conversioner = new TextConversioner;
+    $text_conversioner = new TextConverter;
     $configuration_data = new ConfigurationData;
     $configuration_data->read_XML_file(DOC_GP_CONFIGURATION); 
     $elements = new Elements(DOC_GP_IMG.ORLIB_LOGO, $configuration_data->getWatermark_text());
@@ -182,7 +185,10 @@ EOD;
 function process_offline_review_form($rid, $sid, $revform_filename) {
     
     require (DOC_GP_PARSER.'vendor/autoload.php');
-    include (DOC_GP_SOURCE.'Enumerates.php');
+    include (DOC_GP_SOURCE.'Instruction.php');
+    include (DOC_GP_SOURCE.'FormElements.php');
+    include (DOC_GP_SOURCE.'TextareaInfo.php');
+    include (DOC_GP_SOURCE.'RadiobuttonInfo.php');
     
     $parser = new \Smalot\PdfParser\Parser();
     
