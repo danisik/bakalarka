@@ -1,31 +1,31 @@
 %CHAPTER
 \chapter{Ověření kvality software}
-Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného PDF dokumentu a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro posuzovatele vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a PDF prohlížeči. Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
+Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného dokumentu PDF a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro recenzenta vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a prohlížeči PDF. Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
 
 %SECTION
 \section{Testování modulu}
 
 %SUBSECTION
-\subsection{Generování PDF souboru}
+\subsection{Generování souboru PDF}
 Pro generování a stažení dokumentu bylo použito šest nejčastěji využívaných webových prohlížečů.
 \par
-Jako první testované prohlížeče lze zmínit \textit{Microsoft Edge (v42.17134.1.0)} a \textit{Internet Explorer (v11)} firmy Microsoft, které jsou již předinstalované na všech operačních systémech Windows od verze 10. Stažení proběhlo zcela v~pořádku, při stahování je potřeba zvolit možnost stažení souboru do počítače, nikoliv pouze otevření souboru. Vygenerovaný PDF soubor obsahoval všechny potřebné části pro hodnocení vědeckého příspěvku. Formulář bylo možné editovat.
+Jako první testované prohlížeče lze zmínit \textit{Microsoft Edge (v42.17134.1.0)} a \textit{Internet Explorer (v11)} firmy Microsoft, které jsou již předinstalované na všech operačních systémech Windows od verze 10. Stažení proběhlo zcela v~pořádku, při stahování je potřeba zvolit možnost stažení souboru do počítače, nikoliv pouze otevření souboru. Vygenerovaný soubor PDF obsahoval všechny potřebné části pro hodnocení vědeckého příspěvku. Formulář bylo možné editovat.
 \par
-Generování bylo testováno i na webových prohlížečích \textit{Mozilla Firefox (v66.0.2)} a \textit{Google Chrome (v73.0.3683.103)}. Testování probíhalo na dvou operačních systémech Windows a Linux. I~zde proběhlo generování a stažení dokumentu bez sebemenších problémů, kdy Google Chrome ihned po stažení otevřel výchozí prohlížeč PDF souborů, zatímco Mozilla Firefox nabídla možnost stažení či pouze otevření PDF souboru. Stejně jako tomu bylo u~prvních dvou webových prohlížečů, bylo nutno soubor stáhnout, nikoliv pouze otevřít. Vygenerovaný soubor obsahoval editovatelný formulář i vědecký příspěvek, který je posuzován.
+Generování bylo testováno i na webových prohlížečích \textit{Mozilla Firefox (v66.0.2)} a \textit{Google Chrome (v73.0.3683.103)}. Testování probíhalo na dvou operačních systémech Windows 10 a Linux (Ubuntu v18.04.1 LTS, Kernel 4.15.0--44--generic. I~zde proběhlo generování a stažení dokumentu bez sebemenších problémů, kdy Google Chrome ihned po stažení otevřel výchozí prohlížeč souborů PDF, zatímco Mozilla Firefox nabídl možnost stažení či pouze otevření souboru PDF. Stejně jako tomu bylo u~prvních dvou webových prohlížečů, bylo nutno soubor stáhnout, nikoliv pouze otevřít. Vygenerovaný soubor obsahoval editovatelný formulář i vědecký příspěvek, který je posuzován.
 \par
-Poslední dva webové prohlížece, na kterých bylo generování PDF souboru testováno, jsou \textit{Safari (v5.1.7)} a \textit{Opera (v58)}. Testování probíhalo pouze na systému Windows. Po stažení byl PDF soubor ihned otevřen výchozím PDF prohlížečem. Formulář byl editovatelný, veškeré části hodnotícího PDF souboru zde byly přítomny.
+Poslední dva webové prohlížece, na kterých bylo generování souboru PDF testováno, jsou \textit{Safari (v5.1.7)} a \textit{Opera (v58)}. Testování probíhalo pouze na systému Windows. Po stažení byl soubor PDF ihned otevřen výchozím prohlížečem PDF. Formulář byl editovatelný, veškeré části hodnotícího souboru PDF zde byly přítomny.
 \par
-Protože chytré telefony má dnes skoro každý, bylo proto nutné otestovat generování PDF souboru i na operačních systémech \textit{Android (v4.2.1 -- Jelly Bean)} a \textit{iOS (v12.2)}. Bez sebemenších problémů byl hodnotící PDF soubor vygenerován. Hodnotící formulář byl editovatelný.
+Protože chytré telefony má dnes skoro každý, bylo proto nutné otestovat generování souboru PDF i na operačních systémech \textit{Android (v4.2.1 -- Jelly Bean)} a \textit{iOS (v12.2)}. Bez sebemenších problémů byl hodnotící soubor PDF vygenerován. Hodnotící formulář byl editovatelný.
 
 %SUBSECTION
-\subsection{Vyplnění a zpracování PDF souboru}
-Pro vyplnění vygenerovaného hodnotícího PDF souboru bylo použito sedm PDF prohlížečů, viz \ref{tab:table_zpracovani}. Pro nahrání vyplněného PDF souboru byl použit webový prohlížeč Google Chrome.
+\subsection{Vyplnění a zpracování souboru PDF}
+Při vyplnění vygenerovaného hodnotícího souboru PDF bylo použito sedm prohlížečů PDF, viz \ref{tab:table_zpracovani}. K~nahrání vyplněného souboru PDF byl použit webový prohlížeč Google Chrome.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|l|l|} 
 \hline
-\textbf{PDF prohlížeč} & \textbf{Verze PDF} & \textbf{Interaktivní formulář} & \textbf{Uložení hodnot}  \\ 
+\textbf{Prohlížeč PDF} & \textbf{Verze PDF} & \textbf{Interaktivní formulář} & \textbf{Uložení hodnot}  \\ 
 \hline
 Adobe Acrobat Reader   & 1.6.0                & Ano                            & Ano                      \\ 
 \hline
@@ -44,38 +44,38 @@ Foxit - Linux          & 1.4.0                & Ano                            &
 Evince - Linux         & 1.4.0                & Ano                            & Ano                      \\
 \hline
 \end{tabular}
-\caption{PDF prohlížeče použité při testování}
+\caption{Prohlížeče PDF použité při testování}
 \label{tab:table_zpracovani}
 \end{table}
 
 \par
-Nejčastěji využívané PDF prohlížeče jsou \textit{Adobe Acrobat Reader} a \textit{Adobe Acrobat Pro} ve verzi v19.01.020091. Hodnotící formulář zde byl editovatelný, obrázky se vyskytují v~perfektní kvalitě a při ukládání byla použita verze PDF 1.6.0. Po nahrání hodnotícího PDF souboru do webového portálu konference TSD byly všechny vyplněné hodnoty extrahování a úspěšně uloženy do databáze.
+Nejčastěji využívané prohlížeče PDF jsou \textit{Adobe Acrobat Reader} a \textit{Adobe Acrobat Pro} ve verzi v19.01.020091. Hodnotící formulář zde byl editovatelný, obrázky se vyskytují v~perfektní kvalitě a při ukládání byla použita verze PDF 1.6.0. Po nahrání souboru PDF v~recenzním řízení do webového portálu konference TSD byly všechny vyplněné hodnoty extrahování a úspěšně uloženy do databáze.
 \par
-Mezi známější PDF prohlížeče lze zařadit i \textit{Evince (v3.32)}, který byl použit pro testování na operačních systémech \textit{Windows 10} a \textit{Linux}. Vzhled formulářových prvků zde vypadal trochu jinak než jak tomu bylo u~Adobe prohlížečů, při ukládání PDF souboru byla použita verze PDF 1.4.0. Nahrání souboru a extrahování potřebných hodnot proběhlo bez sebemenších problémů na obou operačních systémech.
+Mezi známější prohlížeče PDF lze zařadit i \textit{Evince (v3.32)}, který byl použit pro testování na operačních systémech \textit{Windows 10} a \textit{Linux}. Vzhled formulářových prvků zde vypadal trochu jinak než jak tomu bylo u~Adobe prohlížečů, při ukládání souboru PDF byla použita verze PDF 1.4.0. Nahrání souboru a extrahování potřebných hodnot proběhlo bez sebemenších problémů na obou operačních systémech.
 \par
-Mezi méně známé PDF prohlížeče lze zařadit \textit{PDFElements (v6)}, \textit{Nitro Pro (v12)} a \textit{Foxit (v9.4.1.16828)}. Všechny tyto prohlížeče bezproblémově uložili všechny vyplněné hodnoty ve verzi PDF 1.4.0. Stejně jako tomu bylo u~\textit{Evince}, i zde se nevyskytl žádný problém při nahrávání souboru a extrakci požadovaných hodnot.
+Mezi méně známé prohlížeče PDF lze zařadit \textit{PDFElements (v6)}, \textit{Nitro Pro (v12)} a \textit{Foxit (v9.4.1.16828)}. Všechny tyto prohlížeče bezproblémově uložily všechny vyplněné hodnoty ve verzi PDF 1.4.0. Stejně jako tomu bylo u~\textit{Evince}, i zde se nevyskytl žádný problém při nahrávání souboru a extrakci požadovaných hodnot.
 \par
-Jako poslední PDF prohlížeč byl použit prohlížeč \textit{Sumatra (v3.1.2)}. Sumatra nepodporuje editovatelné formuláře, slouží pouze k~prohlížení PDF souborů. Proto z~tohoto důvodu nelze použít prohlížeč Sumatra pro vygenerovaný hodnotící PDF soubor.
+Jako poslední prohlížeč PDF byl použit prohlížeč \textit{Sumatra (v3.1.2)}. Sumatra nepodporuje editovatelné formuláře, slouží pouze k~prohlížení souborů PDF. Proto z~tohoto důvodu nelze použít prohlížeč Sumatra pro vygenerovaný soubor PDF v~recenzním řízení.
 
 %SUBSECTION
 \subsection{Nalezené chyby při testování}
 \label{subsec:chyby_pri_testovani}
-Při testování modulu se objevily dvě větší chyby, které nebyly zapříčiněné použitou knihovnou.Jednalo se o~chyby při zpracovávání nahraného PDF souboru.
+Při testování modulu se objevily dvě větší chyby, které nebyly zapříčiněné použitou knihovnou. Jednalo se o~chyby při zpracovávání nahraného souboru PDF.
 \par
-První chyba byla objevena při testování knihovny TCPDI. Při kontrole extrahovaných hodnot z~nahraného PDF souboru se u~každé skupiny přepínacích tlačítek kontroluje, zda obsahuje hodnotu \uv{Off}. Pokud obsahuje, pak uživatel nezvolil ani jednu možnost v~dané skupině přepínacích tlačítek. Bohužel tento postup fungoval pouze u~formulářů vygenerovaných knihovnou mPDF, nikoliv u~formulářů vygenerovaných knihovnou TCPDI. U~TCPDI se při nezvolené možnosti ve skupině přepínacích tlačítek se daný hodnotící prvek ani neextrahuje, tudíž není dostupný a nelze ho nijak zkontrolovat. Proto byla přidána kontrola, zda extrahovaná data obsahují všechny hodnotící parametry u~všech formulářových prvků.
+První chyba byla objevena při testování knihovny TCPDI. Při kontrole extrahovaných hodnot z~nahraného souboru PDF se u~každé skupiny přepínacích tlačítek kontroluje, zda obsahuje hodnotu \uv{Off}. Pokud obsahuje, pak uživatel nezvolil ani jednu možnost v~dané skupině přepínacích tlačítek. Bohužel tento postup fungoval pouze u~formulářů vygenerovaných knihovnou mPDF, nikoliv u~formulářů vygenerovaných knihovnou TCPDI. U~TCPDI se při nezvolené možnosti ve skupině přepínacích tlačítek se daný hodnotící prvek ani neextrahuje, tudíž není dostupný a nelze ho nijak zkontrolovat. Proto byla přidána kontrola, zda extrahovaná data obsahují všechny hodnotící parametry u~všech formulářových prvků.
 \par
-Druhá chyba byla nalezena při ukládání hodnot do databáze. V~hodnotícím formuláři se vyskytují parametry, které uživatel nemusí vyplňovat. Pokud tyto položky nejsou vyplněné, nejsou při nahrávání extrahovány a následně uloženy do databáze, tudíž při nahrání nového PDF souboru se stávalo, že zde zůstali z~předchozího hodnocení komentáře. Proto bylo nutné zjistit zda tyto nepovinné parametry jsou vyplněny a pokud ne, byly explicitně vytvořeny v~modulu s~přiřazenou hodnotou, která byla prázdný řetězec. Tímto způsobem byly přepsány všechny parametry z~minulého hodnocení.
+Druhá chyba byla nalezena při ukládání hodnot do databáze. V~hodnotícím formuláři se vyskytují parametry, které uživatel nemusí vyplňovat. Pokud tyto položky nejsou vyplněné, nejsou při nahrávání extrahovány a následně uloženy do databáze, tudíž při nahrání nového souboru PDF se stávalo, že zde zůstali z~předchozího hodnocení komentáře. Proto bylo nutné zjistit zda tyto nepovinné parametry jsou vyplněny a pokud ne, byly explicitně vytvořeny v~modulu s~přiřazenou hodnotou, která byla prázdný řetězec. Tímto způsobem byly přepsány všechny parametry z~minulého hodnocení.
 
 %SECTION
 \section{Testovací scénář}
-Testovací scénář je orientován především na vzhled celého dokumentu a rozpoložení jeho jednotlivých částí. Dále byly položeny otázky na bezproblémové ovládání modulu (vygenerování a nahrání PDF dokumentu). Poslední otázka byla zaměřena na poznámky a připomínky ohledně vytvořeného modulu, které by do budoucna mohli posloužit při případném rozšiřování modulu.
+Testovací scénář je orientován především na vzhled celého dokumentu a rozložení jeho jednotlivých částí. Dále byly položeny otázky na bezproblémové ovládání modulu (vygenerování a nahrání dokumentu PDF). Poslední otázka byla zaměřena na poznámky a připomínky ohledně vytvořeného modulu, které by do budoucna mohly posloužit při případném rozšiřování modulu.
 Výsledný testovací scénář předložený uživatelům konferenčního systému TSD obsahuje tyto otázky:
 \begin{itemize}
-	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání PDF dokumentu?}
+	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání dokumentu PDF?}
 	\item \textbf{Jak by jste ohodnotil vzhled dokumentu jako celek?}
 	\item \textbf{Jak hodnotíte vzhled formuláře a použité prvky reprezentující jednotlivé hodnotící parametry?}
 	\item \textbf{Byla velikost textového pole dostatečně velká pro případně komentáře ohledně vědeckého příspěvku?}
-	\item \textbf{Jak hodnotíte rychlost stažení a nahrání PDF dokumentu?} 
+	\item \textbf{Jak hodnotíte rychlost stažení a nahrání dokumentu PDF?} 
 	\item \textbf{Byly Vámi vyplněné hodnoty správně nahrány do webového portálu?}
 	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je prosím zde:}
 \end{itemize}
@@ -84,10 +84,10 @@ Výsledný testovací scénář předložený uživatelům konferenčního syst�
 \section{Výsledky uživatelského testování}
 Funkčnost modulu byla otestována dvěma uživateli webového portálu konference TSD. Níže jsou popsány souhrny jednotlivých částí testovacího reportu. V~kapitole \ref{chap:testovaci_reporty} jsou podrobně rozepsány všechny odpovědi uživatelu.
 %SUBSECTION
-\subsection{Vzhled PDF dokumentu}
+\subsection{Vzhled dokumentu PDF}
 Vzhled hodnotícího formuláře byl podle uživatelů vcelku přehledný a věcný, ale svým vzhledem je ani neurazil, ani nenadchnul. Velikost textových polí byla dostatečně velká pro zadání všech informací. Ohledně celkového vzhledu dokumentu měli uživatelé námitku na odsazení výběrových tlačítek. Ocenili by především větší odsazení skupin výběrových tlačítek od ostatních sekcí.
 %SUBSECTION
 \subsection{Nalezené chyby a připomínky}
-Při stahování a nahrávání dokumentů se nevyskytly žádné problémy a vše proběhlo bez výraznějších prodlev mezi 1-2 vteřinami. Při nahrávání vyplněného hodnotícího PDF souboru do webového portálu se u~prvního uživatele vyskytly problémy, zatímco druhý neměl žádné připomínky. Připomínky prvního uživatele byly: portál nezná háčky, čárky a opravuje je na nesmyslné znaky, je schopný nahrát i nesmyslný text ve stylu samých teček a problém při ukládání hodnot do databáze, který spočíval v~přepisování starých hodnot novými. Co se týče špatného zobrazování háčků a čárek tak tento problém byl vysvětlen v~kapitole \ref{subsec:nedostatky_v_mpdf}. Ohledně nesmyslného textu, většina hodnotících parametrů je povinná a proto musí být i v~off-line formuláři náležitě vyplněny všechny povinné parametry. Poslední připomínka byla zjištěna ke konci autorova testování, kdy už byly rozeslány testovací reporty všem uživatelům, viz kapitola \ref{subsec:chyby_pri_testovani}.  
+Při stahování a nahrávání dokumentů se nevyskytly žádné problémy a vše proběhlo bez výraznějších prodlev mezi jedna až dvěmi vteřinami. Při nahrávání vyplněného souboru PDF v~recenzním řízení do webového portálu se u~prvního uživatele vyskytly problémy, zatímco druhý neměl žádné připomínky. Připomínky prvního uživatele byly: portál nezná háčky, čárky a opravuje je na nesmyslné znaky, je schopný nahrát i nesmyslný text ve stylu samých teček a problém při ukládání hodnot do databáze, který spočíval v~přepisování starých hodnot novými. Co se týče špatného zobrazování háčků a čárek tak tento problém byl vysvětlen v~kapitole \ref{subsec:nedostatky_v_mpdf}. Ohledně nesmyslného textu, většina hodnotících parametrů je povinná a proto musí být i v~off-line formuláři náležitě vyplněny všechny povinné parametry. Poslední připomínka byla zjištěna ke konci autorova testování, kdy už byly rozeslány testovací reporty všem uživatelům, viz kapitola \ref{subsec:chyby_pri_testovani}.  
 
  
