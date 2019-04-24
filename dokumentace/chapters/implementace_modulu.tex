@@ -34,14 +34,20 @@ Hlavním důvodem vzniku této třídy byla snaha nevytvářet formulářové pr
 \subsection{TextConverter}
 V~některých případech jsou název vědeckého příspěvku nebo jméno recenzenta příliš dlouhé, a proto narušuje vzhled výsledného dokumentu. Problém může nastat i při chybě programátora, pokud by byl instrukční text příliš rozsáhlý. Proto byla vytvořena třída \textbf{TextConverter}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určujícími maximální délku textu. Pokud je rozsah textu delší než stanovená délka, vypočte se následně potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size}. Délka se porovnává se stanovenými konstantami určujícími minimální velikost fontu. 
 \begin{equation}
-newFontSize = \floor*{\frac{maxTextLength}{textLength} \cdot fontSize} \label{eq:font_size}
+%newFontSize = \floor*{\frac{maxTextLength}{textLength} \cdot fontSize} \label{eq:font_size}
+h\textsubscript{n} = \floor*{\frac{l\textsubscript{max}}{l} \cdot h}, \\
+\label{eq:font_size} 
 \end{equation}
+kde \textit{h\textsubscript{n}} je nově vypočtená velikost fontu, \textit{l\textsubscript{max}} je maximální délka kontrolovaného textu, \textit{l} je aktuální délka kontrolovaného textu a \textit{h} je aktuální velikost fontu.
 
 Pokud je vypočtený font je menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
 
 \begin{equation}
-newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:text_length}
+%newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:text_length}
+l\textsubscript{n} = \floor*{\frac{h\textsubscript{p}}{h\textsubscript{min}} \cdot l}, \\
+\label{eq:text_length}
 \end{equation}
+kde \textit{l\textsubscript{n}} je nově vypočtená délka kontrolovaného textu, \textit{h\textsubscript{p}} je původní velikost fontu, \textit{h\textsubscript{min}} je minimální velikost fontu a \textit{l} je délka kontrolovaného textu.
 %SUBSECTION
 \subsection{ConfigurationData}
 Třída načítá veškerý obsah konfiguračního souboru, který následně ukládá do svých proměnných. Data uložená v~konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
