@@ -1,6 +1,6 @@
 %CHAPTER
 \chapter{Ověření kvality software}
-Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného dokumentu PDF a jeho následného zpracování. Pro tento účel byl vytvořen testovací scénář pro recenzenta vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a prohlížeči PDF. Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
+Po vytvoření modulu je nutné ověřit kvalitu řešení. Testování bylo zaměřeno hlavně na kvalitu vygenerovaného dokumentu PDF a jeho následné zpracování. Pro tento účel byl vytvořen testovací scénář pro recenzenta vědeckých příspěvků. Důležitým faktorem při testování vytvořeného modulu je otestovat kompatibilitu s~nejvíce využívanými webovými a prohlížeči PDF. Vyplněné testovací scénáře se nachází v~příloze bakalářské práce.
 
 %SECTION
 \section{Testování modulu}
@@ -49,7 +49,7 @@ Evince - Linux         & 1.4.0                & Ano                            &
 \end{table}
 
 \par
-Nejčastěji využívané prohlížeče PDF jsou \textit{Adobe Acrobat Reader} a \textit{Adobe Acrobat Pro} ve verzi v19.01.020091. Hodnotící formulář zde byl editovatelný, obrázky se vyskytují v~perfektní kvalitě a při ukládání byla použita verze PDF 1.6.0. Po nahrání souboru PDF v~recenzním řízení do webového portálu konference TSD byly všechny vyplněné hodnoty extrahování a úspěšně uloženy do databáze.
+Nejčastěji využívané prohlížeče PDF jsou \textit{Adobe Acrobat Reader} a \textit{Adobe Acrobat Pro} ve verzi v19.01.020091. Hodnotící formulář zde byl editovatelný, obrázky se vyskytují v~perfektní kvalitě a při ukládání byla použita verze PDF 1.6.0. Po nahrání souboru PDF v~recenzním řízení do webového portálu konference TSD byly všechny vyplněné hodnoty extrahovány a úspěšně uloženy do databáze.
 \par
 Mezi známější prohlížeče PDF lze zařadit i \textit{Evince (v3.32)}, který byl použit pro testování na operačních systémech \textit{Windows 10} a \textit{Linux}. Vzhled formulářových prvků zde vypadal trochu jinak než jak tomu bylo u~Adobe prohlížečů, při ukládání souboru PDF byla použita verze PDF 1.4.0. Nahrání souboru a extrahování potřebných hodnot proběhlo bez sebemenších problémů na obou operačních systémech.
 \par
@@ -72,12 +72,12 @@ Testovací scénář je orientován především na vzhled celého dokumentu a r
 Výsledný testovací scénář předložený uživatelům konferenčního systému TSD obsahuje tyto otázky:
 \begin{itemize}
 	\item \textbf{Vyskytly se nějaké problémy při stahování či nahrávání dokumentu PDF?}
-	\item \textbf{Jak by jste ohodnotil vzhled dokumentu jako celek?}
+	\item \textbf{Jak byste ohodnotil vzhled dokumentu jako celek?}
 	\item \textbf{Jak hodnotíte vzhled formuláře a použité prvky reprezentující jednotlivé hodnotící parametry?}
-	\item \textbf{Byla velikost textového pole dostatečně velká pro případně komentáře ohledně vědeckého příspěvku?}
+	\item \textbf{Byla velikost textového pole dostatečně velká pro případné komentáře ohledně vědeckého příspěvku?}
 	\item \textbf{Jak hodnotíte rychlost stažení a nahrání dokumentu PDF?} 
 	\item \textbf{Byly Vámi vyplněné hodnoty správně nahrány do webového portálu?}
-	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je prosím zde:}
+	\item \textbf{Děkuji za vyplnění dotazníku. Pokud máte jakékoliv další poznámky, připomínky či návrhy, uveďte je, prosím, zde:}
 \end{itemize}
 
 %SECTION
@@ -88,6 +88,6 @@ Funkčnost modulu byla otestována dvěma uživateli webového portálu konferen
 Vzhled hodnotícího formuláře byl podle uživatelů vcelku přehledný a věcný, ale svým vzhledem je ani neurazil, ani nenadchnul. Velikost textových polí byla dostatečně velká pro zadání všech informací. Ohledně celkového vzhledu dokumentu měli uživatelé námitku na odsazení výběrových tlačítek. Ocenili by především větší odsazení skupin výběrových tlačítek od ostatních sekcí.
 %SUBSECTION
 \subsection{Nalezené chyby a připomínky}
-Při stahování a nahrávání dokumentů se nevyskytly žádné problémy a vše proběhlo bez výraznějších prodlev mezi jedna až dvěmi vteřinami. Při nahrávání vyplněného souboru PDF v~recenzním řízení do webového portálu se u~prvního uživatele vyskytly problémy, zatímco druhý neměl žádné připomínky. Připomínky prvního uživatele byly: portál nezná háčky, čárky a opravuje je na nesmyslné znaky, je schopný nahrát i nesmyslný text ve stylu samých teček a problém při ukládání hodnot do databáze, který spočíval v~přepisování starých hodnot novými. Co se týče špatného zobrazování háčků a čárek tak tento problém byl vysvětlen v~kapitole \ref{subsec:nedostatky_v_mpdf}. Ohledně nesmyslného textu, většina hodnotících parametrů je povinná a proto musí být i v~off-line formuláři náležitě vyplněny všechny povinné parametry. Poslední připomínka byla zjištěna ke konci autorova testování, kdy už byly rozeslány testovací reporty všem uživatelům, viz kapitola \ref{subsec:chyby_pri_testovani}.  
+Při stahování a nahrávání dokumentů se nevyskytly žádné problémy a vše proběhlo bez výraznějších prodlev mezi jedna až dvěmi vteřinami. Při nahrávání vyplněného souboru PDF v~recenzním řízení do webového portálu se u~prvního uživatele vyskytly problémy, zatímco druhý neměl žádné připomínky. Připomínky prvního uživatele byly: portál nezná háčky, čárky a opravuje je na nesmyslné znaky, je schopný nahrát i nesmyslný text ve stylu samých teček a problém při ukládání hodnot do databáze, který spočíval v~přepisování starých hodnot novými. Co se týče špatného zobrazování háčků a čárek tak tento problém byl vysvětlen v~kapitole \ref{subsec:nedostatky_v_mpdf}. Ohledně nesmyslného textu, většina hodnotících parametrů je povinná, a proto musí být i v~off-line formuláři náležitě vyplněny všechny povinné parametry. Poslední připomínka byla zjištěna ke konci autorova testování, kdy už byly rozeslány testovací reporty všem uživatelům, viz kapitola \ref{subsec:chyby_pri_testovani}.  
 
  

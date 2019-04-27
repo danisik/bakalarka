@@ -26,13 +26,13 @@ Výčtový typ \textbf{FormElements} slouží pouze pro rozlišení použitých 
 \par
 Ve výčtovém typu \textbf{TextareaInfo} jsou uloženy veškeré hodnotící parametry, které jsou reprezentovány jako textová pole, a pomocné funkce. Každý hodnotící parametr je zde určen třemi konstantami (jednoznačný identifikátor, název a jeho popis). Dále se tu vyskytují dvě konstanty využité při vytváření formulářového prvku pomocí HTML kódu. Tyto konstanty jsou využity i při následném zpracování dokumentu pro všechny formulářové prvky reprezentované jako textová pole. Byla zde vytvořena i funkce \textit{getNotNeededConstants} pro získání nepovinných hodnotících parametrů.
 \par
-Výčtový typ \textbf{RadiobuttonInfo} je téměř totožná s~třídou \textbf{TextareaInfo} s~tím rozdílem, že hodnotící parametry jsou reprezentovány jako skupina výběrových tlačítek.
+Výčtový typ \textbf{RadiobuttonInfo} je téměř totožný s~třídou \textbf{TextareaInfo} s~tím rozdílem, že hodnotící parametry jsou reprezentovány jako skupina výběrových tlačítek.
 %SUBSECTION
 \subsection{Elements}
 Hlavním důvodem vzniku této třídy byla snaha nevytvářet formulářové prvky přímo v~hlavní funkci \textit{generate\_offline\_review\_form}, ale použít nově vytvořené metody. Pomocí implementovaných metod lze vytvářet textová pole, výběrová tlačítka, textové části dokumentu a načítat vědecký příspěvek.
 %SUBSECTION
 \subsection{TextConverter}
-V~některých případech jsou název vědeckého příspěvku nebo jméno recenzenta příliš dlouhé, a proto narušuje vzhled výsledného dokumentu. Problém může nastat i při chybě programátora, pokud by byl instrukční text příliš rozsáhlý. Proto byla vytvořena třída \textbf{TextConverter}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určujícími maximální délku textu. Pokud je rozsah textu delší než stanovená délka, vypočte se následně potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size}. Délka se porovnává se stanovenými konstantami určujícími minimální velikost fontu. 
+V~některých případech jsou název vědeckého příspěvku nebo jméno recenzenta příliš dlouhé, a proto narušují vzhled výsledného dokumentu. Problém může nastat i při chybě programátora, pokud by byl instrukční text příliš rozsáhlý. Proto byla vytvořena třída \textbf{TextConverter}, která má za úkol nejdříve zkontrolovat předaný text a porovnat ho se stanovenými konstantami určujícími maximální délku textu. Pokud je rozsah textu delší než stanovená délka, vypočte se následně potřebný font pro vykreslení celého textu pomocí vzorce \eqref{eq:font_size}. Délka se porovnává se stanovenými konstantami určujícími minimální velikost fontu. 
 \begin{equation}
 %newFontSize = \floor*{\frac{maxTextLength}{textLength} \cdot fontSize} \label{eq:font_size}
 h\textsubscript{n} = \floor*{\frac{l\textsubscript{max}}{l} \cdot h}, \\
@@ -40,7 +40,7 @@ h\textsubscript{n} = \floor*{\frac{l\textsubscript{max}}{l} \cdot h}, \\
 \end{equation}
 kde \textit{h\textsubscript{n}} je nově vypočtená velikost fontu, \textit{l\textsubscript{max}} je maximální délka kontrolovaného textu, \textit{l} je aktuální délka kontrolovaného textu a \textit{h} je aktuální velikost fontu.
 
-Pokud je vypočtený font je menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
+Pokud je vypočtený font menší než předem stanovený minimální font, je text zkrácen na velikost vypočtenou pomocí vzorce  \eqref{eq:text_length} a doplněn třemi tečkami na jeho konci. 
 
 \begin{equation}
 %newLength = \floor*{\frac{oldFontSize}{minFontSize} \cdot textLength} \label{eq:text_length}
@@ -53,7 +53,7 @@ kde \textit{l\textsubscript{n}} je nově vypočtená délka kontrolovaného text
 Třída načítá veškerý obsah konfiguračního souboru, který následně ukládá do svých proměnných. Data uložená v~konfiguračním souboru slouží pro nastavení textu vodoznaku a jako informační text pro uživatele.
 %SECTION
 \section{Generátor}
-Generátor by měl být při vytváření dokumentu PDF rychlý, vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.
+Generátor by měl být při vytváření dokumentu PDF rychlý, měl by vykreslit co nejpřesněji prvky webového formuláře do vygenerovaného dokumentu a nebýt implementačně náročný.
 %SUBSECTION
 \subsection{TCPDF versus mPDF}
 Při analyzování dostupných PHP knihoven pro generování souborů PDF byly nalezeny dvě vyhovující knihovny, které splňují potřebnou funkcionalitu. Po vytvoření jednoduchého souboru obsahujícího základní formulářové prvky jsem se rozhodl, že použiji knihovnu \textbf{mPDF} pro generování souborů PDF. Důvody této volby jsou popsány níže.
@@ -84,7 +84,7 @@ Na závěr porovnání lze říci, že ve většině případů je vhodné využ
 
 %SUBSECTION
 \subsection{Popis vytvoření dokumentu}
-Na samotném začátku generování jsou vytvořeny instance tříd. U~instance třídy \textbf{ConfigurationData}, proběhne i načtení dat z~konfiguračního souboru XML. Dále jsou vytvořeny proměnné reprezentující název vybraného dokumentu a informace o~nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
+Na samotném začátku generování jsou vytvořeny instance tříd. U~instance třídy \textbf{ConfigurationData} proběhne i načtení dat z~konfiguračního souboru XML. Dále jsou vytvořeny proměnné reprezentující název vybraného dokumentu a informace o~nahrání vyplněného dokumentu do webového portálu konference TSD. Před samotným začátkem generování je do modulu importováno CSS nastavení pro vzhled celého dokumentu.
 \par
 V~první části generování probíhá vytvoření záhlaví. V~celém dokumentu je použit font \textit{Helvetica}, pouze výjimečně je zařazen font \textit{Times New Roman}, například pro titulek dokumentu a text se stylem \textit{Bold}. Do záhlaví je vložen identifikátor recenze doplněn o~název hodnoceného vědeckého příspěvku, který je případně zkrácen na určitou délku, pokud nesplňuje limity nastavené ve třídě \textbf{TextConverter}, a logo konference TSD. 
 \par
@@ -107,7 +107,7 @@ if (isset($objattr['text']) && $objattr['text'] != 'a') {
 else $texto = '';
 \end{lstlisting}
 \par
-Druhý nedostatek byl nalezen při testování zkracování délky textu titulku, pokud překročí nastavenou mez. V~aktuální verzi PHP se vyskytuje problém, který zneplatňuje některé znaky v~kódování UTF-8. Pokud je například vytvořen nový uživatel se jménem obsahující například znak \uv{\textbf{ř}}, pak se tento znak nepřevede správně a bude vykreslen jako neznámý znak. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky nerozpoznala, a proto výsledek vždy skončil chybou. Ze všech vyzkoušených možností, jako například změna kódování textu titulku nebo nahrazení neplatných znaků prázdnými, fungovala pouze jedna, a to nastavení atributu ignore\_invalid\_utf8 na \textit{true} u~proměnné třídy \textit{Mpdf} (viz obrázek \ref{lst:ignore_invalid_utf8}).
+Druhý nedostatek byl nalezen při testování zkracování délky textu titulku, pokud překročí nastavenou mez. V~aktuální verzi PHP se vyskytuje problém, který zneplatňuje některé znaky v~kódování UTF-8. Pokud je například vytvořen nový uživatel se jménem obsahujícím například znak \uv{\textbf{ř}}, pak se tento znak nepřevede správně a bude vykreslen jako neznámý znak. Bohužel generování dokumentu neprobíhalo správně, protože knihovna mPDF tyto znaky nerozpoznala, a proto výsledek vždy skončil chybou. Ze všech vyzkoušených možností, jako například změna kódování textu titulku nebo nahrazení neplatných znaků prázdnými, fungovala pouze jedna, a to nastavení atributu ignore\_invalid\_utf8 na \textit{true} u~proměnné třídy \textit{Mpdf} (viz obrázek \ref{lst:ignore_invalid_utf8}).
 \begin{lstlisting}[caption = {Nastavení atributu ignore\_invalid\_utf8 (orlib.php)}, label = {lst:ignore_invalid_utf8}, captionpos=b]
 $mpdf->ignore_invalid_utf8 = true;
 \end{lstlisting}
