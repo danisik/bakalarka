@@ -17,7 +17,7 @@
 //      Class manipulating with text and calculating font size for text
 //
 
-class TextConversioner {
+class TextConverter {
 
     //max strlen of instructions above evaluation
     private $length_of_instructions = 450;

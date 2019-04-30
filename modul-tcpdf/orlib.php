@@ -5,7 +5,7 @@
 //		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in PlzeĹ.
+//		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
