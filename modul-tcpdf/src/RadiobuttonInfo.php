@@ -8,7 +8,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		27-03-2019
+//		Last update on:		30-04-2019
 //      Encoding: utf-8 no BOM
 //
 //
@@ -64,7 +64,7 @@ class RadiobuttonInfo {
     //$needed_to_fill - if this textarea must be filled or not
     //
     //return $values - array of constants with new, added, constant
-    function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
+    public static function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
         $values[$id]['id'] = $id;
         $values[$id]['name'] = $name;
         $values[$id]['info'] = $info;
@@ -74,7 +74,7 @@ class RadiobuttonInfo {
         return $values;
     }
     
-    function getConstants() {
+    public static function getConstants() {
         $values = array();
         
         $values = RadiobuttonInfo::add_value_to_array($values, RadiobuttonInfo::Originality_ID, RadioButtonInfo::Originality, RadioButtonInfo::Originality_Info, true);

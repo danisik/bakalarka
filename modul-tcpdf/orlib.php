@@ -5,15 +5,15 @@
 //		VERSION 3.1.0
 //
 //		Copyright (c) 2010-2019 Dept. of Computer Science & Engineering,
-//		Faculty of Applied Sciences, University of West Bohemia in Plzeň.
+//		Faculty of Applied Sciences, University of West Bohemia in PlzeĹn.
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		07-04-2019
+//		Last update on:		30-04-2019
 //      Encoding: utf-8 no BOM
 //
 
-//IMPORTANT
+//IMPORTANT - if there is some deprecated/warning, just ignore it and generate PDF 
 error_reporting(0);
 
 //DISPLAY ERROR
@@ -126,8 +126,8 @@ function create_first_template_page($pdf, $elements, $text_conversioner, $config
     $pdf = $elements->evaluation_header($pdf, $text_conversioner, $rid, $submission_name);
     $pdf = $elements->evaluation_review_title($pdf, $text_conversioner, $sid, $submission_name, $reviewer_name);    
     $pdf = $elements->evaluation_instructions($pdf, $text_conversioner, $configuration_data);
-    
-    $radiobutton_info = RadioButtonInfo::getConstants();
+          
+    $radiobutton_info = RadioButtonInfo::getConstants();        
     $textarea_info = TextareaInfo::getConstants();
     
     for ($i = 0; $i < count($radiobutton_info); $i++) {

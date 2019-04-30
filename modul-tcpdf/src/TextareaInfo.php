@@ -8,7 +8,7 @@
 //		All rights reserved.
 //
 //		Code written by:	Vojtech Danisik
-//		Last update on:		27-03-2019
+//		Last update on:		30-04-2019
 //      Encoding: utf-8 no BOM
 //
 //
@@ -48,7 +48,7 @@ class TextareaInfo {
     //$needed_to_fill - if this textarea must be filled or not
     //
     //return $values - array of constants with new, added, constant
-    function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
+    public static function add_value_to_array($values, $id, $name, $info, $needed_to_fill) {
         $values[$id]['id'] = $id;
         $values[$id]['name'] = $name;
         $values[$id]['info'] = $info;
@@ -58,7 +58,7 @@ class TextareaInfo {
         return $values;
     }
      
-    function getConstants() {
+    public static function getConstants() {
         $values = array();
         
         $values = TextareaInfo::add_value_to_array($values, TextareaInfo::Main_contributions_ID, TextareaInfo::Main_contributions, TextareaInfo::Main_contributions_info, true);
@@ -70,7 +70,7 @@ class TextareaInfo {
         return $values;
     }
     
-    function getNotNeededConstants() {
+    public static function getNotNeededConstants() {
         $constants = TextareaInfo::getConstants();
         $values = array();
         foreach($constants as $key => $value) {
